@@ -1,0 +1,10 @@
+{
+  "$id": "NotSentence",
+  "type": "object",
+  "properties": {
+    "operator": { "const": "not" },
+    "operand": { "$ref": "Sentence" }
+  },
+  "required": [ "operator", "operand" ],
+  "additionalProperties": false
+}

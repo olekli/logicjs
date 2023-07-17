@@ -1,0 +1,5 @@
+{
+  "$id": "Interpretations",
+  "type": "array",
+  "items": { "$ref": "Interpretation" }
+}

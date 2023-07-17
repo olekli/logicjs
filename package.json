@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "jest": "^29.6.1",
+    "json-schema-to-typescript": "^13.0.2",
+    "nearley": "^2.20.1",
+    "nearley-generator": "^1.1.0",
+    "okljs": "github:olekli/okljs#main",
+    "quicktype": "^23.0.63"
+  },
+  "scripts": {
+    "test": "jest",
+    "makeGrammar": "nearleyc al_grammar.ne -o al_grammar.js",
+    "makeGenGrammar": "nearleyc al_grammar_gen.ne -o al_grammar_gen.js"
+  }
+}

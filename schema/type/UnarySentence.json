@@ -1,0 +1,10 @@
+{
+  "$id": "UnarySentence",
+  "type": "object",
+  "properties": {
+    "operator": { "type": "string" },
+    "operand": { "$ref": "Sentence" }
+  },
+  "required": [ "operator", "operand" ],
+  "additionalProperties": false
+}
