@@ -1,0 +1,4 @@
+$id: Sentence
+oneOf:
+  - $ref: AtomicSentence
+  - $ref: ComplexSentence

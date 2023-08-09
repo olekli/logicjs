@@ -1,0 +1,14 @@
+$id: BinarySentence
+type: object
+properties:
+  operator:
+    type: string
+  lhs:
+    $ref: Sentence
+  rhs:
+    $ref: Sentence
+required:
+  - operator
+  - lhs
+  - rhs
+additionalProperties: false

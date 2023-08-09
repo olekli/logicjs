@@ -1,0 +1,6 @@
+$id: Interpretation
+type: object
+patternProperties:
+  ^[a-z]$:
+    type: boolean
+additionalProperties: false

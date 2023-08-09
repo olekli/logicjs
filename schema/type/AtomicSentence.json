@@ -1,9 +1,0 @@
-{
-  "$id": "AtomicSentence",
-  "type": "object",
-  "properties": {
-    "letter": { "$ref": "Letter" }
-  },
-  "required": [ "letter" ],
-  "additionalProperties": false
-}

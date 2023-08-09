@@ -3,16 +3,16 @@
 const { assert } = require('okljs');
 const { register_type } = require('okljs');
 
-register_type('Letter', 'schema/type/Letter.json');
-register_type('Sentence', 'schema/type/Sentence.json');
-register_type('Interpretation', 'schema/type/Interpretation.json');
-register_type('AtomicSentence', 'schema/type/AtomicSentence.json');
-register_type('ComplexSentence', 'schema/type/ComplexSentence.json');
-register_type('EquivalentSentence', 'schema/type/EquivalentSentence.json');
-register_type('FollowsSentence', 'schema/type/FollowsSentence.json');
-register_type('AndSentence', 'schema/type/AndSentence.json');
-register_type('OrSentence', 'schema/type/OrSentence.json');
-register_type('NotSentence', 'schema/type/NotSentence.json');
+register_type('Letter', 'schema/type/Letter.yaml');
+register_type('Sentence', 'schema/type/Sentence.yaml');
+register_type('Interpretation', 'schema/type/Interpretation.yaml');
+register_type('AtomicSentence', 'schema/type/AtomicSentence.yaml');
+register_type('ComplexSentence', 'schema/type/ComplexSentence.yaml');
+register_type('EquivalentSentence', 'schema/type/EquivalentSentence.yaml');
+register_type('FollowsSentence', 'schema/type/FollowsSentence.yaml');
+register_type('AndSentence', 'schema/type/AndSentence.yaml');
+register_type('OrSentence', 'schema/type/OrSentence.yaml');
+register_type('NotSentence', 'schema/type/NotSentence.yaml');
 
 const evaluateAtomicSentence = (s, i) => {
   assert.hasProperty(i, s.letter);

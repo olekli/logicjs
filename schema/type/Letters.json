@@ -1,5 +1,0 @@
-{
-  "$id": "Letters",
-  "type": "array",
-  "items": { "$ref": "Letter" }
-}

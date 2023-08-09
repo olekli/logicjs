@@ -3,8 +3,8 @@
 const { assert, register_type } = require('okljs');
 const { evaluateSentence } = require('./al_eval.js');
 
-register_type('Letters', 'schema/type/Letters.json');
-register_type('Interpretations', 'schema/type/Interpretations.json');
+register_type('Letters', 'schema/type/Letters.yaml');
+register_type('Interpretations', 'schema/type/Interpretations.yaml');
 
 let enumerateInterpretations = (letters) => {
   let result = letters.reduce((result, this_letter) =>

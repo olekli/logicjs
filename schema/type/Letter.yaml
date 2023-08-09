@@ -1,0 +1,3 @@
+$id: Letter
+type: string
+pattern: ^[a-z]$

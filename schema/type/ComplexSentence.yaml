@@ -1,0 +1,7 @@
+$id: ComplexSentence
+oneOf:
+  - $ref: EquivalentSentence
+  - $ref: FollowsSentence
+  - $ref: AndSentence
+  - $ref: OrSentence
+  - $ref: NotSentence
