@@ -1,0 +1,15 @@
+p.
+  #{sentence}
+ul
+  each i in interpretation
+    li= i
+p.
+  Antwort gegeben: #{answer}
+p.
+  korrekte Antwort: #{expected}
+p.
+  gegebene Antwort ist: #{result}
+
+form(action="" method="POST")
+  input(type="hidden" name="method" value="next")
+  input(type="submit" value="nächste Frage")

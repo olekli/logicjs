@@ -4,7 +4,7 @@ const { assert } = require('okljs');
 
 const fs = require('fs');
 
-const operator_mapping = JSON.parse(fs.readFileSync('operator_mapping.json'))
+const operator_mapping = JSON.parse(fs.readFileSync('operator_mapping.json').toString())
 
 function transcribeOperators(string) {
   assert.ok(typeof string === 'string');

@@ -1,0 +1,21 @@
+type: object
+properties:
+  sentence:
+    type: string
+  interpretation:
+    type: array
+    items:
+      type: string
+  answer:
+    type: string
+  result:
+    type: string
+  expected:
+    type: string
+required:
+  - sentence
+  - interpretation
+  - answer
+  - result
+  - expected
+additionalProperties: false

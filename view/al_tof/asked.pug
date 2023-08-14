@@ -1,0 +1,13 @@
+p.
+  #{sentence}
+ul
+  each i in interpretation
+    li= i
+form(action="" method="POST")
+  input(type="hidden" name="answer" value="true")
+  input(type="hidden" name="method" value="answer")
+  input(type="submit" value="wahr")
+form(action="" method="POST")
+  input(type="hidden" name="answer" value="false")
+  input(type="hidden" name="method" value="answer")
+  input(type="submit" value="falsch")

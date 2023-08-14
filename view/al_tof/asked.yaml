@@ -1,0 +1,12 @@
+type: object
+properties:
+  sentence:
+    type: string
+  interpretation:
+    type: array
+    items:
+      type: string
+required:
+  - sentence
+  - interpretation
+additionalProperties: false

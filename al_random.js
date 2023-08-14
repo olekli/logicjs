@@ -36,7 +36,7 @@ const treeify_ = (a) => {
     return a[0];
   } else {
     let i = (Math.floor(Math.random() * ((a.length - 1) / 2)) * 2) + 1;
-    assert.ok('operator' in a[i], () => `${JSON.stringify(a, 2, null)}, ${i}`);
+    assert.ok('operator' in a[i], () => `${JSON.stringify(a, null, 2)}, ${i}`);
     return { lhs: treeify_(a.slice(0, i)), operator: a[i].operator, rhs: treeify_(a.slice(i+1)) }
   }
 }

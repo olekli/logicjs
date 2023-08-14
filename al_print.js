@@ -27,4 +27,18 @@ const sentenceToString = (s) => {
   return sentenceToString_(s);
 }
 
+const interpretationToStrings = (i) => {
+  assert.type(i, 'Interpretation');
+  let result = [];
+  for (let letter in i) {
+    result.push(`V(${letter}) = ${i[letter] ? '1' : '0'}`);
+  }
+  result.sort();
+  return result;
+};
+
+const boolToString = (bool) => bool ? 'wahr' : 'falsch';
+
 module.exports.sentenceToString = sentenceToString;
+module.exports.interpretationToStrings = interpretationToStrings;
+module.exports.boolToString = boolToString;

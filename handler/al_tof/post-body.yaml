@@ -1,0 +1,18 @@
+oneOf:
+  - type: object
+    properties:
+      method:
+        const: answer
+      answer:
+        type: boolean
+    required:
+      - method
+      - answer
+    additionalProperties: false
+  - type: object
+    properties:
+      method:
+        const: next
+    required:
+      - method
+    additionalProperties: false
