@@ -6,7 +6,7 @@ const { evaluateSentence } = require('./al_eval.js');
 register_type('Letters', 'schema/type/Letters.yaml');
 register_type('Interpretations', 'schema/type/Interpretations.yaml');
 
-let enumerateInterpretations = (letters) => {
+const enumerateInterpretations = (letters) => {
   let result = letters.reduce((result, this_letter) =>
     result.flatMap(this_interpretation => [
       { ...this_interpretation, [this_letter]: true },
@@ -18,7 +18,7 @@ let enumerateInterpretations = (letters) => {
   return result;
 };
 
-let getLettersInSentence = (s) => {
+const getLettersInSentence = (s) => {
   let visit = (s) => {
     if ('letter' in s) {
       return [s.letter];
@@ -35,6 +35,19 @@ let getLettersInSentence = (s) => {
   return result;
 };
 
+const getAllModels = (s) =>
+  enumerateInterpretations(getLettersInSentence(s)).reduce(
+    (result, i) => {
+      if (evaluateSentence(s, i)) {
+        result.true.push(i);
+      } else {
+        result.false.push(i);
+      }
+      return result;
+    },
+    { true: [], false: [] }
+  );
+
 //let getAllModels = (s) => {
 //  let interpretations = enumerateInterpretations(getLettersInSentence(s));
 //  return interpretations.filter(i => evaluateSentence(s, i));
@@ -50,4 +63,5 @@ let getLettersInSentence = (s) => {
 
 module.exports.enumerateInterpretations = enumerateInterpretations;
 module.exports.getLettersInSentence = getLettersInSentence;
+module.exports.getAllModels = getAllModels;
 //module.exports.models = models;

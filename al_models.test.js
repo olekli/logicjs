@@ -1,7 +1,8 @@
 'use strict'
 
 const { parse } = require('./al_parse.js');
-const { getLettersInSentence, enumerateInterpretations, models } = require('./al_models.js');
+const { evaluateSentence } = require('./al_eval.js');
+const { getLettersInSentence, enumerateInterpretations, getAllModels } = require('./al_models.js');
 
 test.each([
   [ '(p -> (q -> r))', ['p', 'q', 'r'] ],
@@ -39,6 +40,23 @@ test.each([
   ],
 ])('enumerateInterpretations', (letters, result) => {
   expect(enumerateInterpretations(letters)).toEqual(result);
+});
+
+test.each([
+  [ '(p -> (q -> r))' ],
+  [ '((p & p) & (q & q))' ],
+  [ '((p -> (q -> p)) <-> ((p -> r) & (q | r)))' ]
+])('getAllModels', (s) => {
+  let sentence = parse(s);
+  let result = getAllModels(sentence);
+  let num_interpretations = Math.pow(2, getLettersInSentence(sentence).length);
+  expect(result.true.length + result.false.length).toEqual(num_interpretations);
+  for (let i of result.true) {
+    expect(evaluateSentence(sentence, i)).toBe(true);
+  }
+  for (let i of result.false) {
+    expect(evaluateSentence(sentence, i)).toBe(false);
+  }
 });
 
 //test.each([
