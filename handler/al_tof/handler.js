@@ -4,6 +4,7 @@ const { ExcerciseAlTof, makeQuestion } = require('../../exercise_al_tof.js');
 const { boolToString } = require('../../al_print.js');
 const { getSession } = require('../../session.js');
 const path = require('path');
+const { make_ok, make_err } = require('okljs');
 
 const options = {
   length: 3,
@@ -17,18 +18,18 @@ const options = {
   }
 };
 
-const handle_ = (session) => {
+const get = (session) => {
   switch (session.state) {
     case 'asked':
-      return {
+      return make_ok({
         path: 'al_tof/asked',
         data: {
           sentence: session.question.sentence,
           interpretation: session.question.interpretation
         }
-      };
+      });
     case 'answered':
-      return {
+      return make_ok({
         path: 'al_tof/answered',
         data: {
           sentence: session.question.sentence,
@@ -37,43 +38,38 @@ const handle_ = (session) => {
           result: session.result ? 'richtig' : 'falsch',
           expected: boolToString(session.question.expected)
         }
-      };
+      });
     default:
       session.state = 'asked';
       session.question = makeQuestion(options);
-      return handle_(session);
+      return get(session);
    }
 };
 
-const get = (req, res, next) => {
-  let session = getSession(req.auth, 'al_tof');
-  req.view = handle_(session);
-  next();
-};
+// const launch = (req, res, next) => {
+//   let session = getSession(req.auth, 'al_tof');
+// };
 
-const answer = (req, res, next) => {
-  let session = getSession(req.auth, 'al_tof');
+const answer = (session, body) => {
   if (session.state != 'asked') {
-    next('invalid state transition');
+    return make_err('invalid state transition');
   } else {
     session.state = 'answered';
-    session.answer = req.body.answer;
+    session.answer = body.answer;
     session.result = (session.question.expected === session.answer);
-    res.redirect(path.join(req.baseUrl, req.path, '..'));
+    return make_ok();
   }
 };
 
-const next = (req, res, next) => {
-  let session = getSession(req.auth, 'al_tof');
+const next = (session, body) => {
   if (session.state != 'answered') {
-    next('invalid state transition');
+    return make_err('invalid state transition');
   } else {
     Object.keys(session).forEach((key) => { delete session[key]; });
-    res.redirect(path.join(req.baseUrl, req.path, '..'));
+    return make_ok();
   }
 };
 
-module.exports.handle_ = handle_;
 module.exports.get = get;
 module.exports.answer = answer;
 module.exports.next = next;

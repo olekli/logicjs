@@ -6,6 +6,8 @@ const { ajv } = require('./validation.js');
 const cookieParser = require("cookie-parser");
 const { retrieveAuth, fallbackAnonAuth } = require('./auth.js');
 const fs = require('fs');
+const { getSession } = require('./session.js');
+const { match_result } = require('okljs');
 
 const getPath = (req, category, filename) =>
   path.join(
@@ -51,6 +53,22 @@ const getHandler = (location, method) => {
   return null;
 };
 
+const validateBody = (location, method, body) => {
+  let schema_id = getBodySchemaId(location, method);
+  let validateBody = ajv.getSchema(schema_id);
+  if (typeof validateBody != 'function') {
+    console.error('no such schema:', schema_id);
+    return false;
+  } else if (!validateBody(body)) {
+    console.error('validation failed:', schema_id);
+    console.error('received:', body);
+    console.error('errors:', validateBody.errors);
+    return false;
+  } else {
+    return true;
+  }
+};
+
 const locations = [ '/home', '/al_tof' ];
 
 const app = express.Router();
@@ -70,46 +88,63 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
+  // validate
   if (req.method === 'GET') {
     if (Object.keys(req.body).length != 0) {
       next('validation error');
     } else if (!locations.includes(req.path)) {
       console.error('no such path:', req.path);
       next('invalid path');
+    } else if (!getHandler(req.path, 'get')) {
+      next('invalid path');
     } else {
-      let handler = getHandler(req.path, 'get');
-      if (handler) {
-        handler(req, res, next);
-      } else {
-        next('invalid path');
-      }
+      req.handler = getHandler(req.path, 'get');
+      req.session = getSession(req.auth, req.path);
+      next();
     }
   } else if (req.method === 'POST') {
     let { dir: location, base: method } = path.parse(req.path);
     if (!locations.includes(location)) {
       next('invalid path');
+    } else if (!validateBody(location, method, req.body)) {
+      next('validation error');
+    } else if (!getHandler(location, method)) {
+      next('invalid path');
     } else {
-      let schema_id = getBodySchemaId(location, method);
-      let validateBody = ajv.getSchema(schema_id);
-      if (typeof validateBody != 'function') {
-        console.error('no such schema:', schema_id);
-        next('validation error');
-      } else if (!validateBody(req.body)) {
-        console.error('validation failed:', getBodySchemaId(req));
-        console.error('received:', req.body);
-        console.error('errors:', validateBody.errors);
-        next('validation error');
-      } else {
-        let handler = getHandler(location, method);
-        if (handler) {
-          handler(req, res, next);
-        } else {
-          next('invalid path');
-        }
-      }
+      req.handler = getHandler(location, method);
+      req.session = getSession(req.auth, location);
+      next();
     }
   } else {
     next('invalid method');
+  }
+});
+
+app.use((req, res, next) => {
+  if (req.method === 'GET') {
+    match_result(req.handler(req.session),
+      (view) => {
+        req.view = view;
+        next();
+      },
+      (err) => { next(err); }
+    );
+  } else if (req.method === 'POST') {
+    match_result(req.handler(req.session, req.body),
+      (ok) => { next(); },
+      (err) => { next(err); }
+    );
+  } else {
+    next('invalid method');
+  }
+});
+
+app.use((req, res, next) => {
+  // POST-redirect-GET
+  if (req.method === 'POST') {
+    res.redirect(path.join(req.baseUrl, req.path, '..'));
+  } else {
+    next();
   }
 });
 
