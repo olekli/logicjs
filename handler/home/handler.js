@@ -2,6 +2,7 @@
 
 module.exports = {
   get: (req, res, next) => {
-    return res.redirect('al_tof');
+    req.view = { path: 'home/home', data: {} };
+    next();
   }
 };

@@ -14,13 +14,19 @@ const getPath = (req, category, filename) =>
     filename
   );
 
-const getBodySchemaId = (req) =>
-  getPath(req, 'handler', `${req.method.toLowerCase()}-body`);
+const getBodySchemaId = (location, method) =>
+  path.join(
+    'handler',
+    location,
+    `post-${method}`
+  );
 
-const getHandlerPath = (req) =>
+const getHandlerPath = (location) =>
   path.join(
     __dirname,
-    getPath(req, 'handler', `handler.js`)
+    'handler',
+    location,
+    'handler.js'
   );
 
 const fileExists = (path) => {
@@ -33,6 +39,19 @@ const fileExists = (path) => {
   }
   return result;
 };
+
+const getHandler = (location, method) => {
+  let handler_path = getHandlerPath(location);
+  if (fileExists(handler_path)) {
+    let handler_module = require(handler_path);
+    if (method in handler_module) {
+      return handler_module[method];
+    }
+  }
+  return null;
+};
+
+const locations = [ '/home', '/al_tof' ];
 
 const app = express.Router();
 app.use(express.json());
@@ -51,36 +70,46 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  // Validate body
-  let validateBody = ajv.getSchema(getBodySchemaId(req));
-  if (typeof validateBody != 'function') {
-    console.error('no such schema:', getBodySchemaId(req));
-    next('validation error');
-  } else if (req.body && !validateBody(req.body)) {
-    console.error('validation failed:', getBodySchemaId(req));
-    console.error('received:', req.body);
-    console.error('errors:', validateBody.errors);
-    next('validation error');
-  } else {
-    next();
-  }
-});
-
-app.use((req, res, next) => {
-  // Call handler
-  let handler_path = getHandlerPath(req);
-  if (fileExists(handler_path)) {
-    let { get, post } = require(handler_path);
-    if (req.method === 'GET') {
-      get(req, res, next);
-    } else if (req.method === 'POST') {
-      post(req, res, next);
+  if (req.method === 'GET') {
+    if (Object.keys(req.body).length != 0) {
+      next('validation error');
+    } else if (!locations.includes(req.path)) {
+      console.error('no such path:', req.path);
+      next('invalid path');
     } else {
-      next('handler error');
+      let handler = getHandler(req.path, 'get');
+      if (handler) {
+        handler(req, res, next);
+      } else {
+        next('invalid path');
+      }
+    }
+  } else if (req.method === 'POST') {
+    let { dir: location, base: method } = path.parse(req.path);
+    if (!locations.includes(location)) {
+      next('invalid path');
+    } else {
+      let schema_id = getBodySchemaId(location, method);
+      let validateBody = ajv.getSchema(schema_id);
+      if (typeof validateBody != 'function') {
+        console.error('no such schema:', schema_id);
+        next('validation error');
+      } else if (!validateBody(req.body)) {
+        console.error('validation failed:', getBodySchemaId(req));
+        console.error('received:', req.body);
+        console.error('errors:', validateBody.errors);
+        next('validation error');
+      } else {
+        let handler = getHandler(location, method);
+        if (handler) {
+          handler(req, res, next);
+        } else {
+          next('invalid path');
+        }
+      }
     }
   } else {
-    console.error('no such handler:', handler_path);
-    next('handler error');
+    next('invalid method');
   }
 });
 

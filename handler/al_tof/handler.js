@@ -60,14 +60,14 @@ const post = (req, res, next) => {
       session.state = 'answered';
       session.answer = req.body.answer;
       session.result = (session.question.expected === session.answer);
-      res.redirect(path.join(req.baseUrl, req.path));
+      res.redirect(path.join(req.baseUrl, req.path, '..'));
     }
   } else if (req.body.method === 'next') {
     if (session.state != 'answered') {
       next('invalid state transition');
     } else {
       Object.keys(session).forEach((key) => { delete session[key]; });
-      res.redirect(path.join(req.baseUrl, req.path));
+      res.redirect(path.join(req.baseUrl, req.path, '..'));
     }
   }
 };
