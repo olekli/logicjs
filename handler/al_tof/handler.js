@@ -51,27 +51,29 @@ const get = (req, res, next) => {
   next();
 };
 
-const post = (req, res, next) => {
+const answer = (req, res, next) => {
   let session = getSession(req.auth, 'al_tof');
-  if (req.body.method === 'answer') {
-    if (session.state != 'asked') {
-      next('invalid state transition');
-    } else {
-      session.state = 'answered';
-      session.answer = req.body.answer;
-      session.result = (session.question.expected === session.answer);
-      res.redirect(path.join(req.baseUrl, req.path, '..'));
-    }
-  } else if (req.body.method === 'next') {
-    if (session.state != 'answered') {
-      next('invalid state transition');
-    } else {
-      Object.keys(session).forEach((key) => { delete session[key]; });
-      res.redirect(path.join(req.baseUrl, req.path, '..'));
-    }
+  if (session.state != 'asked') {
+    next('invalid state transition');
+  } else {
+    session.state = 'answered';
+    session.answer = req.body.answer;
+    session.result = (session.question.expected === session.answer);
+    res.redirect(path.join(req.baseUrl, req.path, '..'));
+  }
+};
+
+const next = (req, res, next) => {
+  let session = getSession(req.auth, 'al_tof');
+  if (session.state != 'answered') {
+    next('invalid state transition');
+  } else {
+    Object.keys(session).forEach((key) => { delete session[key]; });
+    res.redirect(path.join(req.baseUrl, req.path, '..'));
   }
 };
 
 module.exports.handle_ = handle_;
 module.exports.get = get;
-module.exports.post = post;
+module.exports.answer = answer;
+module.exports.next = next;
