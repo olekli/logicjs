@@ -1,2 +1,10 @@
 type: object
+properties:
+  level:
+    enum:
+      - level_1
+      - level_2
+      - level_3
+required:
+  - level
 additionalProperties: false

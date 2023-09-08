@@ -6,7 +6,10 @@ properties:
     type: array
     items:
       type: string
+  num_current_question:
+    type: number
 required:
   - sentence
   - interpretation
+  - num_current_question
 additionalProperties: false

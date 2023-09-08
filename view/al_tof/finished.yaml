@@ -1,0 +1,13 @@
+type: object
+properties:
+  points_required:
+    type: number
+  points_achieved:
+    type: number
+  result:
+    type: boolean
+required:
+  - points_required
+  - points_achieved
+  - result
+additionalProperties: false

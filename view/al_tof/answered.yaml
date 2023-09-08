@@ -12,10 +12,13 @@ properties:
     type: string
   expected:
     type: string
+  num_current_question:
+    type: number
 required:
   - sentence
   - interpretation
   - answer
   - result
   - expected
+  - num_current_question
 additionalProperties: false
