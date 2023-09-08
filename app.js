@@ -87,6 +87,10 @@ app.use((req, res, next) => {
   }
 });
 
+app.get('/', (req, res, next) => {
+  res.redirect(path.join(req.baseUrl, 'home'));
+});
+
 app.use((req, res, next) => {
   // validate
   if (req.method === 'GET') {
@@ -180,7 +184,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).send('Error');
+  res.redirect(req.baseUrl);
 });
 
 module.exports.app = app;

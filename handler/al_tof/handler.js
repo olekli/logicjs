@@ -40,32 +40,36 @@ const get = (session) => {
         }
       });
     default:
-      session.state = 'asked';
-      session.question = makeQuestion(options);
-      return get(session);
+      return make_err();
    }
 };
 
-// const launch = (req, res, next) => {
-//   let session = getSession(req.auth, 'al_tof');
-// };
+const launch = (session, args) => {
+  session.state = 'asked';
+  session.question = makeQuestion(options);
+  return make_ok();
+};
 
-const answer = (session, body) => {
+const answer = (session, args) => {
   if (session.state != 'asked') {
     return make_err('invalid state transition');
   } else {
     session.state = 'answered';
-    session.answer = body.answer;
+    session.answer = args.answer;
     session.result = (session.question.expected === session.answer);
     return make_ok();
   }
 };
 
-const next = (session, body) => {
+const next = (session, args) => {
   if (session.state != 'answered') {
     return make_err('invalid state transition');
   } else {
-    Object.keys(session).forEach((key) => { delete session[key]; });
+    delete session['question'];
+    delete session['answer'];
+    delete session['result'];
+    session.state = 'asked';
+    session.question = makeQuestion(options);
     return make_ok();
   }
 };
@@ -73,3 +77,4 @@ const next = (session, body) => {
 module.exports.get = get;
 module.exports.answer = answer;
 module.exports.next = next;
+module.exports.launch = launch;
