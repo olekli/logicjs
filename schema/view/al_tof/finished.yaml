@@ -1,0 +1,10 @@
+type: object
+properties:
+  n_params:
+    $ref: /type/NParams
+  success:
+    type: boolean
+required:
+  - n_params
+  - success
+additionalProperties: false

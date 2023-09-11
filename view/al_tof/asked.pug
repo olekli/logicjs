@@ -1,9 +1,9 @@
 p.
-  Frage #{num_current_question}
+  Frage #{n_params.current_question}
 p.
-  #{sentence}
+  #{question.sentence}
 ul
-  each i in interpretation
+  each i in question.interpretation
     li= i
 form(action="al_tof/answer" method="POST")
   input(type="hidden" name="answer" value="true")

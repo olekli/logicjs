@@ -6,7 +6,7 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 
 const ajv = new Ajv({ coerceTypes: "array", useDefaults: true });
-const schema_dirs = [ 'view', 'handler' ];
+const schema_dirs = [ 'schema' ];
 
 const getFiles = (this_path) => {
   let result = [];
@@ -32,6 +32,7 @@ let files = schema_dirs.reduce(
 for (let f of files) {
   let parsed = path.parse(f);
   let id = path.join(parsed.dir, parsed.name);
+  id = id.replace(/^schema/, '');
   let schema = yaml.load(fs.readFileSync(f));
   try {
     ajv.addSchema(schema, id);

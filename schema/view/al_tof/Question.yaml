@@ -6,19 +6,10 @@ properties:
     type: array
     items:
       type: string
-  answer:
-    type: string
-  result:
-    type: string
   expected:
-    type: string
-  num_current_question:
-    type: number
+    type: boolean
 required:
   - sentence
   - interpretation
-  - answer
-  - result
   - expected
-  - num_current_question
 additionalProperties: false

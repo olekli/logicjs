@@ -18,7 +18,7 @@ const getPath = (req, category, filename) =>
 
 const getBodySchemaId = (location, method) =>
   path.join(
-    'handler',
+    '/handler',
     location,
     `post-${method}`
   );
@@ -154,7 +154,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   // Validate view
-  let view_path = path.join('view', req.view?.path);
+  let view_path = path.join('/view', req.view?.path);
   let validateView = ajv.getSchema(view_path);
   if (!req.view?.data || !validateView(req.view.data)) {
     console.error(

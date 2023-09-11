@@ -1,0 +1,22 @@
+type: object
+properties:
+  total_questions:
+    type: number
+  current_question:
+    type: number
+  points_required:
+    type: number
+  points_achieved:
+    type: number
+  time_limit:
+    type: number
+  time_elapsed:
+    type: number
+required:
+  - total_questions
+  - current_question
+  - points_required
+  - points_achieved
+  - time_limit
+  - time_elapsed
+additionalProperties: false
