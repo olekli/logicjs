@@ -1,11 +1,10 @@
-p.
-  Home
-form(action="al_tof/launch" method="POST")
-  input(type="hidden" name="level" value="level_1")
-  input(type="submit" value="Aussagenlogik, wahr oder falsch, Stufe 1")
-form(action="al_tof/launch" method="POST")
-  input(type="hidden" name="level" value="level_2")
-  input(type="submit" value="Aussagenlogik, wahr oder falsch, Stufe 2")
-form(action="al_tof/launch" method="POST")
-  input(type="hidden" name="level" value="level_3")
-  input(type="submit" value="Aussagenlogik, wahr oder falsch, Stufe 3")
+extends ../base.pug
+
+block heading
+  h1.inline Übungen
+
+block main
+  form(action="al_tof/launch" method="POST")
+    button.block(type="submit" name="level" value="level_1") Aussagenlogik, wahr oder falsch, Stufe 1
+    button.block(type="submit" name="level" value="level_2") Aussagenlogik, wahr oder falsch, Stufe 2
+    button.block(type="submit" name="level" value="level_3") Aussagenlogik, wahr oder falsch, Stufe 3

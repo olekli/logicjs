@@ -1,16 +1,13 @@
-p.
-  Frage #{n_params.current_question}
-p.
-  #{question.sentence}
-ul
-  each i in question.interpretation
-    li= i
-p.
-  Antwort gegeben: #{answer ? "wahr" : "falsch"}
-p.
-  korrekte Antwort: #{question.expected ? "wahr" : "falsch"}
-p.
-  gegebene Antwort ist: #{result ? "korrekt" : "nicht korrekt"}
+extends ../base.pug
 
-form(action="al_tof/next" method="POST")
-  input(type="submit" value="weiter")
+block heading
+  include header.pug
+block main
+  div
+    include counter.pug
+  div.question
+    include question.pug
+  div.block_margins
+    p.result #{result ? "korrekt" : "nicht korrekt"}
+    form.inline(action="al_tof/next" method="POST")
+      button.inline(type="submit") weiter

@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='author', content='Ole Kliemann')
+    title logicjs
+    link(rel="icon" href="/logicjs/static/icon.png" type="image/png")
+
+  include style.pug
+
+  body
+    header
+      a.inline(href="/logicjs/app/home")
+        img.heading(src="/logicjs/static/icon.png" alt="Icon")
+      block heading
+    main
+      block main
+    footer
+      a.inline(href="/logicjs/app/home") Startseite
+      a.inline(href="https://lms.uni-kiel.de/auth/RepositoryEntry/5383061556/CourseNode/108458112801995") Weitere Informationen auf OLAT

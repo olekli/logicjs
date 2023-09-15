@@ -31,7 +31,7 @@ const interpretationToStrings = (i) => {
   assert.type(i, 'Interpretation');
   let result = [];
   for (let letter in i) {
-    result.push(`V(${letter}) = ${i[letter] ? '1' : '0'}`);
+    result.push(`V(${letter})=${i[letter] ? '1' : '0'}`);
   }
   result.sort();
   return result;
