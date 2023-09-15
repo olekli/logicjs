@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const { make_result, match_result, get_ok, make_ok } = require('okljs');
 const { v4: uuidv4 } = require('uuid');
 const util = require('util');
+const config = require('./config.js');
 
 const key_pair = generateKeyPairSync("rsa", { modulusLength: 4096 });
 
@@ -47,7 +48,15 @@ const decodeAuthToken = async (token) => {
 };
 
 const setResCookie = (res, token) => {
-  res.cookie('logicjs_token', token, { httpOnly: true, secure: false, sameSite: 'Strict' });
+  res.cookie(
+    'logicjs_token',
+    token,
+    {
+      httpOnly: true,
+      secure: config.is_production,
+      sameSite: 'Strict'
+    }
+  );
 };
 
 const getReqCookie = (req) => req.cookies?.logicjs_token;
@@ -58,9 +67,11 @@ const retrieveAuth = async (req, res, next) => {
 };
 
 const fallbackAnonAuth = (req, res, next) => {
-  if (!req.auth) {
-    req.auth = makeId('anon', uuidv4());
-    setResCookie(res, makeAuthToken(req.auth));
+  if (!config.is_production) {
+    if (!req.auth) {
+      req.auth = makeId('anon', uuidv4());
+      setResCookie(res, makeAuthToken(req.auth));
+    }
   }
   next();
 };

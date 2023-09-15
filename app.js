@@ -8,6 +8,7 @@ const { retrieveAuth, fallbackAnonAuth } = require('./auth.js');
 const fs = require('fs');
 const { getSession } = require('./session.js');
 const { match_result } = require('okljs');
+const config = require('./config.js');
 
 const getPath = (req, category, filename) =>
   path.join(
@@ -81,7 +82,7 @@ app.use(fallbackAnonAuth);
 
 app.use((req, res, next) => {
   if (!req.auth) {
-    next('auth missing');
+    res.redirect(config.no_auth_redirect_url);
   } else {
     next();
   }
