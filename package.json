@@ -9,17 +9,20 @@
     "js-yaml": "^4.1.0",
     "json-schema-to-typescript": "^13.0.2",
     "jsonwebtoken": "^9.0.2",
+    "ltijs": "^5.9.3",
+    "mongodb": "^6.1.0",
     "morgan": "^1.10.0",
     "nearley": "^2.20.1",
     "nearley-generator": "^1.1.0",
     "okljs": "github:olekli/okljs#main",
     "pug": "^3.0.2",
     "quicktype": "^23.0.71",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "uuid": "^9.0.1"
   },
   "scripts": {
     "test": "jest",
     "makeGrammar": "nearleyc al_grammar.ne -o al_grammar.js",
-    "makeGenGrammar": "nearleyc al_grammar_gen.ne -o al_grammar_gen.js"
+    "startdb": "mongod --dbpath mongodb/db --auth --logpath mongodb/mongod.log --fork"
   }
 }

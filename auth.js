@@ -54,7 +54,7 @@ const setResCookie = (res, token) => {
     {
       httpOnly: true,
       secure: config.is_production,
-      sameSite: 'Strict'
+      sameSite: 'Lax'
     }
   );
 };
@@ -76,5 +76,15 @@ const fallbackAnonAuth = (req, res, next) => {
   next();
 };
 
+const ltiAuth = (req, res, next) => {
+  let user = res.locals?.token?.user;
+  if (user) {
+    req.auth = makeId('lti', user);
+    setResCookie(res, makeAuthToken(req.auth));
+  }
+  next();
+};
+
 module.exports.retrieveAuth = retrieveAuth;
 module.exports.fallbackAnonAuth = fallbackAnonAuth;
+module.exports.ltiAuth = ltiAuth;

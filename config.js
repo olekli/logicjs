@@ -1,9 +1,12 @@
 'use strict'
 
-require("dotenv").config();
+const fs = require('fs');
+const path = require('path');
 
-const is_production = (process.env.NODE_ENV === 'production');
-const no_auth_redirect_url = is_production ? process.env.OLAT_URL : '/logicjs/app/home';
+const config = JSON.parse(fs.readFileSync('.env.json'));
+if (config.lti.platform.privateKey != '') {
+  config.lti.platform.privateKey =
+    fs.readFileSync(path.join(__dirname, config.lti.platform.privateKey));
+}
 
-module.exports.is_production = is_production;
-module.exports.no_auth_redirect_url = no_auth_redirect_url;
+module.exports = config;
