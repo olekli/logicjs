@@ -10,8 +10,8 @@ const selectRandom = (array) => array[Math.floor(Math.random() * array.length)];
 const levels = {
   level_1: {
     n_params: {
-      total_questions: 4,
-      points_required: 4,
+      total_questions: 12,
+      points_required: 12,
       time_limit: 0
     },
     question_options: {
