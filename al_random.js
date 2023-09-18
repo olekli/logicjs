@@ -4,6 +4,7 @@ require('./al_grammar.js');
 const { parse } = require('./al_parse.js');
 const { assert } = require('okljs');
 const { sentenceToString } = require('./al_print.js');
+const { getAllModels, models, makeModelsSet, isSubSetOf } = require('./al_models.js');
 
 const selectRandom = (array) => array[Math.floor(Math.random() * array.length)];
 
@@ -20,7 +21,7 @@ const getSample = (n, m) => {
 }
 
 const generateItemsArray = (length, item_key, items_available, items_required) => {
-  assert.ok(items_required.length < length);
+  assert.ok(items_required.length <= length);
 
   let result = new Array(length).fill(undefined).map(() => ({}));
   let sample = getSample(length, items_required.length);
@@ -115,19 +116,59 @@ const generateRandomSentence = (params) => {
   return result;
 };
 
-//let s = generateRandomSentence(
-//  {
-//    length: 3,
-//    letters_available: ['p', 'q'],
-//    letters_required: ['p', 'q'],
-//    operators_available: [ 'equivalent', 'follows', 'or', 'and' ],
-//    operators_required: [ 'follows' ],
-//    negation_probabilities: {
-//      atomic: { single: 0.4, double: 0.2 },
-//      complex: { single: 0.2, double: 0.0 },
-//    }
-//  });
-//let string = sentenceToString(s);
-//console.log(sentenceToString(s));
+const getRandomIndicesArray = (n) => {
+  let a = Array(n).fill(0).map((_, i) => i);
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const findAmodelsB = (A, generator, cache) => {
+  let A_models = makeModelsSet(A);
+  let indices = getRandomIndicesArray(cache.length);
+  for (let i of indices) {
+    if (isSubSetOf(A_models, cache[i].models)) {
+      let B = cache[i].sentence;
+      assert.ok(models(A, B));
+      return B;
+    }
+  }
+
+  while (true) {
+    let B = generator();
+    let B_models = makeModelsSet(B);
+    cache.push({ sentence: B, models: B_models });
+    if (isSubSetOf(A_models, B_models)) {
+      assert.ok(models(A, B));
+      return B;
+    }
+  }
+};
+
+const findAnotModelsB = (A, generator, cache) => {
+  let A_models = makeModelsSet(A);
+  let indices = getRandomIndicesArray(cache.length);
+  for (let i of indices) {
+    if (!isSubSetOf(A_models, cache[i].models)) {
+      let B = cache[i].sentence;
+      assert.ok(!models(A, B));
+      return B;
+    }
+  }
+
+  while (true) {
+    let B = generator();
+    let B_models = makeModelsSet(B);
+    cache.push({ sentence: B, models: B_models });
+    if (!isSubSetOf(A_models, B_models)) {
+      assert.ok(!models(A, B));
+      return B;
+    }
+  }
+};
 
 module.exports.generateRandomSentence = generateRandomSentence;
+module.exports.findAmodelsB = findAmodelsB;
+module.exports.findAnotModelsB = findAnotModelsB;

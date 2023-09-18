@@ -35,8 +35,12 @@ const getLettersInSentence = (s) => {
   return result;
 };
 
-const getAllModels = (s) =>
-  enumerateInterpretations(getLettersInSentence(s)).reduce(
+const getAllModels = (s, letters) =>
+{
+  if (!letters) {
+    letters = getLettersInSentence(s);
+  }
+  return enumerateInterpretations(letters).reduce(
     (result, i) => {
       if (evaluateSentence(s, i)) {
         result.true.push(i);
@@ -47,21 +51,30 @@ const getAllModels = (s) =>
     },
     { true: [], false: [] }
   );
+}
 
-//let getAllModels = (s) => {
-//  let interpretations = enumerateInterpretations(getLettersInSentence(s));
-//  return interpretations.filter(i => evaluateSentence(s, i));
-//};
+const makeModelsSet = (s, letters) =>
+  new Set(getAllModels(s, letters)[true].map((m) => JSON.stringify(m)));
 
-//let models = (lhs, rhs) => {
-//  assert.type(rhs, 'Sentence');
-//  if (
-//    {
-//      Interpretation: () => evaluateSentence(rhs, lhs)
-//    });
-//};
+const isSubSetOf = (lhs, rhs) => {
+  for (let e of lhs) {
+    if (!rhs.has(e)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+const models = (lhs, rhs) => {
+  let letters = Array.from(new Set([ ...getLettersInSentence(lhs), ...getLettersInSentence(rhs) ]));
+  let lhs_models = makeModelsSet(lhs, letters);
+  let rhs_models = makeModelsSet(rhs, letters);
+  return isSubSetOf(lhs_models, rhs_models);
+};
 
 module.exports.enumerateInterpretations = enumerateInterpretations;
 module.exports.getLettersInSentence = getLettersInSentence;
 module.exports.getAllModels = getAllModels;
-//module.exports.models = models;
+module.exports.models = models;
+module.exports.makeModelsSet = makeModelsSet;
+module.exports.isSubSetOf = isSubSetOf;

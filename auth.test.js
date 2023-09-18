@@ -61,7 +61,6 @@ test('retrieveAuth works after fallbackAnonAuth', async () => {
     let res = new ResMock();
     let next = jest.fn();
 
-    console.log(req);
     await retrieveAuth(req, res, next);
     expect(typeof req.auth).toEqual('string');
     expect(req.auth).not.toEqual('');

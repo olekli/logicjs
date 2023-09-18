@@ -2,7 +2,7 @@
 
 const { parse } = require('./al_parse.js');
 const { evaluateSentence } = require('./al_eval.js');
-const { getLettersInSentence, enumerateInterpretations, getAllModels } = require('./al_models.js');
+const { getLettersInSentence, enumerateInterpretations, getAllModels, models } = require('./al_models.js');
 
 test.each([
   [ '(p -> (q -> r))', ['p', 'q', 'r'] ],
@@ -57,6 +57,52 @@ test.each([
   for (let i of result.false) {
     expect(evaluateSentence(sentence, i)).toBe(false);
   }
+});
+
+test.each([
+  [ 'p' ],
+  [ 'q' ],
+  [ '(p & !p)' ],
+  [ '(p -> (q -> r))' ],
+  [ '(p -> p)' ]
+])('every sentence models tautology', (A_) => {
+  let A = parse(A_);
+  let B = parse('(p -> (q -> p))');
+  expect(models(A, B)).toBe(true);
+});
+
+test.each([
+  [ 'p' ],
+  [ 'q' ],
+  [ '(p -> (q -> r))' ],
+  [ '(p -> p)' ]
+])('no sentence models contradiction, except contradiction', (A_) => {
+  let A = parse(A_);
+  let B = parse('(q & !q)');
+  expect(models(A, B)).toBe(false);
+});
+
+test.each([
+  [ 'p' ],
+  [ 'q' ],
+  [ '(p & !p)' ],
+  [ '(p -> (q -> r))' ],
+  [ '(p -> p)' ]
+])('contradiction models every sentence', (B_) => {
+  let B = parse(B_);
+  let A = parse('(q & !q)');
+  expect(models(A, B)).toBe(true);
+});
+
+test.each([
+  [ 'p' ],
+  [ 'q' ],
+  [ '(p & !p)' ],
+  [ '(p -> (q -> r))' ],
+  [ '(p -> p)' ]
+])('every sentence models itself', (A_) => {
+  let A = parse(A_);
+  expect(models(A, A)).toBe(true);
 });
 
 //test.each([
