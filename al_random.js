@@ -126,11 +126,15 @@ const getRandomIndicesArray = (n) => {
 }
 
 const findAmodelsB = (A, letters, generator, cache) => {
+  if (cache[JSON.stringify(letters)] == undefined) {
+    cache[JSON.stringify(letters)] = [];
+  }
+  let this_cache = cache[JSON.stringify(letters)];
   let A_models = makeModelsSet(A, letters);
-  let indices = getRandomIndicesArray(cache.length);
+  let indices = getRandomIndicesArray(this_cache.length);
   for (let i of indices) {
-    if (isSubSetOf(A_models, cache[i].models)) {
-      let B = cache[i].sentence;
+    if (isSubSetOf(A_models, this_cache[i].models)) {
+      let B = this_cache[i].sentence;
       assert.ok(models(A, B), () => `${sentenceToString(A)}, ${sentenceToString(B)}`);
       return B;
     }
@@ -140,7 +144,7 @@ const findAmodelsB = (A, letters, generator, cache) => {
     console.log(`findAmodelsB: finding B for: ${sentenceToString(A)}`);
     let B = generator();
     let B_models = makeModelsSet(B, letters);
-    cache.push({ sentence: B, models: B_models });
+    this_cache.push({ sentence: B, models: B_models });
     if (isSubSetOf(A_models, B_models)) {
       assert.ok(models(A, B), () => `${sentenceToString(A)}, ${sentenceToString(B)}`);
       return B;
@@ -149,11 +153,15 @@ const findAmodelsB = (A, letters, generator, cache) => {
 };
 
 const findAnotModelsB = (A, letters, generator, cache) => {
+  if (cache[JSON.stringify(letters)] == undefined) {
+    cache[JSON.stringify(letters)] = [];
+  }
+  let this_cache = cache[JSON.stringify(letters)];
   let A_models = makeModelsSet(A, letters);
-  let indices = getRandomIndicesArray(cache.length);
+  let indices = getRandomIndicesArray(this_cache.length);
   for (let i of indices) {
-    if (!isSubSetOf(A_models, cache[i].models)) {
-      let B = cache[i].sentence;
+    if (!isSubSetOf(A_models, this_cache[i].models)) {
+      let B = this_cache[i].sentence;
       assert.ok(!models(A, B), () => `${sentenceToString(A)}, ${sentenceToString(B)}`);
       return B;
     }
@@ -163,7 +171,7 @@ const findAnotModelsB = (A, letters, generator, cache) => {
     console.log(`findAnotModelsB: finding B for: ${sentenceToString(A)}`);
     let B = generator();
     let B_models = makeModelsSet(B, letters);
-    cache.push({ sentence: B, models: B_models });
+    this_cache.push({ sentence: B, models: B_models });
     if (!isSubSetOf(A_models, B_models)) {
       assert.ok(!models(A, B), () => `${sentenceToString(A)}, ${sentenceToString(B)}`);
       return B;

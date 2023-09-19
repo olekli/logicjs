@@ -61,7 +61,7 @@ const levels = {
   }
 };
 
-const cache = [];
+const cache = {};
 
 class QuestionFactory {
   #options = {};
@@ -75,10 +75,20 @@ class QuestionFactory {
     let rhs;
     let expected;
     if (Math.random() < 0.5) {
-      rhs = findAmodelsB(lhs, () => generateRandomSentence(this.#options), cache);
+      rhs = findAmodelsB(
+        lhs,
+        this.#options.letters_available,
+        () => generateRandomSentence(this.#options),
+        cache
+      );
       expected = true;
     } else {
-      rhs = findAnotModelsB(lhs, () => generateRandomSentence(this.#options), cache);
+      rhs = findAnotModelsB(
+        lhs,
+        this.#options.letters_available,
+        () => generateRandomSentence(this.#options),
+        cache
+      );
       expected = false;
     }
     return {
