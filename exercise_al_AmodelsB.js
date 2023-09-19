@@ -18,8 +18,8 @@ const levels = {
       operators_available: [ 'equivalent', 'follows', 'or', 'and' ],
       operators_required: [],
       negation_probabilities: {
-        atomic: { single: 0.4, double: 0.2 },
-        complex: { single: 0.2, double: 0.0 },
+        atomic: { single: 0.0, double: 0.0 },
+        complex: { single: 0.0, double: 0.0 },
       }
     }
   },
@@ -30,11 +30,11 @@ const levels = {
       time_limit: 0
     },
     question_options: {
-      length: 3,
+      length: 2,
       letters_available: ['p', 'q'],
       letters_required: ['p', 'q'],
       operators_available: [ 'equivalent', 'follows', 'or', 'and' ],
-      operators_required: [ 'follows' ],
+      operators_required: [ ],
       negation_probabilities: {
         atomic: { single: 0.4, double: 0.2 },
         complex: { single: 0.2, double: 0.0 },
@@ -48,13 +48,13 @@ const levels = {
       time_limit: 6 * 60 * 1000
     },
     question_options: {
-      length: 3,
+      length: 2,
       letters_available: ['p', 'q'],
       letters_required: ['p', 'q'],
       operators_available: [ 'equivalent', 'follows', 'or', 'and' ],
-      operators_required: [ 'follows' ],
+      operators_required: [ ],
       negation_probabilities: {
-        atomic: { single: 0.4, double: 0.2 },
+        atomic: { single: 0.4, double: 0.0 },
         complex: { single: 0.2, double: 0.0 },
       }
     }
