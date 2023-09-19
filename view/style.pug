@@ -27,6 +27,7 @@ style.
   }
   h3 {
     font-size: 18px;
+    font-weight: normal;
   }
   button {
     background: White;
@@ -82,4 +83,31 @@ style.
     width: 48px;
     height: 48px;
     vertical-align: middle;
+  }
+  .indent-1, .indent-2, .indent-3 {
+    position: relative;
+  }
+  .indent-1 {
+    margin-left: 20px;
+  }
+  .indent-2 {
+    margin-left: 40px;
+  }
+  .indent-1::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -16px;
+    width: 12px;
+    height: 1px;
+    background: black;
+  }
+  .indent-2::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -36px;
+    width: 32px;
+    height: 1px;
+    background: black;
   }
