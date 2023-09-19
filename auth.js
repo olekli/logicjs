@@ -61,6 +61,15 @@ const setResCookie = (res, token) => {
 
 const getReqCookie = (req) => req.cookies?.logicjs_token;
 
+const clearAllCookies = (req, res) => {
+  for (let cookie in req.cookies) {
+    res.clearCookie(cookie);
+  }
+  for (let cookie in req.signedCookies) {
+    res.clearCookie(cookie);
+  }
+}
+
 const retrieveAuth = async (req, res, next) => {
   req.auth = await decodeAuthToken(getReqCookie(req));
   next();
@@ -78,6 +87,7 @@ const fallbackAnonAuth = (req, res, next) => {
 
 const ltiAuth = (req, res, next) => {
   let user = res.locals?.token?.user;
+  clearAllCookies(req, res);
   if (user) {
     req.auth = makeId('lti', user);
     setResCookie(res, makeAuthToken(req.auth));
