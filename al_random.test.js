@@ -30,7 +30,7 @@ describe('findAmodelsB', () => {
   ])('findAmodelsB always finds sentence B with A models B', (A_) => {
     let A = parse(A_);
     for (let i = 0; i < 20; i++) {
-      let B = findAmodelsB(A, generator, cache);
+      let B = findAmodelsB(A, [ 'p', 'q', 'r' ], generator, cache);
 
       let interpretations = enumerateInterpretations(['p', 'q', 'r']);
       for (let interpretation of interpretations) {
@@ -45,7 +45,7 @@ describe('findAmodelsB', () => {
     for (let j = 0; j < 20; j++) {
       let A = generator();
       for (let i = 0; i < 5; i++) {
-        let B = findAmodelsB(A, generator, cache);
+        let B = findAmodelsB(A, [ 'p', 'q', 'r' ], generator, cache);
 
         let interpretations = enumerateInterpretations(['p', 'q', 'r']);
         for (let interpretation of interpretations) {
@@ -61,7 +61,7 @@ describe('findAmodelsB', () => {
     for (let j = 0; j < 20; j++) {
       let A = generator();
       for (let i = 0; i < 5; i++) {
-        let B = findAnotModelsB(A, generator, cache);
+        let B = findAnotModelsB(A, [ 'p', 'q', 'r' ], generator, cache);
 
         let interpretations = enumerateInterpretations(['p', 'q', 'r']);
         let v = true;
@@ -73,5 +73,41 @@ describe('findAmodelsB', () => {
         expect(v).toBe(false);
       }
     }
+  });
+
+  test.each([
+    [ '(p & p)', '(!q | p)' ],
+    [ '(p & !p)', 'q' ],
+    [ 'p', '(q -> q)' ],
+  ])('findAmodelsB works with corner cases', (A_, B_) => {
+    let cache = [];
+    let A = parse(A_);
+    let B = parse(B_);
+    let result = findAmodelsB(A, [ 'p', 'q' ], () => B, cache);
+    let interpretations = enumerateInterpretations(['p', 'q']);
+    for (let interpretation of interpretations) {
+      if (evaluateSentence(A, interpretation)) {
+        expect(evaluateSentence(B, interpretation)).toBe(true);
+      }
+    }
+  });
+
+  test.each([
+    [ '(p & p)', '(!q & q)' ],
+    [ 'q', '(p & !p)' ],
+    [ '(q -> q)', 'p' ],
+  ])('findAnotModelsB works with corner cases', (A_, B_) => {
+    let cache = [];
+    let A = parse(A_);
+    let B = parse(B_);
+    let result = findAnotModelsB(A, [ 'p', 'q' ], () => B, cache);
+    let interpretations = enumerateInterpretations(['p', 'q']);
+    let v = true;
+    for (let interpretation of interpretations) {
+      if (evaluateSentence(A, interpretation) && !evaluateSentence(B, interpretation)) {
+        v = false;
+      }
+    }
+    expect(v).toBe(false);
   });
 });

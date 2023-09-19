@@ -1,0 +1,13 @@
+extends ../base.pug
+
+block heading
+  include header.pug
+block main
+  div
+    include counter.pug
+  div.question
+    include question.pug
+  div
+    form(action="al_AmodelsB/answer" method="POST")
+      button.inline(type="submit" name="answer" value="true") wahr
+      button.inline(type="submit" name="answer" value="false") falsch

@@ -1,0 +1,13 @@
+type: object
+properties:
+  lhs:
+    type: string
+  rhs:
+    type: string
+  expected:
+    type: boolean
+required:
+  - lhs
+  - rhs
+  - expected
+additionalProperties: false

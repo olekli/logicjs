@@ -125,45 +125,47 @@ const getRandomIndicesArray = (n) => {
   return a;
 }
 
-const findAmodelsB = (A, generator, cache) => {
-  let A_models = makeModelsSet(A);
+const findAmodelsB = (A, letters, generator, cache) => {
+  let A_models = makeModelsSet(A, letters);
   let indices = getRandomIndicesArray(cache.length);
   for (let i of indices) {
     if (isSubSetOf(A_models, cache[i].models)) {
       let B = cache[i].sentence;
-      assert.ok(models(A, B));
+      assert.ok(models(A, B), () => `${sentenceToString(A)}, ${sentenceToString(B)}`);
       return B;
     }
   }
 
   while (true) {
+    console.log(`findAmodelsB: finding B for: ${sentenceToString(A)}`);
     let B = generator();
-    let B_models = makeModelsSet(B);
+    let B_models = makeModelsSet(B, letters);
     cache.push({ sentence: B, models: B_models });
     if (isSubSetOf(A_models, B_models)) {
-      assert.ok(models(A, B));
+      assert.ok(models(A, B), () => `${sentenceToString(A)}, ${sentenceToString(B)}`);
       return B;
     }
   }
 };
 
-const findAnotModelsB = (A, generator, cache) => {
-  let A_models = makeModelsSet(A);
+const findAnotModelsB = (A, letters, generator, cache) => {
+  let A_models = makeModelsSet(A, letters);
   let indices = getRandomIndicesArray(cache.length);
   for (let i of indices) {
     if (!isSubSetOf(A_models, cache[i].models)) {
       let B = cache[i].sentence;
-      assert.ok(!models(A, B));
+      assert.ok(!models(A, B), () => `${sentenceToString(A)}, ${sentenceToString(B)}`);
       return B;
     }
   }
 
   while (true) {
+    console.log(`findAnotModelsB: finding B for: ${sentenceToString(A)}`);
     let B = generator();
-    let B_models = makeModelsSet(B);
+    let B_models = makeModelsSet(B, letters);
     cache.push({ sentence: B, models: B_models });
     if (!isSubSetOf(A_models, B_models)) {
-      assert.ok(!models(A, B));
+      assert.ok(!models(A, B), () => `${sentenceToString(A)}, ${sentenceToString(B)}`);
       return B;
     }
   }

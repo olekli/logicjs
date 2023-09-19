@@ -1,0 +1,16 @@
+type: object
+properties:
+  n_params:
+    $ref: /type/NParams
+  question:
+    $ref: /view/al_AmodelsB/Question
+  answer:
+    type: boolean
+  result:
+    type: boolean
+required:
+  - n_params
+  - question
+  - answer
+  - result
+additionalProperties: false
