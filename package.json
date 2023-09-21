@@ -23,7 +23,7 @@
   },
   "scripts": {
     "test": "jest",
-    "makeGrammar": "nearleyc al_grammar.ne -o al_grammar.js",
+    "makeGrammar": "nearleyc al_grammar.ne -o al_grammar.js && nearleyc al_grammar_proof.ne -o al_grammar_proof.js",
     "startdb": "mongod --dbpath mongodb/db --auth --logpath mongodb/mongod.log --fork"
   }
 }

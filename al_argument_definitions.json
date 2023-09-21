@@ -152,5 +152,13 @@
       "premises": [ "A" ],
       "conclusion": "(B -> A)"
     }
+  ],
+  "RE": [
+    {
+      "type": "object",
+      "arity": 1,
+      "premises": [ "A" ],
+      "conclusion": "A"
+    }
   ]
 }
