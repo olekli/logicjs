@@ -6,9 +6,11 @@ const grammar = require('./al_grammar_proof.js');
 const { Arguments } = require('./al_argument_definitions.js');
 const util = require('util');
 
+const error = (this_line, type) =>
+  make_err({ type: type, raw_line_number: this_line.raw_line_number, parsed_line: this_line })
+
 const Errors = {
   InvalidLine: Symbol('InvalidLine'),
-  InvalidNumbering: Symbol('InvalidNumbering'),
   InvalidDepth: Symbol('InvalidDepth'),
   ExpectedSeparatorOrPremise: Symbol('ExpectedSeparatorOrPremise'),
   ExpectedSeparator: Symbol('ExpectedSeparator'),
@@ -16,12 +18,7 @@ const Errors = {
   ExpectedAssumption: Symbol('ExpectedAssumption'),
   InvalidArgumentName: Symbol('InvalidArgumentName'),
   ParserError: Symbol('ParserError'),
-  InaccessiblePremise: Symbol('InaccessiblePremise'),
-  UnexpectedEnd: Symbol('MissingLine')
 };
-
-const error = (this_line, type) =>
-  make_err({ type: type, raw_line_number: this_line.raw_line_number, parsed_line: this_line })
 
 const parseLine = (string) => {
   const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
@@ -137,50 +134,6 @@ const nextLine = (arg, parser) => {
   }
 };
 
-const checkNumbering = (parsed_lines) => {
-  for (let index = 0; index < parsed_lines.length; index++) {
-    let this_line = parsed_lines[index];
-    if (this_line.line_number != index) {
-      return error(this_line, Errors.InvalidNumbering);
-    }
-  }
-  return make_ok(parsed_lines);
-};
-
-const checkAccessibilityOfPremises = (parsed_lines) => {
-  return match_result(parsed_lines,
-    (parsed_lines) => {
-      for (let this_line of parsed_lines) {
-        let premises_to_find = new Set(this_line.argument.premises_lines);
-        let argument_type = this_line.argument.type;
-        let current_depth = this_line.depth;
-        let max_meta_depth = current_depth + 1;
-        let i = this_line.line_number;
-        while ((premises_to_find.size > 0) && (i > 0)) {
-          i--;
-          let this_line = parsed_lines[i];
-          if (this_line.depth < current_depth) {
-            current_depth = this_line.depth;
-            max_meta_depth = current_depth;
-          }
-          if (premises_to_find.has(this_line.line_number)) {
-            if (
-                   ((argument_type === 'meta') && (this_line.depth == max_meta_depth))
-                || ((argument_type === 'object') && (this_line.depth === current_depth))
-            ) {
-              premises_to_find.delete(this_line.line_number);
-            }
-          }
-        }
-        if (premises_to_find.size != 0) {
-          return error(this_line, Errors.InaccessiblePremise);
-        }
-      }
-      return make_ok(parsed_lines);
-    }
-  );
-};
-
 const parseProof = (lines) => {
   let arg = { lines: lines, index: 0, result: [] };
   let result = nextLine(arg, parsePremiseOrSeparator);
@@ -191,8 +144,9 @@ const parseProof = (lines) => {
   if (err(result)) {
     return result;
   }
-  return checkAccessibilityOfPremises(checkNumbering(arg.result));
+  return make_ok(arg.result);
 };
 
 module.exports.parseProof = parseProof;
-module.exports.ParseErrors = Errors;
+module.exports.error = error;
+module.exports.ParserErrors = Errors;

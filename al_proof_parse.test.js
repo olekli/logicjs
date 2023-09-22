@@ -1,7 +1,7 @@
 'use strict'
 
 const { ok, err, get_ok, get_err, useJestResultMatcher } = require('okljs');
-const { parseProof, ParseErrors } = require('./al_proof_parse.js');
+const { parseProof, ParserErrors } = require('./al_proof_parse.js');
 const util = require('util');
 
 useJestResultMatcher();
@@ -439,7 +439,7 @@ describe('incorrect proofs provide meaningful errors', () => {
     let result = parseProof(proof);
     expect(result).toBeErr();
     expect(get_err(result)).toMatchObject({
-      type: ParseErrors.ExpectedSeparatorOrPremise,
+      type: ParserErrors.ExpectedSeparatorOrPremise,
       raw_line_number: 2
     });
   })
@@ -453,7 +453,7 @@ describe('incorrect proofs provide meaningful errors', () => {
     let result = parseProof(proof);
     expect(result).toBeErr();
     expect(get_err(result)).toMatchObject({
-      type: ParseErrors.ExpectedSeparatorOrPremise,
+      type: ParserErrors.ExpectedSeparatorOrPremise,
       raw_line_number: 2
     });
   })
@@ -472,7 +472,7 @@ describe('incorrect proofs provide meaningful errors', () => {
     let result = parseProof(proof);
     expect(result).toBeErr();
     expect(get_err(result)).toMatchObject({
-      type: ParseErrors.ExpectedSeparator,
+      type: ParserErrors.ExpectedSeparator,
       raw_line_number: 5
     });
   })
@@ -489,42 +489,8 @@ describe('incorrect proofs provide meaningful errors', () => {
     let result = parseProof(proof);
     expect(result).toBeErr();
     expect(get_err(result)).toMatchObject({
-      type: ParseErrors.ExpectedSeparator,
+      type: ParserErrors.ExpectedSeparator,
       raw_line_number: 5
-    });
-  })
-
-  test.each([
-    [[
-      '|1 p V',
-      '|2 q V',
-      '|-',
-      '|4 (p & q) +K(1,2)',
-      '|5 (q & p) +K(1,2)',
-    ]]
-  ])('skipping line number', (proof) => {
-    let result = parseProof(proof);
-    expect(result).toBeErr();
-    expect(get_err(result)).toMatchObject({
-      type: ParseErrors.InvalidNumbering,
-      raw_line_number: 3
-    });
-  })
-
-  test.each([
-    [[
-      '|1 p V',
-      '|2 q V',
-      '|-',
-      '|4 (p & q) +K(1,2)',
-      '|3 (q & p) +K(1,2)',
-    ]]
-  ])('confused line number order', (proof) => {
-    let result = parseProof(proof);
-    expect(result).toBeErr();
-    expect(get_err(result)).toMatchObject({
-      type: ParseErrors.InvalidNumbering,
-      raw_line_number: 3
     });
   })
 
@@ -540,7 +506,7 @@ describe('incorrect proofs provide meaningful errors', () => {
     let result = parseProof(proof);
     expect(result).toBeErr();
     expect(get_err(result)).toMatchObject({
-      type: ParseErrors.InvalidArgumentName,
+      type: ParserErrors.InvalidArgumentName,
       raw_line_number: 3
     });
   })
@@ -557,7 +523,7 @@ describe('incorrect proofs provide meaningful errors', () => {
     let result = parseProof(proof);
     expect(result).toBeErr();
     expect(get_err(result)).toMatchObject({
-      type: ParseErrors.InvalidArgumentName,
+      type: ParserErrors.InvalidArgumentName,
       raw_line_number: 3
     });
   })
@@ -574,7 +540,7 @@ describe('incorrect proofs provide meaningful errors', () => {
     let result = parseProof(proof);
     expect(result).toBeErr();
     expect(get_err(result)).toMatchObject({
-      type: ParseErrors.InvalidArgumentName,
+      type: ParserErrors.InvalidArgumentName,
       raw_line_number: 3
     });
   })
@@ -591,7 +557,7 @@ describe('incorrect proofs provide meaningful errors', () => {
     let result = parseProof(proof);
     expect(result).toBeErr();
     expect(get_err(result)).toMatchObject({
-      type: ParseErrors.ParserError,
+      type: ParserErrors.ParserError,
       raw_line_number: 3
     });
   })
@@ -608,7 +574,7 @@ describe('incorrect proofs provide meaningful errors', () => {
     let result = parseProof(proof);
     expect(result).toBeErr();
     expect(get_err(result)).toMatchObject({
-      type: ParseErrors.ParserError,
+      type: ParserErrors.ParserError,
       raw_line_number: 3
     });
   })
@@ -625,7 +591,7 @@ describe('incorrect proofs provide meaningful errors', () => {
     let result = parseProof(proof);
     expect(result).toBeErr();
     expect(get_err(result)).toMatchObject({
-      type: ParseErrors.ParserError,
+      type: ParserErrors.ParserError,
       raw_line_number: 3
     });
   })
@@ -642,29 +608,9 @@ describe('incorrect proofs provide meaningful errors', () => {
     let result = parseProof(proof);
     expect(result).toBeErr();
     expect(get_err(result)).toMatchObject({
-      type: ParseErrors.ParserError,
+      type: ParserErrors.ParserError,
       raw_line_number: 3
     });
   })
 
-  test.each([
-    [[
-      '|1 p V',
-      '|2 q V',
-      '|-',
-      '|3 (p & q) +K(1,2)',
-      '|4 (q & p) +K(1,2)',
-      '||5 r A',
-      '||-',
-      '||6 (q -> r) VEQ(5)',
-      '|7 (p & (q -> r)) +K(1, 6)',
-    ]]
-  ])('inaccessible premise', (proof) => {
-    let result = parseProof(proof);
-    expect(result).toBeErr();
-    expect(get_err(result)).toMatchObject({
-      type: ParseErrors.InaccessiblePremise,
-      raw_line_number: 8
-    });
-  })
 });
