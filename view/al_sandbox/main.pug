@@ -1,0 +1,9 @@
+extends ../base.pug
+
+block heading
+  include header.pug
+block main
+  div
+    include ../editor.pug
+  div
+    button#submit-button.inline(data-endpoint="al_sandbox/check") prüfen
