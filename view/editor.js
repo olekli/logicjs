@@ -3,8 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var quill = new Quill('#editor', {
     modules: {
       toolbar: false
-    },
-    formats: []
+    }
   });
 
   var symbol_mapping = {
@@ -40,8 +39,28 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
+  // Set the color of the specified line to red
+  console.log('error_line:', error_line);
+  if (error_line >= 0) {
+   // const lines = quill.getLines();
+
+   // if (lines[error_line]) {
+   //   const index = quill.getIndex(lines[error_line]);
+   //   //quill.formatText(index, lines[error_line].length(), 'color', 'red');
+   //   const newFormat = [
+   //     { retain: index },
+   //     { retain: lines[error_line].length(), attributes: { color: 'red' } }
+   //   ];
+   //   quill.updateContents(newFormat);
+   // }
+    const line = quill.container.childNodes[0].getElementsByTagName('p')[error_line];
+    if (line) {
+      line.style.color = 'red';
+    }
+  }
+
   document.getElementById("submit-button").addEventListener("click", function() {
-    const content = quill.getText();
+    const content = quill.root.innerHTML;
 
     // Create form
     const form = document.createElement("form");

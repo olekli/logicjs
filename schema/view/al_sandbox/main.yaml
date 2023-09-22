@@ -1,7 +1,17 @@
 type: object
 properties:
   raw:
-    type: string
+    type: array
+    items:
+      type: string
+  error_string:
+    type:
+      - string
+      - "null"
+  error_line:
+    type: integer
 required:
   - raw
+  - error_string
+  - error_line
 additionalProperties: false

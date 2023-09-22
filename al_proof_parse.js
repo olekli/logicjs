@@ -10,7 +10,6 @@ const error = (this_line, type) =>
   make_err({ type: type, raw_line_number: this_line.raw_line_number, parsed_line: this_line })
 
 const Errors = {
-  InvalidLine: Symbol('InvalidLine'),
   InvalidDepth: Symbol('InvalidDepth'),
   ExpectedSeparatorOrPremise: Symbol('ExpectedSeparatorOrPremise'),
   ExpectedSeparator: Symbol('ExpectedSeparator'),

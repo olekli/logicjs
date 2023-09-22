@@ -1,5 +1,11 @@
 div#editor
-  p #{raw}
+  each line, i in raw
+    if i === error_line
+      p.error= line
+    else
+      p= line
 script(src="https://cdn.quilljs.com/1.3.6/quill.js")
+script.
+  const error_line = !{error_line};
 script
   include editor.js
