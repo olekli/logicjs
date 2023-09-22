@@ -182,9 +182,9 @@ describe('correct proofs are parsed correctly', () => {
       '|1 (p | q) V',
       '|-',
       '|2 (p -> p) T',
-      '|3 (q -> (p -> p)) VEQ(3)',
-      '|4 (p -> (p -> p)) VEQ(3)',
-      '|5 (p -> p) -A(1, 5, 4)'
+      '|3 (q -> (p -> p)) VEQ(2)',
+      '|4 (p -> (p -> p)) VEQ(2)',
+      '|5 (p -> p) -A(1, 4, 3)'
     ]]
   ])('arguments with multiple premises', (proof) => {
     let result = parseProof(proof);
@@ -221,7 +221,7 @@ describe('correct proofs are parsed correctly', () => {
               rhs: { letter: 'p' }
             }
           },
-          argument: { name: 'VEQ', type: 'object', premises_lines: [ 2 ] }
+          argument: { name: 'VEQ', type: 'object', premises_lines: [ 1 ] }
         },
         {
           type: 'sentence',
@@ -237,7 +237,7 @@ describe('correct proofs are parsed correctly', () => {
               rhs: { letter: 'p' }
             }
           },
-          argument: { name: 'VEQ', type: 'object', premises_lines: [ 2 ] }
+          argument: { name: 'VEQ', type: 'object', premises_lines: [ 1 ] }
         },
         {
           type: 'sentence',
@@ -245,7 +245,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 4,
           raw_line_number: 5,
           sentence: { operator: 'follows', lhs: { letter: 'p' }, rhs: { letter: 'p' } },
-          argument: { name: '-A', type: 'object', premises_lines: [ 0, 4, 3 ] }
+          argument: { name: '-A', type: 'object', premises_lines: [ 0, 3, 2 ] }
         }
       ]
     );
@@ -644,6 +644,27 @@ describe('incorrect proofs provide meaningful errors', () => {
     expect(get_err(result)).toMatchObject({
       type: ParseErrors.ParserError,
       raw_line_number: 3
+    });
+  })
+
+  test.each([
+    [[
+      '|1 p V',
+      '|2 q V',
+      '|-',
+      '|3 (p & q) +K(1,2)',
+      '|4 (q & p) +K(1,2)',
+      '||5 r A',
+      '||-',
+      '||6 (q -> r) VEQ(5)',
+      '|7 (p & (q -> r)) +K(1, 6)',
+    ]]
+  ])('inaccessible premise', (proof) => {
+    let result = parseProof(proof);
+    expect(result).toBeErr();
+    expect(get_err(result)).toMatchObject({
+      type: ParseErrors.InaccessiblePremise,
+      raw_line_number: 8
     });
   })
 });

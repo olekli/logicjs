@@ -147,6 +147,40 @@ const checkNumbering = (parsed_lines) => {
   return make_ok(parsed_lines);
 };
 
+const checkAccessibilityOfPremises = (parsed_lines) => {
+  return match_result(parsed_lines,
+    (parsed_lines) => {
+      for (let this_line of parsed_lines) {
+        let premises_to_find = new Set(this_line.argument.premises_lines);
+        let argument_type = this_line.argument.type;
+        let current_depth = this_line.depth;
+        let max_meta_depth = current_depth + 1;
+        let i = this_line.line_number;
+        while ((premises_to_find.size > 0) && (i > 0)) {
+          i--;
+          let this_line = parsed_lines[i];
+          if (this_line.depth < current_depth) {
+            current_depth = this_line.depth;
+            max_meta_depth = current_depth;
+          }
+          if (premises_to_find.has(this_line.line_number)) {
+            if (
+                   ((argument_type === 'meta') && (this_line.depth == max_meta_depth))
+                || ((argument_type === 'object') && (this_line.depth === current_depth))
+            ) {
+              premises_to_find.delete(this_line.line_number);
+            }
+          }
+        }
+        if (premises_to_find.size != 0) {
+          return error(this_line, Errors.InaccessiblePremise);
+        }
+      }
+      return make_ok(parsed_lines);
+    }
+  );
+};
+
 const parseProof = (lines) => {
   let arg = { lines: lines, index: 0, result: [] };
   let result = nextLine(arg, parsePremiseOrSeparator);
@@ -157,7 +191,7 @@ const parseProof = (lines) => {
   if (err(result)) {
     return result;
   }
-  return checkNumbering(arg.result);
+  return checkAccessibilityOfPremises(checkNumbering(arg.result));
 };
 
 module.exports.parseProof = parseProof;
