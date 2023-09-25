@@ -19,7 +19,7 @@ describe('correct proofs are correct', () => {
       '|4 (q & p) +K(1,2)',
       '||5 r A',
       '||-',
-      '||6 (q & p) RE(4)',
+      '||6 (q & p) R(4)',
     ]]
   ])('line in proof above is accessible', (proof) => {
     let result = checkProof(parseProof(proof));
@@ -34,8 +34,8 @@ describe('correct proofs are correct', () => {
       '||-',
       '|||3 !q A',
       '|||-',
-      '|||4 p RE(2)',
-      '|||5 !p RE(1)',
+      '|||4 p R(2)',
+      '|||5 !p R(1)',
       '||6 !!q RAA(3-5)',
       '||7 q -DN(6)',
       '|8 (p -> q) +I(2-7)'
@@ -48,8 +48,8 @@ describe('correct proofs are correct', () => {
       '||-',
       '|||4 !q A',
       '|||-',
-      '|||5 p RE(3)',
-      '|||6 !p RE(1)',
+      '|||5 p R(3)',
+      '|||6 !p R(1)',
       '||7 !!q RAA(4-6)',
       '||8 q -DN(7)',
       '|9 (p -> q) +I(3-8)'
@@ -67,11 +67,11 @@ describe('correct proofs are correct', () => {
       '||-',
       '|||3 !q A',
       '|||-',
-      '|||4 p RE(2)',
-      '|||5 !p RE(1)',
+      '|||4 p R(2)',
+      '|||5 !p R(1)',
       '||||6 r A',
       '||||-',
-      '||||7 !q RE(3)',
+      '||||7 !q R(3)',
       '||8 !!q RAA(3-7)',
       '||9 q -DN(8)',
       '|10 (p -> q) +I(2-9)'
@@ -188,10 +188,10 @@ describe('incorrect proofs provide meaningful errors', () => {
       '||-',
       '|||3 !q A',
       '|||-',
-      '|||4 p RE(2)',
+      '|||4 p R(2)',
       '||||5 r A',
       '||||-',
-      '||||6 !p RE(1)',
+      '||||6 !p R(1)',
       '||7 !!q RAA(3-6)',
       '||8 q -DN(7)',
       '|9 (p -> q) +I(2-8)'
@@ -230,8 +230,8 @@ describe('incorrect proofs provide meaningful errors', () => {
       '||-',
       '|||4 !q A',
       '|||-',
-      '|||5 p RE(3)',
-      '|||6 !p RE(1)',
+      '|||5 p R(3)',
+      '|||6 !p R(1)',
       '||7 !!q RAA(4-6)',
       '||8 q -DN(7)',
       '|9 (p -> q) +I(3-8)'

@@ -260,17 +260,17 @@ describe('correct proofs are parsed correctly', () => {
       '|3 ( p & q ) +K(1,2)',
       '|| 4 r A',
       '||-',
-      '|| 5 q RE(2)',
+      '|| 5 q R(2)',
       '|6 (r->q) +I(4-5)',
       '|7 ( p & q ) +K(1,2)',
       '|| 8 r A',
       '||-',
       '||| 9 s A',
       '|||-',
-      '||| 10 (p & q) RE(3)',
+      '||| 10 (p & q) R(3)',
       '|||| 11 t A',
       '||||-',
-      '|||| 12 s RE(9)',
+      '|||| 12 s R(9)',
       '|||13 (t->s) +I(11-12)',
       '||14 (s -> (t -> s)) +I(9-13)',
       '|15 (r -> (s -> (t -> s))) +I(8-14)',
@@ -318,7 +318,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 4,
           raw_line_number: 6,
           sentence: { letter: 'q' },
-          argument: { name: 'RE', type: 'object', premises_lines: [ 1 ] }
+          argument: { name: 'R', type: 'object', premises_lines: [ 1 ] }
         },
         {
           type: 'sentence',
@@ -358,7 +358,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 9,
           raw_line_number: 13,
           sentence: { operator: 'and', lhs: { letter: 'p' }, rhs: { letter: 'q' } },
-          argument: { name: 'RE', type: 'object', premises_lines: [ 2 ] }
+          argument: { name: 'R', type: 'object', premises_lines: [ 2 ] }
         },
         {
           type: 'sentence',
@@ -374,7 +374,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 11,
           raw_line_number: 16,
           sentence: { letter: 's' },
-          argument: { name: 'RE', type: 'object', premises_lines: [ 8 ] }
+          argument: { name: 'R', type: 'object', premises_lines: [ 8 ] }
         },
         {
           type: 'sentence',
