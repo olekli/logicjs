@@ -170,6 +170,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   // Render view
   let file_path = path.join(__dirname, 'view', req.view.path) + '.pug';
+  req.view.data.software_version = config.version;
   if (fileExists(file_path)) {
     res.send(
       pug.renderFile(
