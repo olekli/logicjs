@@ -70,7 +70,7 @@ const validateBody = (location, method, body) => {
   }
 };
 
-const locations = [ '/home', '/al_tof', '/al_AmodelsB', '/al_sandbox' ];
+const locations = [ '/home', '/al_tof', '/al_AmodelsB', '/al_sandbox', '/al_sandbox/instructions' ];
 
 const app = express.Router();
 app.use(express.json());
@@ -110,11 +110,11 @@ app.use((req, res, next) => {
   } else if (req.method === 'POST') {
     let { dir: location, base: method } = path.parse(req.path);
     if (!locations.includes(location)) {
-      next('invalid path');
+      next(`invalid path ${location}`);
     } else if (!validateBody(location, method, req.body)) {
       next('validation error');
     } else if (!getHandler(location, method)) {
-      next('invalid path');
+      next(`invalid path ${location}`);
     } else {
       req.handler = getHandler(location, method);
       req.session = getSession(req.auth, location);

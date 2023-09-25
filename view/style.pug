@@ -39,6 +39,11 @@ style.
   button:hover {
     background: #f0f0f0;
   }
+  .code {
+    font-family: Roboto Mono, monospace;
+    font-size: 16px;
+    background: #e0e0e0;
+  }
   .question {
     padding: 5px;
     margin-left: 15px;
@@ -84,6 +89,9 @@ style.
     height: 48px;
     vertical-align: middle;
   }
+  .indent {
+    margin-left: 20px;
+  }
   .indent-1, .indent-2, .indent-3 {
     position: relative;
   }
@@ -115,7 +123,8 @@ style.
     border: none; /* Remove Quill's default border */
   }
   .ql-editor {
-    height: 300px; /* Set height of the editor content */
+    height: 500px; /* Set height of the editor content */
+    width: 400px;
     border: 2px solid #000; /* Add custom border */
     overflow-y: auto; /* Enable vertical scrolling */
   }
@@ -125,7 +134,24 @@ style.
     line-height: 1.0;
     font-family: Roboto Mono, monospace;
     font-size: 16px;
+    white-space: nowrap;
   }
   .error {
     color: red;
+  }
+  .container {
+    display: flex;
+    align-items: flex-start;
+    width: 800px;
+  }
+
+  #editor {
+    flex: 0 1 400px;
+  }
+  .side-element {
+    flex: 0 1 350px;
+    margin-left: 20px;
+  }
+  .side-element button {
+    margin-left: 0px;
   }
