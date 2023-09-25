@@ -4,8 +4,10 @@ const htmlToLines = (raw) => {
   const regex = /<p>.*?<\/p>/g;
   let result = raw.match(regex) || [];
   return result.map((line) =>
-    line.replace(/(<([^>]+)>)/ig, "")
-  );
+    line.replace(/(<([^>]+)>)/ig, '')
+  ).map((line) =>
+    line.replace(/\&[^;]*;/ig, '')
+  ).filter((line) => line != '');
 };
 
 const linesToHtml = (lines, highlight = null) => {

@@ -3,9 +3,19 @@ extends ../base.pug
 block heading
   include header.pug
 block main
+  div.container
+    div#editor
+      include ../editor.pug
+    div.side-element
+      button#submit-button(data-endpoint="al_sandbox/check") prüfen
+      if raw.length > 0
+        if error_string === null
+          p Beweis ist korrekt.
+        else
+          p Fehler: #{error_string}.
   div
-    include ../editor.pug
-  div
-    button#submit-button.inline(data-endpoint="al_sandbox/check") prüfen
-  div
-    p #{error_string}
+    a.inline(href="al_sandbox/instructions" target="_blank" rel="noopener noreferrer")
+      button.inline(type="submit") Anleitung
+    form.inline(action="al_sandbox/reset" method="POST")
+      button.inline(type="submit") zurücksetzen
+  include ../editor_scripts.pug
