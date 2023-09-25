@@ -13,6 +13,7 @@ style.
     border: 2px solid black;
     margin: 10px;
     padding: 10px;
+    width: 700px;
   }
   form {
     margin-block-start: 1em;
@@ -39,10 +40,14 @@ style.
   button:hover {
     background: #f0f0f0;
   }
+  .no-underline {
+    text-decoration:none;
+  }
   .code {
     font-family: Roboto Mono, monospace;
     font-size: 16px;
     background: #e0e0e0;
+    white-space: pre;
   }
   .question {
     padding: 5px;
@@ -119,14 +124,14 @@ style.
     height: 1px;
     background: black;
   }
-  .ql-container.ql-snow {
-    border: none; /* Remove Quill's default border */
-  }
   .ql-editor {
     height: 500px; /* Set height of the editor content */
     width: 400px;
     border: 2px solid #000; /* Add custom border */
     overflow-y: auto; /* Enable vertical scrolling */
+    outline: none !important;
+    box-shadow: none !important;
+    margin-bottom: 8px;
   }
   .ql-editor p {
     margin: 0px;
@@ -136,13 +141,16 @@ style.
     font-size: 16px;
     white-space: nowrap;
   }
+  .ql-clipboard {
+    display: none !important;
+  }
   .error {
     color: red;
   }
   .container {
     display: flex;
     align-items: flex-start;
-    width: 800px;
+    width: 100%;
   }
 
   #editor {
