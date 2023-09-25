@@ -96,12 +96,11 @@ app.use((req, res, next) => {
   // validate
   if (req.method === 'GET') {
     if (Object.keys(req.body).length != 0) {
-      next('validation error');
+      next('validation error: body in GET');
     } else if (!locations.includes(req.path)) {
-      console.error('no such path:', req.path);
-      next('invalid path');
+      next(`invalid location: ${req.path}`);
     } else if (!getHandler(req.path, 'get')) {
-      next('invalid path');
+      next(`missing handler: ${req.path}`);
     } else {
       req.handler = getHandler(req.path, 'get');
       req.session = getSession(req.auth, req.path);
@@ -110,11 +109,11 @@ app.use((req, res, next) => {
   } else if (req.method === 'POST') {
     let { dir: location, base: method } = path.parse(req.path);
     if (!locations.includes(location)) {
-      next(`invalid path ${location}`);
+      next(`invalid location: ${location}`);
     } else if (!validateBody(location, method, req.body)) {
-      next('validation error');
+      next(`validation error: ${location}/${method}`);
     } else if (!getHandler(location, method)) {
-      next(`invalid path ${location}`);
+      next(`missing handler: ${location}/${method}`);
     } else {
       req.handler = getHandler(location, method);
       req.session = getSession(req.auth, location);
@@ -178,14 +177,17 @@ app.use((req, res, next) => {
         req.view.data
       ));
   } else {
-    console.error(file_path);
-    next('no such view');
+    next(`no such view: ${file_path}`);
   }
 });
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.redirect(req.baseUrl);
+  res.send(
+    pug.renderFile(
+      './view/error.pug',
+      {}
+    ));
 });
 
 module.exports.app = app;

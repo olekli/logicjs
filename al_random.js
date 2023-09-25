@@ -141,7 +141,6 @@ const findAmodelsB = (A, letters, generator, cache) => {
   }
 
   while (true) {
-    console.log(`findAmodelsB: finding B for: ${sentenceToString(A)}`);
     let B = generator();
     let B_models = makeModelsSet(B, letters);
     this_cache.push({ sentence: B, models: B_models });
@@ -168,7 +167,6 @@ const findAnotModelsB = (A, letters, generator, cache) => {
   }
 
   while (true) {
-    console.log(`findAnotModelsB: finding B for: ${sentenceToString(A)}`);
     let B = generator();
     let B_models = makeModelsSet(B, letters);
     this_cache.push({ sentence: B, models: B_models });
