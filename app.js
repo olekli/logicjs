@@ -169,7 +169,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   // Render view
-  let file_path = path.join('.', 'view', req.view.path) + '.pug';
+  let file_path = path.join(__dirname, 'view', req.view.path) + '.pug';
   if (fileExists(file_path)) {
     res.send(
       pug.renderFile(
@@ -185,7 +185,7 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.send(
     pug.renderFile(
-      './view/error.pug',
+      path.join(__dirname, 'view/error.pug'),
       {}
     ));
 });

@@ -2,9 +2,10 @@
 
 const { assert, register_type } = require('okljs');
 const { evaluateSentence } = require('./al_eval.js');
+const path = require('path');
 
-register_type('Letters', 'schema/type/Letters.yaml');
-register_type('Interpretations', 'schema/type/Interpretations.yaml');
+register_type('Letters', path.join(__dirname, 'schema/type/Letters.yaml'));
+register_type('Interpretations', path.join(__dirname, 'schema/type/Interpretations.yaml'));
 
 const enumerateInterpretations = (letters) => {
   let result = letters.reduce((result, this_letter) =>

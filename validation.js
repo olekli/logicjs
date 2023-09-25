@@ -25,14 +25,14 @@ const getFiles = (this_path) => {
 }
 
 let files = schema_dirs.reduce(
-  (result, dir) => result.concat(getFiles(dir)),
+  (result, dir) => result.concat(getFiles(path.join(__dirname, dir))),
   []
 );
 
 for (let f of files) {
   let parsed = path.parse(f);
   let id = path.join(parsed.dir, parsed.name);
-  id = id.replace(/^schema/, '');
+  id = id.replace(/^.*schema/, '');
   let schema = yaml.load(fs.readFileSync(f));
   try {
     ajv.addSchema(schema, id);

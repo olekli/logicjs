@@ -1,10 +1,15 @@
 'use strict'
 
 const { assert } = require('okljs');
-
+const path = require('path');
 const fs = require('fs');
 
-const operator_mapping = JSON.parse(fs.readFileSync('operator_mapping.json').toString())
+const operator_mapping =
+  JSON.parse(
+    fs.readFileSync(
+      path.join(__dirname, 'operator_mapping.json')
+    ).toString()
+  )
 
 const transcribeOperators = (string) => {
   assert.ok(typeof string === 'string');
