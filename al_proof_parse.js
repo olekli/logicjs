@@ -8,7 +8,7 @@ const util = require('util');
 const { ajv } = require('./validation.js');
 
 const error = (this_line, type) =>
-  make_err({ type: type, raw_line_number: this_line.raw_line_number, parsed_line: this_line })
+  make_err({ type: type, raw_line_number: this_line?.raw_line_number, parsed_line: this_line })
 
 const Errors = {
   InvalidDepth: Symbol('InvalidDepth'),

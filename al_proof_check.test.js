@@ -81,6 +81,32 @@ describe('correct proofs are correct', () => {
     expect(result).toBeOk();
   });
 
+  test.each([
+    [[
+      '|1 p V',
+      '|2 q V',
+      '|-',
+      '|3 (p & q) +K(1,2)',
+      '|4 (q & p) +K(1,2)',
+    ]]
+  ])('proof with allowed premises is correct', (proof) => {
+    let result = checkProof(parseProof(proof), [ parse('p'), parse('q') ]);
+    expect(result).toBeOk();
+  })
+
+  test.each([
+    [[
+      '|1 p V',
+      '|2 q V',
+      '|-',
+      '|3 (p & q) +K(1,2)',
+      '|4 (q & p) +K(1,2)',
+    ]]
+  ])('proof with expected conclusion is correct', (proof) => {
+    let result = checkProof(parseProof(proof), [ parse('p'), parse('q') ], parse('(p&q)'));
+    expect(result).toBeOk();
+  })
+
 });
 
 describe('incorrect proofs provide meaningful errors', () => {
@@ -244,5 +270,21 @@ describe('incorrect proofs provide meaningful errors', () => {
       raw_line_number: 2
     });
   });
+
+  test.each([
+    [[
+      '|1 p V',
+      '|2 q V',
+      '|-',
+      '|3 (q & p) +K(1,2)',
+    ]]
+  ])('proof with missing expected conclusion is incorrect', (proof) => {
+    let result = checkProof(parseProof(proof), [ parse('p'), parse('q') ], parse('(p&q)'));
+    expect(result).toBeErr();
+    expect(get_err(result)).toMatchObject({
+      type: CheckerErrors.MissingExpectedConclusion,
+      raw_line_number: undefined
+    });
+  })
 
 });

@@ -10,6 +10,7 @@ const Errors = {
   InaccessiblePremise: Symbol('InaccessiblePremise'),
   InvalidArgumentApplication: Symbol('InvalidArgumentApplication'),
   InvalidPremise: Symbol('InvalidPremise'),
+  MissingExpectedConclusion: Symbol('MissingExpectedConclusion'),
 };
 
 const checkNumbering = (parsed_lines) => {
@@ -144,16 +145,36 @@ const checkArguments = (parsed_lines) => {
   );
 };
 
-const checkProof = (parsed_lines, allowed_premises = null) =>
-  checkArguments(
-    checkAllowedPremises(
-      checkNumbering(
-        checkAccessibilityOfPremises(
-          parsed_lines
-        )
-      ),
-      allowed_premises
-    )
+const checkConclusion = (parsed_lines, expected_conclusion) => {
+  return match_result(parsed_lines,
+    (parsed_lines) => {
+      if (expected_conclusion === null) {
+        return make_ok(parsed_lines);
+      } else {
+        for (let this_line of parsed_lines) {
+          if (_.isEqual(this_line.sentence, expected_conclusion)) {
+            return make_ok(parsed_lines);
+          }
+        }
+        return error(undefined, Errors.MissingExpectedConclusion);
+      }
+    }
+  );
+};
+
+const checkProof = (parsed_lines, allowed_premises = null, expected_conclusion = null) =>
+  checkConclusion(
+    checkArguments(
+      checkAllowedPremises(
+        checkNumbering(
+          checkAccessibilityOfPremises(
+            parsed_lines
+          )
+        ),
+        allowed_premises
+      )
+    ),
+    expected_conclusion
   );
 
 module.exports.checkProof = checkProof;
