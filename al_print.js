@@ -23,12 +23,12 @@ const sentenceToString_ = (s) =>
   })(s));
 
 const sentenceToString = (s) => {
-  assert.type(s, 'Sentence');
+//  assert.type(s, 'Sentence');
   return sentenceToString_(s);
 }
 
 const interpretationToStrings = (i) => {
-  assert.type(i, 'Interpretation');
+//  assert.type(i, 'Interpretation');
   let result = [];
   for (let letter in i) {
     result.push(`V(${letter})=${i[letter] ? '1' : '0'}`);

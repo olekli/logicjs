@@ -1,8 +1,8 @@
 'use strict'
 
 const { Exercise } = require('./exercise.js');
-const { findAmodelsB, findAnotModelsB, generateRandomSentence } = require('./al_random.js');
 const { sentenceToString } = require('./al_print.js');
+const { Generators } = require('./al_generator_static.js');
 
 const levels = {
   level_1: {
@@ -11,17 +11,7 @@ const levels = {
       points_required: 6,
       time_limit: 0
     },
-    question_options: {
-      length: 2,
-      letters_available: ['p', 'q'],
-      letters_required: ['p' ],
-      operators_available: [ 'equivalent', 'follows', 'or', 'and' ],
-      operators_required: [],
-      negation_probabilities: {
-        atomic: { single: 0.0, double: 0.0 },
-        complex: { single: 0.0, double: 0.0 },
-      }
-    }
+    generator: Generators.level_1
   },
   level_2: {
     n_params: {
@@ -29,17 +19,7 @@ const levels = {
       points_required: 6,
       time_limit: 0
     },
-    question_options: {
-      length: 2,
-      letters_available: ['p', 'q'],
-      letters_required: ['p', 'q'],
-      operators_available: [ 'equivalent', 'follows', 'or', 'and' ],
-      operators_required: [ ],
-      negation_probabilities: {
-        atomic: { single: 0.4, double: 0.2 },
-        complex: { single: 0.2, double: 0.0 },
-      }
-    }
+    generator: Generators.level_2
   },
   level_3: {
     n_params: {
@@ -47,48 +27,28 @@ const levels = {
       points_required: 6,
       time_limit: 6 * 60 * 1000
     },
-    question_options: {
-      length: 2,
-      letters_available: ['p', 'q'],
-      letters_required: ['p', 'q'],
-      operators_available: [ 'equivalent', 'follows', 'or', 'and' ],
-      operators_required: [ ],
-      negation_probabilities: {
-        atomic: { single: 0.4, double: 0.0 },
-        complex: { single: 0.2, double: 0.0 },
-      }
-    }
+    generator: Generators.level_3
   }
 };
 
 const cache = {};
 
 class QuestionFactory {
-  #options = {};
+  #generator = {};
 
-  constructor(options) {
-    this.#options = options;
+  constructor(generator) {
+    this.#generator = generator;
   }
 
   makeQuestion() {
-    let lhs = generateRandomSentence(this.#options);
+    let lhs = this.#generator.generateSentence();
     let rhs;
     let expected;
     if (Math.random() < 0.5) {
-      rhs = findAmodelsB(
-        lhs,
-        this.#options.letters_available,
-        () => generateRandomSentence(this.#options),
-        cache
-      );
+      rhs = this.#generator.findSentenceModelledBy(lhs);
       expected = true;
     } else {
-      rhs = findAnotModelsB(
-        lhs,
-        this.#options.letters_available,
-        () => generateRandomSentence(this.#options),
-        cache
-      );
+      rhs = this.#generator.findSentenceNotModelledBy(lhs);
       expected = false;
     }
     return {
@@ -110,7 +70,7 @@ class QuestionFactory {
 
 const makeExercise = (level) => {
   let options = levels[level];
-  let question_factory = new QuestionFactory(options.question_options);
+  let question_factory = new QuestionFactory(options.generator);
   let exercise = new Exercise(
     'al_AmodelsB',
     {
