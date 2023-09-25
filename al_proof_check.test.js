@@ -26,6 +26,61 @@ describe('correct proofs are correct', () => {
     expect(result).toBeOk();
   })
 
+  test.each([
+    [[
+      '|1 !p V',
+      '|-',
+      '||2 p A',
+      '||-',
+      '|||3 !q A',
+      '|||-',
+      '|||4 p RE(2)',
+      '|||5 !p RE(1)',
+      '||6 !!q RAA(3-5)',
+      '||7 q -DN(6)',
+      '|8 (p -> q) +I(2-7)'
+    ]],
+    [[
+      '|1 !p V',
+      '|-',
+      '|2 !!!p +DN(1)',
+      '||3 p A',
+      '||-',
+      '|||4 !q A',
+      '|||-',
+      '|||5 p RE(3)',
+      '|||6 !p RE(1)',
+      '||7 !!q RAA(4-6)',
+      '||8 q -DN(7)',
+      '|9 (p -> q) +I(3-8)'
+    ]]
+  ])('meta arguments work correctly in proof', (proof) => {
+    let result = checkProof(parseProof(proof));
+    expect(result).toBeOk();
+  });
+
+  test.each([
+    [[
+      '|1 !p V',
+      '|-',
+      '||2 p A',
+      '||-',
+      '|||3 !q A',
+      '|||-',
+      '|||4 p RE(2)',
+      '|||5 !p RE(1)',
+      '||||6 r A',
+      '||||-',
+      '||||7 !q RE(3)',
+      '||8 !!q RAA(3-7)',
+      '||9 q -DN(8)',
+      '|10 (p -> q) +I(2-9)'
+    ]]
+  ])('RAA works correctly in proof pointlessly ending with subproof', (proof) => {
+    let result = checkProof(parseProof(proof));
+    expect(result).toBeOk();
+  });
+
 });
 
 describe('incorrect proofs provide meaningful errors', () => {
@@ -124,5 +179,70 @@ describe('incorrect proofs provide meaningful errors', () => {
       raw_line_number: 0
     });
   })
+
+  test.each([
+    [[
+      '|1 !p V',
+      '|-',
+      '||2 p A',
+      '||-',
+      '|||3 !q A',
+      '|||-',
+      '|||4 p RE(2)',
+      '||||5 r A',
+      '||||-',
+      '||||6 !p RE(1)',
+      '||7 !!q RAA(3-6)',
+      '||8 q -DN(7)',
+      '|9 (p -> q) +I(2-8)'
+    ]]
+  ])('RAA cannot use nested subproof', (proof) => {
+    let result = checkProof(parseProof(proof));
+    expect(result).toBeErr();
+    expect(get_err(result)).toMatchObject({
+      type: CheckerErrors.InvalidArgumentApplication,
+      raw_line_number: 10
+    });
+  });
+
+  test.each([
+    [[
+      '|1 !p V',
+      '|-',
+      '|2 (!p & !!!p) +K(1, 3)',
+      '|3 !!!p +DN(1)',
+    ]]
+  ])('object argument cannot use premise later in proof', (proof) => {
+    let result = checkProof(parseProof(proof));
+    expect(result).toBeErr();
+    expect(get_err(result)).toMatchObject({
+      type: CheckerErrors.InaccessiblePremise,
+      raw_line_number: 2
+    });
+  });
+
+  test.each([
+    [[
+      '|1 !p V',
+      '|-',
+      '|2 (p -> q) +I(3-8)',
+      '||3 p A',
+      '||-',
+      '|||4 !q A',
+      '|||-',
+      '|||5 p RE(3)',
+      '|||6 !p RE(1)',
+      '||7 !!q RAA(4-6)',
+      '||8 q -DN(7)',
+      '|9 (p -> q) +I(3-8)'
+    ]]
+  ])('meta argument cannot use premise later in proof', (proof) => {
+    let result = checkProof(parseProof(proof));
+    expect(result).toBeErr();
+    expect(get_err(result)).toMatchObject({
+      type: CheckerErrors.InaccessiblePremise,
+      raw_line_number: 2
+    });
+  });
 
 });
