@@ -20,7 +20,7 @@ const deployLti = async () => {
 
       cookies: {
         secure: true,
-        sameSite: 'Lax'
+        sameSite: 'None'
       }
     }
   );
