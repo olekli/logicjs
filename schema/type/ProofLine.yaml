@@ -1,0 +1,49 @@
+oneOf:
+  - type: object
+    properties:
+      type:
+        const: sentence
+      depth:
+        type: integer
+        minimum: 0
+      line_number:
+        type: integer
+        minimum: 0
+      sentence:
+        $ref: Sentence
+      argument:
+        type: object
+        properties:
+          name:
+            type: string
+          type:
+            enum:
+              - object
+              - meta
+          premises_lines:
+            type: array
+            items:
+              type: integer
+              minimum: 0
+        required:
+          - name
+          - type
+          - premises_lines
+    required:
+      - type
+      - depth
+      - line_number
+      - sentence
+      - argument
+    additionalProperties: false
+  - type: object
+    properties:
+      type:
+        const: separator
+      depth:
+        type: integer
+        minimum: 0
+    required:
+      - type
+      - depth
+    additionalProperties: false

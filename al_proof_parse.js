@@ -5,6 +5,7 @@ const nearley = require('nearley');
 const grammar = require('./al_grammar_proof.js');
 const { Arguments } = require('./al_argument_definitions.js');
 const util = require('util');
+const { ajv } = require('./validation.js');
 
 const error = (this_line, type) =>
   make_err({ type: type, raw_line_number: this_line.raw_line_number, parsed_line: this_line })
@@ -25,7 +26,14 @@ const parseLine = (string) => {
   return match_result(result,
     (ok) => {
       if (parser.results.length === 1) {
-        return make_ok(parser.results[0]);
+        let result = parser.results[0];
+        let validate = ajv.getSchema('/type/ProofLine');
+        if (validate(result)) {
+          return make_ok(result);
+        } else {
+          console.error(validate.errors);
+          return make_err();
+        }
       } else {
         return make_err();
       }
