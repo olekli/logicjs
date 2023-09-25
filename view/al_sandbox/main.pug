@@ -14,7 +14,7 @@ block main
         else
           p Fehler: #{error_string}.
   div
-    a.inline(href="al_sandbox/instructions" target="_blank" rel="noopener noreferrer")
+    a.inline.no-underline(href="al_sandbox/instructions" target="_blank" rel="noopener noreferrer")
       button.inline(type="submit") Anleitung
     form.inline(action="al_sandbox/reset" method="POST")
       button.inline(type="submit") zurücksetzen

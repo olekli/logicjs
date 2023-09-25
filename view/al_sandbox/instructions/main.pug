@@ -3,37 +3,49 @@ extends ../../base.pug
 block heading
   h1.inline Aussagenlogik, Beweise, Anleitung
 block main
-  p
-    | Jede Zeile beginnt mit einem oder mehreren senkrechten Strichen 
-    span.code |
-    |  (`pipe`-Symbol), um die Beweistiefe darzustellen.
-  p
-    | Es folgt entweder eine Satznummer, z.B. 
-    span.code 1
-    | , oder ein Minus 
-    span.code -
-    |  als Separator nach den Prämissen oder einer Annahme.
-  p
-    Auf eine Satznummer folgt ein aussagenlogischer Satz und ein Argument:
-  p.code.indent |6 (p → q) +I(3-5)
-  p.
-    Die logischen Symbole können dabei mit Hilfe folgender Zeichen eingegeben werden:
-  ul
-    li 
-      | ~ (Tilde): 
-      span.code ¬
-    li 
-      | & (Und-Zeichen): 
-      span.code ∧
-    li 
-      | v (kleines "v"): 
-      span.code ∨
-    li 
-      | > ("ist größer als"): 
-      span.code →
-    li 
-      | = (Gleichheitszeichen): 
-      span.code ↔
-  p.
-    Beispiel für einen vollständigen Beweis:
-  p.code.indent.
+  div(style="width: 700px;")
+    p
+      | Jede Zeile beginnt mit einem oder mehreren senkrechten Strichen 
+      span.code |
+      |  (`pipe`-Symbol), um die Beweistiefe darzustellen.
+    p
+      | Es folgt entweder eine Satznummer, z.B. 
+      span.code 1
+      | , oder ein Minus 
+      span.code -
+      |  als Separator nach den Prämissen oder einer Annahme.
+    p
+      Auf eine Satznummer folgt ein aussagenlogischer Satz und ein Argument:
+    p.code.indent |6 (p → q) +I(3-5)
+    p.
+      Die logischen Symbole können dabei mit Hilfe folgender Zeichen eingegeben werden:
+    ul
+      li 
+        | ~ (Tilde): 
+        span.code ¬
+      li 
+        | & (Und-Zeichen): 
+        span.code ∧
+      li 
+        | v (kleines "v"): 
+        span.code ∨
+      li 
+        | > ("ist größer als"): 
+        span.code →
+      li 
+        | = (Gleichheitszeichen): 
+        span.code ↔
+    p.
+      Beispiel für einen vollständigen Beweis:
+    p.code.indent.
+      |1 ¬p V
+      |-
+      ||2 p A
+      ||-
+      |||3 ¬q A
+      |||-
+      |||4 p RE(2)
+      |||5 ¬p RE(1)
+      ||6 ¬¬q RAA(3-5)
+      ||7 q -DN(6)
+      |8 (p → q) +I(2-7)
