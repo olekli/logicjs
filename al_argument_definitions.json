@@ -159,6 +159,24 @@
       "arity": 1,
       "premises": [ "A" ],
       "conclusion": "A"
+    },
+    {
+      "type": "object",
+      "arity": 1,
+      "premises": [ "(A & B)" ],
+      "conclusion": "(B & A)"
+    },
+    {
+      "type": "object",
+      "arity": 1,
+      "premises": [ "(A | B)" ],
+      "conclusion": "(B | A)"
+    },
+    {
+      "type": "object",
+      "arity": 1,
+      "premises": [ "(A <-> B)" ],
+      "conclusion": "(B <-> A)"
     }
   ]
 }

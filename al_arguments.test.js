@@ -465,4 +465,36 @@ describe('checkArgument', () => {
       expect(checkArgument('VEQ', premises, conclusion)).toBeErr();
     });
   });
+
+  describe('R', () => {
+    test.each([
+      [ [ '!p' ], '!p' ],
+      [ [ '(p -> q)' ], '(p -> q)' ],
+      [ [ 'p' ], 'p' ],
+      [ [ '!!p' ], '!!p' ],
+      [ [ '(p & q)' ], '(p & q)' ],
+      [ [ '(p | q)' ], '(p | q)' ],
+      [ [ '(p <-> q)' ], '(p <-> q)' ],
+      [ [ '(p & q)' ], '(q & p)' ],
+      [ [ '(p | q)' ], '(q | p)' ],
+      [ [ '(p <-> q)' ], '(q <-> p)' ],
+    ])('correct usage is correct', (premises_, conclusion_) => {
+      let premises = premises_.map((s) => parse(s));
+      let conclusion = parse(conclusion_);
+      expect(checkArgument('R', premises, conclusion)).toBeOk();
+    });
+
+    test.each([
+      [ [ 'p' ], '(p -> q)' ],
+      [ [ '!p' ], '(q -> p)' ],
+      [ [ 'p' ], 'q' ],
+      [ [ '(p -> q)' ], '(q -> p)' ],
+      [ [ 'p' ], '!p' ],
+      [ [ '!p' ], 'p' ],
+    ])('incorrect usage is incorrect', (premises_, conclusion_) => {
+      let premises = premises_.map((s) => parse(s));
+      let conclusion = parse(conclusion_);
+      expect(checkArgument('R', premises, conclusion)).toBeErr();
+    });
+  });
 });
