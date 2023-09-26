@@ -8,13 +8,18 @@ const { sentenceToString } = require('./al_print.js');
 describe('PremiseGenerator', () => {
 
   test.each([
-    [ [ 'p', 'q' ], 2 ],
-    [ [ 'p', 'q' ], 3 ],
-    [ [ 'p', 'q' ], 4 ],
-    [ [ 'p', 'q', 'r' ], 3 ],
-    [ [ 'p', 'q', 'r' ], 4 ],
-  ])('generates correct premise/conclusion', (letters, length) => {
-    let generator = new PremiseGenerator(letters, length);
+    [ [ 'p', 'q' ], 3, 0 ],
+    [ [ 'p', 'q' ], 2, 1 ],
+    [ [ 'p', 'q' ], 2, 2 ],
+    [ [ 'p', 'q' ], 3, 2 ],
+    [ [ 'p', 'q' ], 4, 2 ],
+    [ [ 'p', 'q', 'r' ], 3, 3 ],
+    [ [ 'p', 'q', 'r' ], 4, 3 ],
+    [ [ 'p', 'q', 'r' ], 4, 0 ],
+    [ [ 'p', 'q', 'r' ], 4, 1 ],
+    [ [ 'p', 'q', 'r' ], 4, 2 ],
+  ])('generates correct premise/conclusion', (letters, length, num_premises) => {
+    let generator = new PremiseGenerator(letters, length, num_premises);
     for (let i = 0; i < 100; i++) {
       let result = generator.generate();
       let interpretations = enumerateInterpretations(letters);
@@ -29,7 +34,7 @@ describe('PremiseGenerator', () => {
           non_contradictory = true;
         }
       }
-      // console.log(`RESULT: ${result.premises.map((p) => sentenceToString(p))} => ${sentenceToString(result.conclusion)}, ${non_contradictory}`);
+      //console.log(`RESULT: ${result.premises.map((p) => sentenceToString(p))} => ${sentenceToString(result.conclusion)}, ${non_contradictory}`);
     }
   });
 

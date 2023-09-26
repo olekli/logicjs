@@ -90,6 +90,18 @@ class Generator {
     }
     return B;
   };
+
+  getAllTautologies() {
+    let sentences = this.#cache.getAllSentences();
+    let result = [];
+    for (let s of sentences) {
+      let models = getAllModels(s, this.#letters);
+      if (models[false].length === 0) {
+        result.push(s);
+      }
+    }
+    return result;
+  }
 };
 
 const selectRandom = (array) => array[Math.floor(Math.random() * array.length)];
@@ -173,3 +185,4 @@ const negateSentenceRandom = (node, probabilities) => {
 };
 
 module.exports.Generator = Generator;
+module.exports.getSample = getSample;

@@ -1,17 +1,20 @@
 'use strict'
 
 const { assert } = require('okljs');
-const { Generator } = require('./al_generator.js');
+const { Generator, getSample } = require('./al_generator.js');
 const { sentenceToString } = require('./al_print.js');
 
 class PremiseGenerator {
   #letters = [];
   #generators = [];
   #B_generator = undefined;
+  #num_premises = 0;
+  #tautology = undefined;
 
-  constructor(letters, length) {
+  constructor(letters, length, num_premises) {
     this.#letters = letters;
     assert.ok(this.#letters.length > 1);
+    this.#num_premises = num_premises;
     let pairs = generatePairs(this.#letters);
     for (let pair of pairs) {
       this.#generators.push(
@@ -41,6 +44,11 @@ class PremiseGenerator {
         complex: { single: 0.2, double: 0.1 },
       }
     });
+    this.#tautology = {
+      operator: 'or',
+      lhs: { letter: this.#letters[0] },
+      rhs: { operator: 'not', operand: { letter: this.#letters[0] } }
+    };
   }
 
   generate() {
@@ -48,13 +56,14 @@ class PremiseGenerator {
     let premises = undefined;
     while (conclusion === undefined) {
       premises = [];
-      for (let generator of this.#generators) {
-        premises.push(generator.generateSentence());
+      let sample = getSample(this.#generators.length, this.#num_premises);
+      for (let index of sample) {
+        premises.push(this.#generators[index].generateSentence());
       }
-      let conjuction;
+      let conjunction;
       if (premises.length > 1) {
-        conjuction = { operator: 'and', lhs: premises[0], rhs: {} };
-        let node = conjuction.rhs;
+        conjunction = { operator: 'and', lhs: premises[0], rhs: {} };
+        let node = conjunction.rhs;
         for (let i = 1; i < (premises.length - 1); i++) {
           node.operator = 'and';
           node.lhs = premises[i];
@@ -62,10 +71,12 @@ class PremiseGenerator {
           node = node.rhs;
         }
         Object.assign(node, premises[premises.length - 1]);
+      } else if (premises.length === 1) {
+        conjunction = premises[0];
       } else {
-        conjuction = premises[0];
+        conjunction = this.#tautology;
       }
-      conclusion = this.#B_generator.findSentenceModelledBy(conjuction, 50);
+      conclusion = this.#B_generator.findSentenceModelledBy(conjunction, 50);
     }
     return { premises: premises, conclusion: conclusion };
   }

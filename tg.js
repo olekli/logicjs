@@ -8,8 +8,8 @@ const makeSentenceKey = (sentence) => sentenceToString(sentence);
 
 let generator = new Generator({
   length: 3,
-  letters_available: ['p', 'q', 'r'],
-  letters_required: ['p', 'q', 'r'],
+  letters_available: ['p', 'q' ],
+  letters_required: ['p', 'q' ],
   operators_available: [ 'equivalent', 'follows', 'or', 'and' ],
   operators_required: [],
   negation_probabilities: {
@@ -26,20 +26,25 @@ for (let i = 0; i < 100000; i++) {
   sentences[makeSentenceKey(s)] = s;
 }
 console.log('time 0:', Date.now() - t0);
-
 console.log('size:', Object.keys(sentences).length);
 
-t0 = Date.now();
-for (let i = 0; i < 100; i++) {
-  let A = generator.generateSentence();
-  for (let j = 0; j < 100; j++) {
-    let B = generator.findSentenceModelledBy(A);
-    if (B === undefined) {
-      throw 'foo';
-    }
-  }
+let tautologies = generator.getAllTautologies();
+tautologies = tautologies.map((t) => sentenceToString(t));
+for (let t of tautologies) {
+  console.log(t);
 }
-console.log('time 1:', Date.now() - t0);
+
+//t0 = Date.now();
+//for (let i = 0; i < 100; i++) {
+//  let A = generator.generateSentence();
+//  for (let j = 0; j < 100; j++) {
+//    let B = generator.findSentenceModelledBy(A);
+//    if (B === undefined) {
+//      throw 'foo';
+//    }
+//  }
+//}
+//console.log('time 1:', Date.now() - t0);
 
 //t0 = Date.now();
 //for (let i = 0; i < 100; i++) {

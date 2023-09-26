@@ -16,7 +16,7 @@ class Cache {
   #letters = [];
 
   constructor(letters, minimum_choices = 1) {
-    this.#minimum_choices = minimum_choices;
+    this.#minimum_choices = 1;
     this.#letters = letters;
     assert.ok(this.#minimum_choices > 0);
     assert.ok(Array.isArray(this.#letters));
@@ -104,6 +104,10 @@ class Cache {
       console.error('Unable to read cache from disk:', err);
     }
   };
+
+  getAllSentences() {
+    return Object.values(this.#cache[true].sentences);
+  }
 };
 
 module.exports.Cache = Cache;
