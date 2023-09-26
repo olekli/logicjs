@@ -1,6 +1,7 @@
 'use strict'
 
 const { Generator } = require('./al_generator.js');
+const { PremiseGenerator } = require('./al_premise_generator.js');
 
 const Generators = {
   2: {
@@ -37,6 +38,14 @@ const Generators = {
           complex: { single: 0.2, double: 0.0 },
         }
     })
+  },
+  al_proofs: {
+    tautologies_1: new PremiseGenerator([ 'p' ], 2, 0),
+    tautologies_2: new PremiseGenerator([ 'p', 'q' ], 3, 0),
+    tautologies_3: new PremiseGenerator([ 'p', 'q', 'r' ], 4, 0),
+    premises_1: new PremiseGenerator([ 'p', 'q' ], 2, 1),
+    premises_2: new PremiseGenerator([ 'p', 'q', 'r' ], 3, 2),
+    premises_3: new PremiseGenerator([ 'p', 'q', 'r' ], 4, 3),
   }
 };
 

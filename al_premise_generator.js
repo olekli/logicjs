@@ -13,7 +13,6 @@ class PremiseGenerator {
 
   constructor(letters, length, num_premises) {
     this.#letters = letters;
-    assert.ok(this.#letters.length > 1);
     this.#num_premises = num_premises;
     let pairs = generatePairs(this.#letters);
     for (let pair of pairs) {

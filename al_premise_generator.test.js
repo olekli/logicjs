@@ -8,6 +8,7 @@ const { sentenceToString } = require('./al_print.js');
 describe('PremiseGenerator', () => {
 
   test.each([
+    [ [ 'p' ], 2, 0 ],
     [ [ 'p', 'q' ], 3, 0 ],
     [ [ 'p', 'q' ], 2, 1 ],
     [ [ 'p', 'q' ], 2, 2 ],

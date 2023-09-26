@@ -1,0 +1,15 @@
+type: object
+properties:
+  mode:
+    enum:
+      - sandbox
+      - tautologies_1
+      - tautologies_2
+      - tautologies_3
+      - premises_1
+      - premises_2
+      - premises_3
+required:
+  - mode
+additionalProperties: false
+

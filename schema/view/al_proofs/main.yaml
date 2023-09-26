@@ -1,5 +1,11 @@
 type: object
 properties:
+  premises:
+    type: array
+    items:
+      type: string
+  conclusion:
+    type: string
   raw:
     type: array
     items:

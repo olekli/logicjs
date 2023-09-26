@@ -21,5 +21,5 @@ block main
 
   div
     h3.indent-2.inline Beweise
-    a.inline.no-underline(href="al_proofs")
-      button.inline(type="submit") Sandbox
+    form.inline(action="al_proofs/launch" method="POST")
+      button.inline(type="submit" name="mode" value="sandbox") Sandbox
