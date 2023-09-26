@@ -1,6 +1,6 @@
 'use strict'
 
-const { assert, make_ok, make_err } = require('okljs');
+const { assert, make_ok, make_err, match_result } = require('okljs');
 const StateMachine = require('javascript-state-machine');
 const path = require('path');
 
@@ -143,4 +143,11 @@ class Exercise {
   }
 };
 
+const ignoreInvalidTransition = (result) =>
+  match_result(result,
+    (ok) => ok,
+    (err) => err === Exercise.Errors.InvalidTransition ? make_ok() : err
+  );
+
 module.exports.Exercise = Exercise;
+module.exports.ignoreInvalidTransition = ignoreInvalidTransition;

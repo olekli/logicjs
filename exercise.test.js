@@ -1,5 +1,9 @@
-const { Exercise } = require('./exercise.js'); // adjust path as needed
-const { get_ok, get_err, ok, err } = require('okljs');
+'use strict'
+
+const { Exercise, ignoreInvalidTransition } = require('./exercise.js');
+const { make_ok, make_err, get_ok, get_err, ok, err, useJestResultMatcher } = require('okljs');
+
+useJestResultMatcher();
 
 describe('Exercise', () => {
   let question_factory;
@@ -407,7 +411,7 @@ describe('Exercise', () => {
       expect(ok(result)).toBe(true);
     }
 
-    result = exercise.makeView();
+    let result = exercise.makeView();
     expect(ok(result)).toBe(true);
     result = get_ok(result);
     expect(result.path).toEqual('e1/asked');
@@ -421,4 +425,32 @@ describe('Exercise', () => {
     });
     expect(result.data.question).toEqual('question 101');
   });
+});
+
+describe('ignoreInvalidTransition', () => {
+
+  test.each([
+    [ 'foo' ],
+    [ [ 1, 2, 3] ],
+    [ { a: 123, b: 'bar' }]
+  ])('ok results are passed on', (ok) => {
+    let result = make_ok(ok);
+    expect(get_ok(ignoreInvalidTransition(result))).toEqual(ok);
+  });
+
+  test.each([
+    [ 'foo' ],
+    [ Exercise.Errors.NoView ]
+  ])('other errors are passed on', (err) => {
+    let result = make_err(err);
+    expect(get_err(ignoreInvalidTransition(result))).toEqual(err);
+  });
+
+  test.each([
+    [ Exercise.Errors.InvalidTransition ]
+  ])('InvalidTransition becomes ok', (err) => {
+    let result = make_err(err);
+    expect(ignoreInvalidTransition(result)).toBeOk();
+  });
+
 });

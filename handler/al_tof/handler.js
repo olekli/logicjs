@@ -1,7 +1,7 @@
 'use strict'
 
 const { makeExercise } = require('../../exercise_al_tof.js');
-const { make_ok, make_err } = require('okljs');
+const { ignoreInvalidTransition } = require('../../exercise.js');
 
 const get = (session) => {
   return session.exercise.makeView();
@@ -9,15 +9,15 @@ const get = (session) => {
 
 const launch = (session, args) => {
   session.exercise = makeExercise(args.level);
-  return session.exercise.launch();
+  return ignoreInvalidTransition(session.exercise.launch());
 };
 
 const answer = (session, args) => {
-  return session.exercise.answer(args.answer);
+  return ignoreInvalidTransition(session.exercise.answer(args.answer));
 };
 
 const next = (session, args) => {
-  return session.exercise.ask();
+  return ignoreInvalidTransition(session.exercise.ask());
 };
 
 module.exports.get = get;

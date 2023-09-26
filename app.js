@@ -125,6 +125,7 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
+  // Execute handler
   if (req.method === 'GET') {
     match_result(req.handler(req.session),
       (view) => {
