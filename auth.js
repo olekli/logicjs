@@ -6,6 +6,7 @@ const { make_result, match_result, get_ok, make_ok } = require('okljs');
 const { v4: uuidv4 } = require('uuid');
 const util = require('util');
 const config = require('./config.js');
+const path = require('path');
 
 const key_pair = generateKeyPairSync("rsa", { modulusLength: 4096 });
 
@@ -85,6 +86,34 @@ const fallbackAnonAuth = (req, res, next) => {
   next();
 };
 
+const basicAuth = (req, res, next) => {
+  let authHeader = req.headers.authorization;
+
+  res.set('WWW-Authenticate', 'Basic realm="401"');
+  if (!authHeader) {
+    return res.status(401).send('Unauthorized: No auth header');
+  }
+
+  let [type, encodedCredentials] = authHeader.split(' ');
+
+  if (type !== 'Basic') {
+    return res.status(401).send('Unauthorized: Incorrect auth type');
+  }
+
+  let buff = Buffer.from(encodedCredentials, 'base64');
+  let [username, password] = buff.toString('utf-8').split(':');
+
+  // Replace 'admin' and 'password' with your actual username and password
+  if (username === config.side_entrance.user && password === config.side_entrance.pw) {
+    console.log(`basic auth ${username}`);
+    req.auth = makeId('anon', uuidv4());
+    setResCookie(res, makeAuthToken(req.auth));
+    return res.redirect(path.join(req.baseUrl, 'home'));
+  } else {
+    return res.status(401).send('Unauthorized: Invalid credentials');
+  }
+};
+
 const ltiAuth = (req, res, next) => {
   let user = res.locals?.token?.user;
   clearAllCookies(req, res);
@@ -98,3 +127,4 @@ const ltiAuth = (req, res, next) => {
 module.exports.retrieveAuth = retrieveAuth;
 module.exports.fallbackAnonAuth = fallbackAnonAuth;
 module.exports.ltiAuth = ltiAuth;
+module.exports.basicAuth = basicAuth;
