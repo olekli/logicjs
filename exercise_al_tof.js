@@ -28,7 +28,7 @@ const levels = {
     n_params: {
       total_questions: 12,
       points_required: 12,
-      time_limit: 6 * 60 * 1000
+      time_limit: 3 * 60 * 1000
     },
     generator: Generators['2'].level_3
   }
