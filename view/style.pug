@@ -1,6 +1,7 @@
 style.
   body {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
     background: White;
     max-width: 80em;
   }
@@ -13,7 +14,7 @@ style.
     border: 2px solid black;
     margin: 10px;
     padding: 10px;
-    width: 700px;
+    width: 100%;
   }
   form {
     margin-block-start: 1em;
@@ -38,6 +39,7 @@ style.
     background: White;
     border-radius: 0.5em;
     border: 2px groove black;
+    color: black;
     margin: 5px;
     padding: 5px;
   }
@@ -179,3 +181,90 @@ style.
   .side-element button {
     margin-left: 0px;
   }
+
+  @media screen and (max-width: 800px) {
+    body * {
+      font-family: Helvetica, sans-serif;
+      font-size: 16px;
+    }
+    header, main, footer {
+      border-radius: 0.5em;
+      border: 2px solid black;
+      margin: 10px;
+      padding: 10px;
+      width: 100%;
+    }
+    form {
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+    }
+    h1 {
+      font-size: 20px;
+      vertical-align: middle;
+    }
+    h2 {
+      font-size: 18px;
+    }
+    h3 {
+      font-size: 16px;
+      font-weight: normal;
+    }
+    h4 {
+      font-size: 16px;
+      font-weight: normal;
+    }
+    .indent-1, .indent-2, .indent-3 {
+      position: relative;
+    }
+    .indent-1 {
+      margin-left: 0px;
+    }
+    .indent-2 {
+      margin-left: 0px;
+    }
+    .indent-3 {
+      margin-left: 0px;
+    }
+    .indent-1::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -16px;
+      width: 0px;
+      height: 1px;
+      background: black;
+    }
+    .indent-2::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -36px;
+      width: 0px;
+      height: 1px;
+      background: black;
+    }
+    .indent-3::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -56px;
+      width: 0px;
+      height: 1px;
+      background: black;
+    }
+    img.heading {
+      display: inline;
+      width: 36px;
+      height: 36px;
+      vertical-align: middle;
+    }
+    .question p {
+      font-family: Roboto Mono, monospace;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+    .question li {
+      font-family: Roboto Mono, monospace;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
