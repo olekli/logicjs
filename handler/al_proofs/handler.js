@@ -48,6 +48,7 @@ const launch = (session, args) => {
 };
 
 const newExercise = (session, args) => {
+  reset(session, {});
   session.exercise.newExercise();
   return make_ok();
 };
