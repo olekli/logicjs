@@ -7,9 +7,10 @@ const config = require('./config.js');
 
 class Generator {
   #params = {};
-  #cache = null;
+  #cache = undefined;
+  #letters = undefined;
 
-  constructor(params) {
+  constructor(params, letters = undefined) {
     this.#params = params;
     assert.hasProperty(this.#params, 'length');
     assert.hasProperty(this.#params, 'letters_available');
@@ -17,7 +18,12 @@ class Generator {
     assert.hasProperty(this.#params, 'operators_available');
     assert.hasProperty(this.#params, 'operators_required');
     assert.hasProperty(this.#params, 'negation_probabilities');
-    this.#cache = new Cache(this.#params.letters_available, this.#params.letters_required.length);
+    if (letters === undefined) {
+      this.#letters = this.#params.letters_available;
+    } else {
+      this.#letters = letters;
+    }
+    this.#cache = new Cache(this.#letters, this.#params.letters_required.length);
     if (config.is_production) {
       this.#init(100000);
     } else {
@@ -56,20 +62,25 @@ class Generator {
     return result;
   }
 
-  findSentenceModelledBy(A) {
-    let A_models = getAllModels(A, this.#params.letters_available)[true];
+  findSentenceModelledBy(A, max_num_tries = undefined) {
+    let A_models = getAllModels(A, this.#letters)[true];
     let B = this.#cache.findSentenceModelledBy(A_models);
+    let num_tries = 0;
     while (B === undefined) {
       for (let i = 0; i < 5; i++) {
         this.generateSentence();
+        num_tries++;
       }
       B = this.#cache.findSentenceModelledBy(A_models);
+      if (max_num_tries != undefined && num_tries >= max_num_tries) {
+        return undefined;
+      }
     }
     return B;
   };
 
   findSentenceNotModelledBy(A) {
-    let A_models = getAllModels(A, this.#params.letters_available)[true];
+    let A_models = getAllModels(A, this.#letters)[true];
     let B = this.#cache.findSentenceNotModelledBy(A_models);
     while (B === undefined) {
       for (let i = 0; i < 5; i++) {
