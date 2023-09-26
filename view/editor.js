@@ -16,16 +16,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
   quill.on('text-change', function(delta, oldDelta, source) {
     if (source === 'user') {
-      console.log(`delta.ops: ${JSON.stringify(delta.ops, null, 2)}`);
+      // console.log(`delta.ops: ${JSON.stringify(delta.ops, null, 2)}`);
       let position = 0;
       delta.ops.forEach(function(op) {
         if (op.hasOwnProperty('retain')) {
           position += op.retain;
-        } else if (op.hasOwnProperty('insert') && op.insert.length === 1) {
-          let char = op.insert[0];
-          if (symbol_mapping.hasOwnProperty(char)) {
-            quill.deleteText(position, 1);
-            quill.insertText(position, symbol_mapping[char]);
+        } else if (op.hasOwnProperty('insert')) {
+          for (let i = 0; i < op.insert.length; i++) {
+            let char = op.insert[i];
+            if (symbol_mapping.hasOwnProperty(char)) {
+              quill.deleteText(position + i, 1);
+              quill.insertText(position + i, symbol_mapping[char]);
+            }
           }
         }
       });
