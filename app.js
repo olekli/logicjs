@@ -170,26 +170,18 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   // Render view
-  let file_path = path.join(__dirname, 'view', req.view.path) + '.pug';
+  let view = path.join(__dirname, 'view', req.view.path) + '.pug';
   req.view.data.software_version = `${config.version}-${config.is_production ? 'prod' : 'develop'}`;
-  if (fileExists(file_path)) {
-    res.send(
-      pug.renderFile(
-        file_path,
-        req.view.data
-      ));
+  if (fileExists(view)) {
+    res.render(view, req.view.data);
   } else {
-    next(`no such view: ${file_path}`);
+    next(`no such view: ${view}`);
   }
 });
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.send(
-    pug.renderFile(
-      path.join(__dirname, 'view/error.pug'),
-      {}
-    ));
+  res.render(path.join(__dirname, 'view/error.pug'), {});
 });
 
 module.exports.app = app;

@@ -9,6 +9,7 @@ const { deployLti } = require('./lti.js');
 const server = express();
 server.use(morgan('combined'));
 server.set('trust proxy', 1);
+server.set('view engine', 'pug')
 
 const server_router = express.Router();
 server.use('/logicjs', server_router);
