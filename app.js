@@ -70,7 +70,7 @@ const validateBody = (location, method, body) => {
   }
 };
 
-const locations = [ '/home', '/al_tof', '/al_AmodelsB', '/al_sandbox', '/al_sandbox/instructions' ];
+const locations = [ '/home', '/al_tof', '/al_AmodelsB', '/al_proofs', '/al_proofs/instructions' ];
 
 const app = express.Router();
 app.use(express.json());

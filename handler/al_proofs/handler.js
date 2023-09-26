@@ -13,7 +13,7 @@ const get = (session) => {
     data.error_string = errorToString(get_err(session.result));
     data.error_line = get_err(session.result).raw_line_number;
   }
-  return { path: 'al_sandbox/main', data: data };
+  return { path: 'al_proofs/main', data: data };
 };
 
 const check = (session, args) => {
