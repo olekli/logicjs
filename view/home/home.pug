@@ -4,7 +4,7 @@ block heading
   h1.inline Übungen
 
 block main
-  h2 Aussagenlogik
+  h2 Aussagenlogik, Semantik
   div
     h3.indent-2.inline Modelle
     form.inline(action="al_tof/launch" method="POST")
@@ -19,7 +19,20 @@ block main
       button.inline(type="submit" name="level" value="level_2") Stufe 2
       button.inline(type="submit" name="level" value="level_3") Stufe 3
 
+  h2 Aussagenlogik, formale Beweise
   div
-    h3.indent-2.inline Beweise
+    h3.indent-2.inline Tautologien
+    form.inline(action="al_proofs/launch" method="POST")
+      button.inline(type="submit" name="mode" value="tautologies_1") Stufe 1
+      button.inline(type="submit" name="mode" value="tautologies_2") Stufe 2
+      button.inline(type="submit" name="mode" value="tautologies_3") Stufe 3
+  div
+    h3.indent-2.inline Prämissen
+    form.inline(action="al_proofs/launch" method="POST")
+      button.inline(type="submit" name="mode" value="premises_1") Stufe 1
+      button.inline(type="submit" name="mode" value="premises_2") Stufe 2
+      button.inline(type="submit" name="mode" value="premises_3") Stufe 3
+  div
+    h3.indent-2.inline
     form.inline(action="al_proofs/launch" method="POST")
       button.inline(type="submit" name="mode" value="sandbox") Sandbox

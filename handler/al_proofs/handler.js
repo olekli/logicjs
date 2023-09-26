@@ -19,6 +19,9 @@ const get = (session) => {
   if (err(session.result)) {
     data.error_string = errorToString(get_err(session.result));
     data.error_line = get_err(session.result).raw_line_number;
+    if (data.error_line === undefined) {
+      data.error_line = null;
+    }
   }
   return { path: 'al_proofs/main', data: data };
 };

@@ -15,7 +15,9 @@ properties:
       - string
       - "null"
   error_line:
-    type: integer
+    type:
+      - integer
+      - "null"
 required:
   - raw
   - error_string

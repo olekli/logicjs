@@ -9,13 +9,13 @@ class ExerciseAlProofs {
   #generator = undefined;
   #current = undefined;
 
-  constructor(mode) {
+  constructor(mode, generators = Generators) {
     this.#mode = mode;
     if (this.#mode === 'sandbox') {
       this.#generator = undefined;
       this.#current = { premises: null, conclusion: null };
     } else {
-      this.#generator = Generators.al_proofs[this.#mode];
+      this.#generator = generators.al_proofs[this.#mode];
       this.#current = this.#generator.generate();
     }
   }

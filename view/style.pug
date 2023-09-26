@@ -30,6 +30,10 @@ style.
     font-size: 18px;
     font-weight: normal;
   }
+  h4 {
+    font-size: 16px;
+    font-weight: normal;
+  }
   button {
     background: White;
     border-radius: 0.5em;
@@ -106,6 +110,9 @@ style.
   .indent-2 {
     margin-left: 40px;
   }
+  .indent-3 {
+    margin-left: 60px;
+  }
   .indent-1::before {
     content: "";
     position: absolute;
@@ -121,6 +128,15 @@ style.
     top: 50%;
     left: -36px;
     width: 32px;
+    height: 1px;
+    background: black;
+  }
+  .indent-3::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -56px;
+    width: 52px;
     height: 1px;
     background: black;
   }

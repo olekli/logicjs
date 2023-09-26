@@ -13,14 +13,25 @@ const errorToStringMap = {
   [ProofErrors.ExpectedPremise]: 'Prämisse erwartet',
   [ProofErrors.ExpectedAssumption]: 'Annahme erwartet',
   [ProofErrors.InvalidArgumentName]: 'unbekanntes Argument',
+  [ProofErrors.MissingExpectedConclusion]: 'Konklusion fehlt',
   [ProofErrors.ParserError]: 'Syntaxfehler'
 };
 
 const errorToString = (error) => {
   let line_number = error.parsed_line?.line_number;
-  let line_type = line_number != undefined ? 'Satz' : 'Zeile';
-  let location = line_number != undefined ? line_number : error.raw_line_number;
-  return `${errorToStringMap[error.type]} in ${line_type} ${location + 1}`;
+  let raw_line_number = error.parsed_line?.raw_line_number;
+  let line_type =
+    line_number != undefined
+      ? 'Satz'
+      : raw_line_number != undefined
+        ? 'Zeile'
+        : '';
+  let location_string = '';
+  if (line_type != '') {
+    let location = line_number != undefined ? line_number : error.raw_line_number;
+    location_string = `${line_type} ${location + 1}: `;
+  }
+  return `${location_string}${errorToStringMap[error.type]}`;
 };
 
 module.exports.errorToString = errorToString;

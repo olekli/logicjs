@@ -3,6 +3,14 @@ extends ../base.pug
 block heading
   include header.pug
 block main
+  if conclusion != ''
+    div.question(style="margin-left: 0px;")
+      p
+        each p, index in premises
+          | #{p}
+          if index != (premises.length - 1)
+            | , 
+        |  ⊢ #{conclusion}
   div.container
     div#editor
       include ../editor.pug
@@ -16,6 +24,9 @@ block main
   div
     a.inline.no-underline(href="al_proofs/instructions" target="_blank" rel="noopener noreferrer")
       button.inline(type="submit") Anleitung
+    if conclusion != ''
+      form.inline(action="al_proofs/newExercise" method="POST")
+        button.inline(type="submit") neue Aufgabe
     form.inline(action="al_proofs/reset" method="POST")
       button.inline(type="submit") zurücksetzen
   include ../editor_scripts.pug
