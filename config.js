@@ -9,6 +9,7 @@ if (config.lti.platform.privateKey != '') {
   config.lti.platform.privateKey =
     fs.readFileSync(path.join(__dirname, config.lti.platform.privateKey));
 }
-config.version = execSync('git describe --tags').toString();
+config.version = execSync('git describe --tags').toString().replace(/[\r\n]/g, '');
+config.is_production = (process.env.NODE_ENV === 'production');
 
 module.exports = config;

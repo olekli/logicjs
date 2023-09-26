@@ -171,7 +171,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   // Render view
   let file_path = path.join(__dirname, 'view', req.view.path) + '.pug';
-  req.view.data.software_version = config.version;
+  req.view.data.software_version = `${config.version}-${config.is_production ? 'prod' : 'develop'}`;
   if (fileExists(file_path)) {
     res.send(
       pug.renderFile(
