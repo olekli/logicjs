@@ -14,7 +14,7 @@ const levels = {
       points_required: 12,
       time_limit: 0
     },
-    generator: Generators.level_1
+    generator: Generators['2'].level_1
   },
   level_2: {
     n_params: {
@@ -22,7 +22,7 @@ const levels = {
       points_required: 12,
       time_limit: 0
     },
-    generator: Generators.level_2
+    generator: Generators['2'].level_2
   },
   level_3: {
     n_params: {
@@ -30,7 +30,7 @@ const levels = {
       points_required: 12,
       time_limit: 6 * 60 * 1000
     },
-    generator: Generators.level_3
+    generator: Generators['2'].level_3
   }
 };
 
