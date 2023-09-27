@@ -21,6 +21,7 @@ describe('PremiseGenerator', () => {
     [ [ 'p', 'q', 'r' ], 4, 2 ],
   ])('generates correct premise/conclusion', (letters, length, num_premises) => {
     let generator = new PremiseGenerator(letters, length, num_premises);
+    generator.initRandom(100);
     for (let i = 0; i < 20; i++) {
       let result = generator.generate();
       let interpretations = enumerateInterpretations(letters);
@@ -53,6 +54,7 @@ describe('PremiseGenerator', () => {
     [ [ 'p', 'q', 'r' ], 4, 2 ],
   ])('generates incorrect premise/conclusion if requested', (letters, length, num_premises) => {
     let generator = new PremiseGenerator(letters, length, num_premises);
+    generator.initRandom(100);
     for (let i = 0; i < 20; i++) {
       let result = generator.generate(false);
       let interpretations = enumerateInterpretations(letters);

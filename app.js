@@ -9,6 +9,19 @@ const fs = require('fs');
 const { getSession } = require('./session.js');
 const { match_result } = require('okljs');
 const config = require('./config.js');
+const { initGenerators } = require('./al_generator_static.js');
+
+{
+  let t0 = Date.now();
+
+  initGenerators(
+    config.is_production
+      ? 1000000
+      : 1000
+  );
+
+  console.log(`Generators initialised in ${Date.now() - t0}ms`);
+}
 
 const getPath = (req, category, filename) =>
   path.join(

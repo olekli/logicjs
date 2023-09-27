@@ -18,6 +18,7 @@ describe('random tests', () => {
       complex: { single: 0.2, double: 0.0 },
     }
   });
+  generator.initRandom(100);
 
   test.each([
     [ '( p & ( q | r ) )' ],

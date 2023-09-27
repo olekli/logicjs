@@ -3,7 +3,8 @@
 const { assert } = require('okljs');
 const { Cache } = require('./al_cache.js');
 const { getAllModels } = require('./al_models.js');
-const config = require('./config.js');
+const path = require('path');
+const fs = require('fs');
 
 class Generator {
   #params = {};
@@ -24,17 +25,20 @@ class Generator {
       this.#letters = letters;
     }
     this.#cache = new Cache(this.#letters, this.#params.letters_required.length);
-    if (config.is_production) {
-      this.#init(100000);
-    } else {
-      this.#init(1000);
-    }
   }
 
-  #init(n) {
+  initRandom(n) {
     for (let i = 0; i < n; i++) {
       this.generateSentence();
     }
+  }
+
+  readCache(file_path) {
+    return this.#cache.readCacheFromDisk(file_path);
+  }
+
+  writeCache(file_path) {
+    this.#cache.writeCacheToDisk(file_path);
   }
 
   generateSentence() {

@@ -2,6 +2,7 @@
 
 const { Generator } = require('./al_generator.js');
 const { PremiseGenerator } = require('./al_premise_generator.js');
+const path = require('path');
 
 const Generators = {
   al_tof: {
@@ -53,4 +54,19 @@ const Generators = {
   }
 };
 
+const initGenerators = (n) => {
+  let base_path = path.join(__dirname, 'cache');
+  for (let key1 in Generators) {
+    let key1_path = path.join(base_path, key1);
+    for (let key2 in Generators[key1]) {
+      let key2_path = path.join(key1_path, key2);
+      if (!Generators[key1][key2].readCache(key2_path)) {
+        Generators[key1][key2].initRandom(n);
+        Generators[key1][key2].writeCache(key2_path);
+      }
+    }
+  }
+};
+
 module.exports.Generators = Generators;
+module.exports.initGenerators = initGenerators;

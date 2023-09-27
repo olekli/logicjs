@@ -1,6 +1,7 @@
 'use strict'
 
 const { assert } = require('okljs');
+const path = require('path');
 const { Generator, getSample } = require('./al_generator.js');
 const { sentenceToString } = require('./al_print.js');
 
@@ -48,6 +49,28 @@ class PremiseGenerator {
       lhs: { letter: this.#letters[0] },
       rhs: { operator: 'not', operand: { letter: this.#letters[0] } }
     };
+  }
+
+  initRandom(n) {
+    [ ...this.#generators, this.#B_generator ].forEach(
+      (generator) =>
+        generator.initRandom(n)
+    );
+  }
+
+  readCache(file_path) {
+    return [ ...this.#generators, this.#B_generator ].reduce(
+      (result, generator, index) =>
+        result && generator.readCache(path.join(file_path, String(index))),
+      true
+    );
+  }
+
+  writeCache(file_path) {
+    [ ...this.#generators, this.#B_generator ].forEach(
+      (generator, index) =>
+        generator.writeCache(path.join(file_path, String(index)))
+    );
   }
 
   generate(correct = true) {

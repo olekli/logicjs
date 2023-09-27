@@ -2,6 +2,7 @@
 
 const { assert } = require('okljs');
 const fs = require('fs');
+const path = require('path');
 const { sentenceToString } = require('./al_print.js');
 const { getAllModels } = require('./al_models.js');
 
@@ -81,29 +82,42 @@ class Cache {
   findSentenceModelledBy(models) {
     let leaf = this.#getLeaf(true, models);
     return this.#selectRandom(leaf);
-  };
+  }
 
   findSentenceNotModelledBy(models) {
     let model = selectRandom(models);
     let leaf = this.#getLeaf(false, [model]);
     return this.#selectRandom(leaf);
-  };
+  }
 
-  writeCacheToDisk(path) {
-    fs.writeFile(path, JSON.stringify(this.#cache), (err) => {
+  writeCacheToDisk(file_path) {
+    let parsed = path.parse(file_path);
+    fs.mkdir(parsed.dir, { recursive: true }, (err) => {
       if (err) {
-        console.error('Unable to write cache to disk:', err);
+        console.error('Unable to create dir:', parsed.dir, err);
+      } else {
+        fs.writeFile(file_path, JSON.stringify(this.#cache), (err) => {
+          if (err) {
+            console.error('Unable to write cache to disk:', file_path, err);
+          }
+        });
       }
     });
-  };
+  }
 
-  readCacheFromDisk(path) {
+  readCacheFromDisk(file_path) {
     try {
-      this.#cache = JSON.parse(fs.readFileSync(path));
+      this.#cache = JSON.parse(fs.readFileSync(file_path));
+      return true;
     } catch(err) {
-      console.error('Unable to read cache from disk:', err);
+      if (err.code === 'ENOENT') {
+        console.log('No such cache file:', file_path);
+      } else {
+        console.error('Unable to read cache from disk:', file_path, err);
+      }
+      return false;
     }
-  };
+  }
 
   getAllSentences() {
     return Object.values(this.#cache[true].sentences);
