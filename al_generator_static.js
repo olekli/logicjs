@@ -54,15 +54,14 @@ const Generators = {
   }
 };
 
-const initGenerators = (n) => {
-  let base_path = path.join(__dirname, 'cache');
-  for (let key1 in Generators) {
+const initGenerators = (generators, base_path, n) => {
+  for (let key1 in generators) {
     let key1_path = path.join(base_path, key1);
-    for (let key2 in Generators[key1]) {
+    for (let key2 in generators[key1]) {
       let key2_path = path.join(key1_path, key2);
-      if (!Generators[key1][key2].readCache(key2_path)) {
-        Generators[key1][key2].initRandom(n);
-        Generators[key1][key2].writeCache(key2_path);
+      if (!generators[key1][key2].readCache(key2_path)) {
+        generators[key1][key2].initRandom(n);
+        generators[key1][key2].writeCache(key2_path);
       }
     }
   }

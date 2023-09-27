@@ -15,23 +15,25 @@ class PremiseGenerator {
   constructor(letters, length, num_premises) {
     this.#letters = letters;
     this.#num_premises = num_premises;
-    let pairs = generatePairs(this.#letters);
-    for (let pair of pairs) {
-      this.#generators.push(
-        new Generator(
-          {
-            length: 2,
-            letters_available: pair,
-            letters_required: pair,
-            operators_available: [ 'follows', 'or' ],
-            operators_required: [],
-            negation_probabilities: {
-              atomic: { single: 0.3, double: 0.0 },
-              complex: { single: 0.0, double: 0.0 },
-            }
-          },
-          this.#letters
-        ));
+    if (this.#num_premises > 0) {
+      let pairs = generatePairs(this.#letters);
+      for (let pair of pairs) {
+        this.#generators.push(
+          new Generator(
+            {
+              length: 2,
+              letters_available: pair,
+              letters_required: pair,
+              operators_available: [ 'follows', 'or' ],
+              operators_required: [],
+              negation_probabilities: {
+                atomic: { single: 0.3, double: 0.0 },
+                complex: { single: 0.0, double: 0.0 },
+              }
+            },
+            this.#letters
+          ));
+      }
     }
     this.#B_generator = new Generator({
       length: length,
@@ -105,6 +107,12 @@ class PremiseGenerator {
       }
     }
     return { premises: premises, conclusion: conclusion };
+  }
+
+  getAllSentences() {
+    return [ ...this.#generators, this.#B_generator ].map(
+      (generator) => generator.getAllSentences()
+    );
   }
 };
 

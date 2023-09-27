@@ -111,6 +111,10 @@ class Generator {
     }
     return result;
   }
+
+  getAllSentences() {
+    return this.#cache.getAllSentences();
+  }
 };
 
 const selectRandom = (array) => array[Math.floor(Math.random() * array.length)];

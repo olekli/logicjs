@@ -9,12 +9,14 @@ const fs = require('fs');
 const { getSession } = require('./session.js');
 const { match_result } = require('okljs');
 const config = require('./config.js');
-const { initGenerators } = require('./al_generator_static.js');
+const { initGenerators, Generators } = require('./al_generator_static.js');
 
 {
   let t0 = Date.now();
 
   initGenerators(
+    Generators,
+    path.join(__dirname, 'cache'),
     config.is_production
       ? 1000000
       : 1000
