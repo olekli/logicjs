@@ -18,8 +18,8 @@ const { initGenerators, Generators } = require('./al_generator_static.js');
     Generators,
     path.join(__dirname, 'cache'),
     config.is_production
-      ? 1000000
-      : 1000
+      ? 20000
+      : 100
   );
 
   console.log(`Generators initialised in ${Date.now() - t0}ms`);

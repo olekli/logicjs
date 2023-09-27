@@ -28,8 +28,12 @@ class Generator {
   }
 
   initRandom(n) {
-    for (let i = 0; i < n; i++) {
-      this.generateSentence();
+    let tries = 0;
+    while ((tries < 5) && (this.getAllSentences().length < n)) {
+      for (let i = 0; i < n; i++) {
+        this.generateSentence();
+      }
+      tries++;
     }
   }
 
