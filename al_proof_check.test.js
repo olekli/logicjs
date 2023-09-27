@@ -107,6 +107,34 @@ describe('correct proofs are correct', () => {
     expect(result).toBeOk();
   })
 
+  test.each([
+    [[
+      '|-',
+      '||1 q A',
+      '||-',
+      '|||2 p A',
+      '|||-',
+      '|||3 (r|p) +A(2)',
+      '||4 (p -> (r|p)) +I(2-3)',
+      '|5 (q -> (p->(r|p))) +I(1-4)'
+    ]],
+    [[
+      '|-',
+      '||1 (p&!p) A',
+      '||-',
+      '|||2 !(q->r) A',
+      '|||-',
+      '|||3 p -K(1)',
+      '|||4 !p -K(1)',
+      '||5 !!(q->r) RAA(2-4)',
+      '||6 (q->r) -DN(5)',
+      '|7 ((p&!p) -> (q->r)) +I(1-6)'
+    ]]
+  ])('proof can start with subproof', (proof) => {
+    let result = checkProof(parseProof(proof));
+    expect(result).toBeOk();
+  })
+
 });
 
 describe('incorrect proofs provide meaningful errors', () => {

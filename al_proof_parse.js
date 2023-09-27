@@ -119,6 +119,12 @@ const parseArgumentOrSubproof = (arg, this_line) => {
     && (this_line.depth > arg.result[arg.result.length - 1].depth)
   ) {
     return parseAssumption(arg, this_line);
+  } else if (
+       (arg.result.length === 0)
+    && this_line
+    && (this_line.depth === 2)
+  ) {
+    return parseAssumption(arg, this_line);
   } else {
     return parseArgument(arg, this_line);
   }
