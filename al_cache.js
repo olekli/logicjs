@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { sentenceToString } = require('./al_print.js');
 const { getAllModels } = require('./al_models.js');
+const msgpack = require("msgpack-lite");
 
 const makeLettersKey = (letters) => JSON.stringify(letters);
 const makeModelKey = (model) => JSON.stringify(model);
@@ -96,7 +97,7 @@ class Cache {
       if (err) {
         console.error('Unable to create dir:', parsed.dir, err);
       } else {
-        fs.writeFile(file_path, JSON.stringify(this.#cache), (err) => {
+        fs.writeFile(file_path, msgpack.encode(this.#cache), (err) => {
           if (err) {
             console.error('Unable to write cache to disk:', file_path, err);
           }
@@ -107,7 +108,7 @@ class Cache {
 
   readCacheFromDisk(file_path) {
     try {
-      this.#cache = JSON.parse(fs.readFileSync(file_path));
+      this.#cache = msgpack.decode(fs.readFileSync(file_path));
       return true;
     } catch(err) {
       if (err.code === 'ENOENT') {
