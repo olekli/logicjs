@@ -16,6 +16,10 @@ style.
     padding: 10px;
     width: 100%;
   }
+  footer a, footer div, footer p {
+    display: inline;
+    margin-right: 15px;
+  }
   form {
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -40,6 +44,7 @@ style.
     border-radius: 0.5em;
     border: 2px groove black;
     color: black;
+    font-size: 12px;
     margin: 5px;
     padding: 5px;
   }
@@ -170,6 +175,8 @@ style.
     align-items: flex-start;
     width: 100%;
   }
+  .centered-on-mobile {
+  }
 
   #editor {
     flex: 0 1 400px;
@@ -181,8 +188,17 @@ style.
   .side-element button {
     margin-left: 0px;
   }
+  .mobile {
+    display: none;
+  }
 
   @media screen and (max-width: 800px) {
+    body {
+      display: flex;
+      flex-wrap: wrap;
+      background: White;
+      max-width: 80em;
+    }
     body * {
       font-family: Helvetica, sans-serif;
       font-size: 16px;
@@ -190,9 +206,21 @@ style.
     header, main, footer {
       border-radius: 0.5em;
       border: 2px solid black;
-      margin: 10px;
+      margin: 3px;
       padding: 10px;
       width: 100%;
+    }
+    footer a, footer div, footer p {
+      display: block;
+    }
+    main {
+      border: none;
+      margin: 5px;
+      padding: 0px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
     }
     form {
       margin-block-start: 1em;
@@ -220,10 +248,10 @@ style.
       margin-left: 0px;
     }
     .indent-2 {
-      margin-left: 0px;
+      margin-left: 5px;
     }
     .indent-3 {
-      margin-left: 0px;
+      margin-left: 10px;
     }
     .indent-1::before {
       content: "";
@@ -267,4 +295,18 @@ style.
       font-family: Roboto Mono, monospace;
       font-size: 16px;
       letter-spacing: 1px;
+    }
+    .default {
+      display: none;
+    }
+    .mobile {
+      display: initial;
+    }
+    button.mobile {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .centered-on-mobile {
+      margin-left: auto;
+      margin-right: auto;
     }
