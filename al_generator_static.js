@@ -4,7 +4,7 @@ const { Generator } = require('./al_generator.js');
 const { PremiseGenerator } = require('./al_premise_generator.js');
 
 const Generators = {
-  2: {
+  al_tof: {
     level_1: new Generator({
         length: 2,
         letters_available: ['p', 'q'],
@@ -38,6 +38,10 @@ const Generators = {
           complex: { single: 0.2, double: 0.0 },
         }
     })
+  },
+  al_models: {
+    level_1: new PremiseGenerator([ 'p', 'q' ], 2, 1),
+    level_2: new PremiseGenerator([ 'p', 'q' ], 3, 2),
   },
   al_proofs: {
     tautologies_1: new PremiseGenerator([ 'p' ], 2, 0),

@@ -1,1 +1,6 @@
-p #{question.lhs} ⊨ #{question.rhs}
+p
+  each p, index in question.premises
+    | #{p}
+    if index != (question.premises.length - 1)
+      | , 
+  |  ⊨ #{question.conclusion}

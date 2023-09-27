@@ -11,7 +11,7 @@ const levels = {
       points_required: 6,
       time_limit: 0
     },
-    generator: Generators['2'].level_1
+    generator: Generators.al_models.level_1
   },
   level_2: {
     n_params: {
@@ -19,7 +19,7 @@ const levels = {
       points_required: 6,
       time_limit: 0
     },
-    generator: Generators['2'].level_2
+    generator: Generators.al_models.level_2
   },
   level_3: {
     n_params: {
@@ -27,7 +27,7 @@ const levels = {
       points_required: 6,
       time_limit: 6 * 60 * 1000
     },
-    generator: Generators['2'].level_3
+    generator: Generators.al_models.level_2
   }
 };
 
@@ -41,19 +41,18 @@ class QuestionFactory {
   }
 
   makeQuestion() {
-    let lhs = this.#generator.generateSentence();
-    let rhs;
+    let result = {};
     let expected;
     if (Math.random() < 0.5) {
-      rhs = this.#generator.findSentenceModelledBy(lhs);
+      result = this.#generator.generate();
       expected = true;
     } else {
-      rhs = this.#generator.findSentenceNotModelledBy(lhs);
+      result = this.#generator.generate(false);
       expected = false;
     }
     return {
-      lhs: sentenceToString(lhs),
-      rhs: sentenceToString(rhs),
+      premises: result.premises.map((p) => sentenceToString(p)),
+      conclusion: sentenceToString(result.conclusion),
       expected: expected
     };
   }

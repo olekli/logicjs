@@ -67,24 +67,29 @@ class Generator {
     let B = this.#cache.findSentenceModelledBy(A_models);
     let num_tries = 0;
     while (B === undefined) {
+      if (max_num_tries != undefined && num_tries >= max_num_tries) {
+        return undefined;
+      }
       for (let i = 0; i < 5; i++) {
         this.generateSentence();
         num_tries++;
       }
       B = this.#cache.findSentenceModelledBy(A_models);
-      if (max_num_tries != undefined && num_tries >= max_num_tries) {
-        return undefined;
-      }
     }
     return B;
   };
 
-  findSentenceNotModelledBy(A) {
+  findSentenceNotModelledBy(A, max_num_tries = undefined) {
     let A_models = getAllModels(A, this.#letters)[true];
     let B = this.#cache.findSentenceNotModelledBy(A_models);
+    let num_tries = 0;
     while (B === undefined) {
+      if (max_num_tries != undefined && num_tries >= max_num_tries) {
+        return undefined;
+      }
       for (let i = 0; i < 5; i++) {
         this.generateSentence();
+        num_tries++;
       }
       B = this.#cache.findSentenceNotModelledBy(A_models);
     }

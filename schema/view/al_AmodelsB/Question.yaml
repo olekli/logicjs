@@ -1,13 +1,15 @@
 type: object
 properties:
-  lhs:
-    type: string
-  rhs:
+  premises:
+    type: array
+    items:
+      type: string
+  conclusion:
     type: string
   expected:
     type: boolean
 required:
-  - lhs
-  - rhs
+  - premises
+  - conclusion
   - expected
 additionalProperties: false

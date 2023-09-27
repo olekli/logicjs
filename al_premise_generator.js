@@ -50,7 +50,7 @@ class PremiseGenerator {
     };
   }
 
-  generate() {
+  generate(correct = true) {
     let conclusion = undefined;
     let premises = undefined;
     while (conclusion === undefined) {
@@ -75,7 +75,11 @@ class PremiseGenerator {
       } else {
         conjunction = this.#tautology;
       }
-      conclusion = this.#B_generator.findSentenceModelledBy(conjunction, 50);
+      if (correct) {
+        conclusion = this.#B_generator.findSentenceModelledBy(conjunction, 50);
+      } else {
+        conclusion = this.#B_generator.findSentenceNotModelledBy(conjunction, 50);
+      }
     }
     return { premises: premises, conclusion: conclusion };
   }
