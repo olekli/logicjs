@@ -33,5 +33,6 @@ block main
             button.lower(type="submit") neue Aufgabe
       div.reset
         form(action="al_proofs/reset" method="POST")
-          button.lower(type="submit") zurücksetzen
+          button.default.lower(type="submit") zurücksetzen
+          button.mobile.lower(type="submit") Reset
   include ../editor_scripts.pug

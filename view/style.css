@@ -89,9 +89,15 @@ button {
   border-radius: 1em;
   border: 1px solid gainsboro;
   color: black;
-  font-size: 12px;
+  font-size: 16px;
   margin: 5px;
   padding: 5px;
+  font-weight: normal !important;
+}
+@media screen and (max-width: 800px) {
+  button {
+    font-weight: bold !important;
+  }
 }
 button:hover {
   background: #f0f0f0;
