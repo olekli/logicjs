@@ -3,9 +3,13 @@
 
 'use strict'
 
-const Arguments = require('./al_argument_definitions.json');
 const { parse } = require('./al_parse.js');
 const { ajv } = require('./validation.js');
+const yaml = require('js-yaml');
+const fs = require('fs');
+const path = require('path');
+
+const Arguments = yaml.load(fs.readFileSync(path.join(__dirname, 'al_argument_definitions.yaml')));
 
 for (let argument_list in Arguments) {
   for (let argument of Arguments[argument_list]) {
