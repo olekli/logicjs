@@ -1,50 +1,39 @@
 extends ../base.pug
 
+block style
+  include style.css
+
 block heading
-  h1.inline Übungen
+  h1.heading Übungen
 
 block main
-  h2.centered-on-mobile Aussagenlogik, Semantik
-  div.centered-on-mobile
-    h3.indent-2.inline Modelle
-    form.inline(action="al_tof/launch" method="POST")
-      button.inline.default(type="submit" name="level" value="level_1") Stufe 1
-      button.inline.mobile(type="submit" name="level" value="level_1") 1
-      button.inline.default(type="submit" name="level" value="level_2") Stufe 2
-      button.inline.mobile(type="submit" name="level" value="level_2") 2
-      button.inline.default(type="submit" name="level" value="level_3") Stufe 3
-      button.inline.mobile(type="submit" name="level" value="level_3") 3
+  main.home
+    h2.exercise-header Aussagenlogik, Semantik
+    form.exercise-row(action="al_tof/launch" method="POST")
+      h3.exercise-name Modelle
+      button.exercise-button(type="submit" name="level" value="level_1") Stufe 1
+      button.exercise-button(type="submit" name="level" value="level_2") Stufe 2
+      button.exercise-button(type="submit" name="level" value="level_3") Stufe 3
 
-  div.centered-on-mobile
-    h3.indent-2.inline Folgerungen
-    form.inline(action="al_AmodelsB/launch" method="POST")
-      button.inline.default(type="submit" name="level" value="level_1") Stufe 1
-      button.inline.mobile(type="submit" name="level" value="level_1") 1
-      button.inline.default(type="submit" name="level" value="level_2") Stufe 2
-      button.inline.mobile(type="submit" name="level" value="level_2") 2
-      button.inline.default(type="submit" name="level" value="level_3") Stufe 3
-      button.inline.mobile(type="submit" name="level" value="level_3") 3
+    form.exercise-row(action="al_AmodelsB/launch" method="POST")
+      h3.exercise-name Folgerungen
+      button.exercise-button(type="submit" name="level" value="level_1") Stufe 1
+      button.exercise-button(type="submit" name="level" value="level_2") Stufe 2
+      button.exercise-button(type="submit" name="level" value="level_3") Stufe 3
 
-  h2.centered-on-mobile Aussagenlogik, formale Beweise
-  div.centered-on-mobile
-    h3.indent-2.inline Tautologien
-    form.inline(action="al_proofs/launch" method="POST")
-      button.inline.default(type="submit" name="mode" value="tautologies_1") Stufe 1
-      button.inline.mobile(type="submit" name="mode" value="tautologies_1") 1
-      button.inline.default(type="submit" name="mode" value="tautologies_2") Stufe 2
-      button.inline.mobile(type="submit" name="mode" value="tautologies_2") 2
-      button.inline.default(type="submit" name="mode" value="tautologies_3") Stufe 3
-      button.inline.mobile(type="submit" name="mode" value="tautologies_3") 3
-  div.centered-on-mobile
-    h3.indent-2.inline Prämissen
-    form.inline(action="al_proofs/launch" method="POST")
-      button.inline.default(type="submit" name="mode" value="premises_1") Stufe 1
-      button.inline.mobile(type="submit" name="mode" value="premises_1") 1
-      button.inline.default(type="submit" name="mode" value="premises_2") Stufe 2
-      button.inline.mobile(type="submit" name="mode" value="premises_2") 2
-      button.inline.default(type="submit" name="mode" value="premises_3") Stufe 3
-      button.inline.mobile(type="submit" name="mode" value="premises_3") 3
-  div.centered-on-mobile
-    h3.indent-2.inline
-    form.inline(action="al_proofs/launch" method="POST")
-      button.inline(type="submit" name="mode" value="sandbox") Sandbox
+    h2.exercise-header Aussagenlogik, formale Beweise
+    form.exercise-row(action="al_proofs/launch" method="POST")
+      h3.exercise-name Tautologien
+      button.exercise-button(type="submit" name="mode" value="tautologies_1") Stufe 1
+      button.exercise-button(type="submit" name="mode" value="tautologies_2") Stufe 2
+      button.exercise-button(type="submit" name="mode" value="tautologies_3") Stufe 3
+
+    form.exercise-row(action="al_proofs/launch" method="POST")
+      h3.exercise-name Prämissen
+      button.exercise-button(type="submit" name="mode" value="premises_1") Stufe 1
+      button.exercise-button(type="submit" name="mode" value="premises_2") Stufe 2
+      button.exercise-button(type="submit" name="mode" value="premises_3") Stufe 3
+
+    form.exercise-row(action="al_proofs/launch" method="POST")
+      h3.exercise-name Sandbox
+      button.exercise-button(type="submit" name="mode" value="sandbox") Start

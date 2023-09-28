@@ -1,13 +1,17 @@
 extends ../base.pug
 
+block style
+  include ../style-yes-no-exercise.css
+
 block heading
   include header.pug
 block main
-  div
-    include counter.pug
-  div.question
-    include question.pug
-  div
-    form(action="al_tof/answer" method="POST")
-      button.inline(type="submit" name="answer" value="true") wahr
-      button.inline(type="submit" name="answer" value="false") falsch
+  main.yes-no-exercise
+    section.yes-no-exercise
+      div.counter
+        include counter.pug
+      div.question
+        include question.pug
+      form.answer(action="al_tof/answer" method="POST")
+        button.yes-button(type="submit" name="answer" value="true") wahr
+        button.no-button(type="submit" name="answer" value="false") falsch

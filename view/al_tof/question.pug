@@ -1,4 +1,6 @@
-ul
-  each i in question.interpretation
-    li.inline= i
+p
+  each assignment, index in question.interpretation
+    | #{assignment}
+    if index != (question.interpretation.length - 1)
+      |              
 p V ⊨ #{question.sentence}

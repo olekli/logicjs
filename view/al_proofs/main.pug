@@ -1,32 +1,37 @@
 extends ../base.pug
 
+block style
+  include ../style-proofs.css
+
 block heading
   include header.pug
 block main
-  if conclusion != ''
-    div.question(style="margin-left: 0px;")
-      p
-        each p, index in premises
-          | #{p}
-          if index != (premises.length - 1)
-            | , 
-        |  ⊢ #{conclusion}
-  div.container
-    div#editor
-      include ../editor.pug
-    div.side-element
-      button#submit-button(data-endpoint="al_proofs/check") prüfen
+  main.proofs
+    section.proofs
+      if conclusion != ''
+        p.question
+          each p, index in premises
+            | #{p}
+            if index != (premises.length - 1)
+              | , 
+          |  
+          span.break-here ⊢ #{conclusion}
       if raw.length > 0
         if error_string === null
-          p Beweis ist korrekt.
+          p.result Beweis ist korrekt.
         else
-          p Fehler: #{error_string}.
-  div
-    a.inline.no-underline(href="al_proofs/instructions" target="_blank" rel="noopener noreferrer")
-      button.inline(type="submit") Anleitung
-    if conclusion != ''
-      form.inline(action="al_proofs/newExercise" method="POST")
-        button.inline(type="submit") neue Aufgabe
-    form.inline(action="al_proofs/reset" method="POST")
-      button.inline(type="submit") zurücksetzen
+          p.result Fehler: #{error_string}.
+      button.check#submit-button(data-endpoint="al_proofs/check") prüfen
+      div#editor
+        include ../editor.pug
+      div.instructions
+        a.no-underline(href="al_proofs/instructions" target="_blank" rel="noopener noreferrer")
+          button.lower(type="submit") Anleitung
+      if conclusion != ''
+        div.next
+          form(action="al_proofs/newExercise" method="POST")
+            button.lower(type="submit") neue Aufgabe
+      div.reset
+        form(action="al_proofs/reset" method="POST")
+          button.lower(type="submit") zurücksetzen
   include ../editor_scripts.pug

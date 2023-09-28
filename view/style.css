@@ -1,0 +1,74 @@
+body {
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+}
+body * {
+  font-family: Helvetica, sans-serif;
+  font-size: 16px;
+}
+header {
+  grid-area: header;
+}
+footer {
+  grid-area: footer;
+}
+header, footer, main {
+  border-radius: 0.5em;
+  border: 3px solid gainsboro;
+  margin: 10px;
+  padding: 10px;
+}
+@media screen and (max-width: 800px) {
+}
+h1.heading {
+  display: inline;
+  font-size: 24px;
+  margin-left: 15px;
+  vertical-align: middle;
+}
+img.heading {
+  display: inline;
+  width: 48px;
+  height: 48px;
+  vertical-align: middle;
+}
+footer {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-areas:
+    "home olat version";
+}
+a.home {
+  grid-area: home;
+}
+a.olat {
+  grid-area: olat;
+  justify-self: center;
+}
+p.version {
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  grid-area: version;
+  justify-self: end;
+}
+button {
+  background: #f9f9f9;
+  border-radius: 1em;
+  border: 1px solid gainsboro;
+  color: black;
+  font-size: 12px;
+  margin: 5px;
+  padding: 5px;
+}
+button:hover {
+  background: #f0f0f0;
+}
+.no-underline {
+  text-decoration:none;
+}

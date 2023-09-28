@@ -7,16 +7,17 @@ html
     title logicjs
     link(rel="icon" href="/logicjs/static/icon.png" type="image/png")
 
-  include style.pug
+  style
+    include style.css
+    block style
 
   body
     header
       a.inline(href="/logicjs/app/home")
         img.heading(src="/logicjs/static/icon.png" alt="Icon")
       block heading
-    main
-      block main
+    block main
     footer
-      a.default(href="/logicjs/app/home") Startseite
-      a(href="https://lms.uni-kiel.de/auth/RepositoryEntry/5383061556/CourseNode/108458112801995") Weitere Informationen auf OLAT
-      p.default #{software_version}
+      a.home(href="/logicjs/app/home") Startseite
+      a.olat(href="https://lms.uni-kiel.de/auth/RepositoryEntry/5383061556/CourseNode/108458112801995") Weitere Informationen auf OLAT
+      p.version #{software_version}

@@ -1,0 +1,76 @@
+main.yes-no-exercise {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "content";
+}
+section.yes-no-exercise {
+  grid-area: content;
+  width: 400px;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 2fr 1fr;
+  grid-template-areas:
+    "counter"
+    "question"
+    "answer";
+}
+div.counter {
+  grid-area: counter;
+  justify-self: center;
+}
+div.question {
+  grid-area: question;
+  justify-self: center;
+}
+div.question p {
+  font-family: Roboto Mono, monospace;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+form.answer {
+  grid-area: answer;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "left lmiddle rmiddle right";
+}
+.yes-button {
+  grid-area: lmiddle;
+}
+.no-button {
+  grid-area: rmiddle;
+}
+.result {
+  grid-column: left-start / lmiddle-end;
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+.next-button {
+  grid-column: right;
+}
+section.finished-yes-no-exercise {
+  grid-area: content;
+  width: 400px;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3fr 1fr;
+  grid-template-areas:
+    "result"
+    "home";
+}
+div.total-result {
+  grid-area: result;
+  justify-self: center;
+}
+div.home {
+  grid-area: home;
+  justify-self: center;
+}
+.home-button {
+  padding: 10px;
+}

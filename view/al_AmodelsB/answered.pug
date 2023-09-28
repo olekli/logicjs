@@ -1,13 +1,17 @@
 extends ../base.pug
 
+block style
+  include ../style-yes-no-exercise.css
+
 block heading
   include header.pug
 block main
-  div
-    include counter.pug
-  div.question
-    include question.pug
-  div.block_margins
-    p.result #{result ? "korrekt" : "nicht korrekt"}
-    form.inline(action="al_AmodelsB/next" method="POST")
-      button.inline(type="submit") weiter
+  main.yes-no-exercise
+    section.yes-no-exercise
+      div.counter
+        include counter.pug
+      div.question
+        include question.pug
+      form.answer(action="al_AmodelsB/next" method="POST")
+        p.result #{result ? "korrekt" : "nicht korrekt"}
+        button.next-button(type="submit") weiter
