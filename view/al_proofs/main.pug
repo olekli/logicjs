@@ -9,13 +9,16 @@ block main
   main.proofs
     section.proofs
       if conclusion != ''
-        p.question
-          each p, index in premises
-            | #{p}
-            if index != (premises.length - 1)
-              | , 
-          |  
-          span.break-here ⊢ #{conclusion}
+        div.question
+          p
+            span
+              each p, index in premises
+                | #{p}
+                if index != (premises.length - 1)
+                  | ,&nbsp;
+            | &nbsp;
+            span.
+              ⊢ #{conclusion}
       if raw.length > 0
         if error_string === null
           p.result Beweis ist korrekt.

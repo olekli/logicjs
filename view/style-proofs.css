@@ -29,19 +29,25 @@ section.proofs {
     width: 100%;
   }
 }
-p.question {
+div.question {
   grid-area: question;
   justify-self: center;
-  font-family: Roboto Mono, monospace;
-  font-size: 18px;
-  letter-spacing: 1px;
 }
-.break-here {
-  white-space: nowrap;
-  overflow-wrap: anywhere;
+div.question p {
   font-family: Roboto Mono, monospace;
   font-size: 18px;
   letter-spacing: 1px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  line-height: 1.2;
+}
+div.question span {
+  flex: 0 0 auto;
+  font-family: Roboto Mono, monospace;
+  font-size: 18px;
+  letter-spacing: 1px;
+  white-space: normal;
 }
 p.result {
   grid-area: result;

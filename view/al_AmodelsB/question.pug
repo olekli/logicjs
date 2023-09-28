@@ -1,6 +1,9 @@
 p
-  each p, index in question.premises
-    | #{p}
-    if index != (question.premises.length - 1)
-      | , 
-  |  ⊨ #{question.conclusion}
+  span
+    each p, index in question.premises
+      | #{p}
+      if index != (question.premises.length - 1)
+        | ,&nbsp;
+  | &nbsp;
+  span.
+    ⊨ #{question.conclusion}

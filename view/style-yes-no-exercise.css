@@ -34,7 +34,26 @@ div.question p {
   font-family: Roboto Mono, monospace;
   font-size: 18px;
   letter-spacing: 1px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  line-height: 1.2;
 }
+div.question span {
+  flex: 0 0 auto;
+  font-family: Roboto Mono, monospace;
+  font-size: 18px;
+  letter-spacing: 1px;
+  white-space: normal;
+}
+/*div.question span {
+  display: flex;
+}*/
+/* @media screen and (max-width: 800px) {
+  div.question p {
+    font-size: 16px;
+  }
+} */
 form.answer {
   grid-area: answer;
   display: grid;
