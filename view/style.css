@@ -25,6 +25,10 @@ header, footer, main {
   padding: 10px;
 }
 @media screen and (max-width: 800px) {
+  header, footer, main {
+    margin: 0px;
+    margin-bottom: 5px;
+  }
 }
 h1.heading {
   display: inline;
@@ -37,6 +41,15 @@ img.heading {
   width: 48px;
   height: 48px;
   vertical-align: middle;
+}
+@media screen and (max-width: 800px) {
+  h1.heading {
+    font-size: 20px;
+  }
+  img.heading {
+    width: 36px;
+    height: 36px;
+  }
 }
 footer {
   display: grid;
@@ -57,6 +70,20 @@ p.version {
   grid-area: version;
   justify-self: end;
 }
+@media screen and (max-width: 800px) {
+  footer {
+    display: grid;
+    grid-template-columns: 1fr ;
+    grid-template-areas:
+      "olat";
+  }
+  a.home {
+    display: none;
+  }
+  p.version {
+    display: none;
+  }
+}
 button {
   background: #f9f9f9;
   border-radius: 1em;
@@ -71,4 +98,18 @@ button:hover {
 }
 .no-underline {
   text-decoration:none;
+}
+.default {
+  display: initial;
+}
+.mobile {
+  display: none !important;
+}
+@media screen and (max-width: 800px) {
+  .default {
+    display: none !important;
+  }
+  .mobile {
+    display: initial !important;
+  }
 }

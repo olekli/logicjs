@@ -24,6 +24,11 @@ section.proofs {
     "editor editor editor"
     "instructions next reset";
 }
+@media screen and (max-width: 800px) {
+  section.proofs {
+    width: 100%;
+  }
+}
 p.question {
   grid-area: question;
   justify-self: center;
@@ -41,6 +46,11 @@ p.question {
 p.result {
   grid-area: result;
   align-self: center;
+}
+@media screen and (max-width: 800px) {
+  p.result {
+    font-size: 14px;
+  }
 }
 button.check {
   grid-area: check;

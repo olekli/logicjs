@@ -17,6 +17,11 @@ section.yes-no-exercise {
     "question"
     "answer";
 }
+@media screen and (max-width: 800px) {
+  section.yes-no-exercise {
+    width: 100%;
+  }
+}
 div.counter {
   grid-area: counter;
   justify-self: center;
@@ -52,11 +57,7 @@ form.answer {
 .next-button {
   grid-column: right;
 }
-section.finished-yes-no-exercise {
-  grid-area: content;
-  width: 400px;
-  justify-self: center;
-  display: grid;
+section.yes-no-exercise.finished {
   grid-template-columns: 1fr;
   grid-template-rows: 3fr 1fr;
   grid-template-areas:

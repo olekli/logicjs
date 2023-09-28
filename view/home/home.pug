@@ -9,31 +9,39 @@ block heading
 block main
   main.home
     h2.exercise-header Aussagenlogik, Semantik
-    form.exercise-row(action="al_tof/launch" method="POST")
-      h3.exercise-name Modelle
-      button.exercise-button(type="submit" name="level" value="level_1") Stufe 1
-      button.exercise-button(type="submit" name="level" value="level_2") Stufe 2
-      button.exercise-button(type="submit" name="level" value="level_3") Stufe 3
+    h3.exercise-name Modelle
+    form.exercise-button(action="al_tof/launch" method="POST")
+      button(type="submit" name="level" value="level_1") Stufe 1
+    form.exercise-button(action="al_tof/launch" method="POST")
+      button(type="submit" name="level" value="level_2") Stufe 2
+    form.exercise-button(action="al_tof/launch" method="POST")
+      button(type="submit" name="level" value="level_3") Stufe 3
 
-    form.exercise-row(action="al_AmodelsB/launch" method="POST")
-      h3.exercise-name Folgerungen
-      button.exercise-button(type="submit" name="level" value="level_1") Stufe 1
-      button.exercise-button(type="submit" name="level" value="level_2") Stufe 2
-      button.exercise-button(type="submit" name="level" value="level_3") Stufe 3
+    h3.exercise-name Folgerungen
+    form.exercise-button(action="al_AmodelsB/launch" method="POST")
+      button(type="submit" name="level" value="level_1") Stufe 1
+    form.exercise-button(action="al_AmodelsB/launch" method="POST")
+      button(type="submit" name="level" value="level_2") Stufe 2
+    form.exercise-button(action="al_AmodelsB/launch" method="POST")
+      button(type="submit" name="level" value="level_3") Stufe 3
 
     h2.exercise-header Aussagenlogik, formale Beweise
-    form.exercise-row(action="al_proofs/launch" method="POST")
-      h3.exercise-name Tautologien
-      button.exercise-button(type="submit" name="mode" value="tautologies_1") Stufe 1
-      button.exercise-button(type="submit" name="mode" value="tautologies_2") Stufe 2
-      button.exercise-button(type="submit" name="mode" value="tautologies_3") Stufe 3
+    h3.exercise-name Tautologien
+    form.exercise-button(action="al_proofs/launch" method="POST")
+      button(type="submit" name="mode" value="tautologies_1") Stufe 1
+    form.exercise-button(action="al_proofs/launch" method="POST")
+      button(type="submit" name="mode" value="tautologies_2") Stufe 2
+    form.exercise-button(action="al_proofs/launch" method="POST")
+      button(type="submit" name="mode" value="tautologies_3") Stufe 3
 
-    form.exercise-row(action="al_proofs/launch" method="POST")
-      h3.exercise-name Prämissen
-      button.exercise-button(type="submit" name="mode" value="premises_1") Stufe 1
-      button.exercise-button(type="submit" name="mode" value="premises_2") Stufe 2
-      button.exercise-button(type="submit" name="mode" value="premises_3") Stufe 3
+    h3.exercise-name Prämissen
+    form.exercise-button(action="al_proofs/launch" method="POST")
+      button(type="submit" name="mode" value="premises_1") Stufe 1
+    form.exercise-button(action="al_proofs/launch" method="POST")
+      button(type="submit" name="mode" value="premises_2") Stufe 2
+    form.exercise-button(action="al_proofs/launch" method="POST")
+      button(type="submit" name="mode" value="premises_3") Stufe 3
 
-    form.exercise-row(action="al_proofs/launch" method="POST")
-      h3.exercise-name Sandbox
-      button.exercise-button(type="submit" name="mode" value="sandbox") Start
+    h3.exercise-name Sandbox
+    form.exercise-button(action="al_proofs/launch" method="POST")
+      button(type="submit" name="mode" value="sandbox") Start

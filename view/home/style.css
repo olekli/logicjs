@@ -1,22 +1,25 @@
 main.home {
   grid-area: main;
   display: grid;
-  grid-template-columns: 1fr
-  grid-auto-rows: minmax(50px, auto)
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-auto-rows: minmax(50px, auto);
 }
 h2.exercise-header {
+  grid-column: 1 / 6;
   font-size: 20px;
 }
-form.exercise-row {
-  display: grid;
-  grid-template-columns: 1fr repeat(3, 1fr);
-  width: 100%;
-}
 h3.exercise-name {
-  grid-column: span 1;
+  grid-column: span 2;
   font-size: 18px;
   font-weight: normal;
+  justify-self: center;
 }
-button.exercise-button {
+form.exercise-button {
   grid-column: span 1;
+  width: 100%;
+  height: 100%;
+}
+form.exercise-button button {
+  width: 90%;
+  height: 90%;
 }
