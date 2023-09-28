@@ -1,0 +1,33 @@
+main.instructions {
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "content";
+}
+section.instructions {
+  grid-area: content;
+  width: 500px;
+  justify-self: center;
+}
+@media screen and (max-width: 800px) {
+  section.instructions {
+    width: 100%;
+  }
+}
+.code {
+  font-family: Roboto Mono, monospace;
+  font-size: 16px;
+  background: #e0e0e0;
+  white-space: pre;
+}
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+li {
+  margin: 10px 0;
+}
+.indent {
+  margin-left: 20px;
+}
