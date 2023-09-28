@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 al_grammar.js
+al_grammar_proof.js
+.env.json
+cache

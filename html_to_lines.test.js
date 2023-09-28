@@ -1,3 +1,6 @@
+// Copyright 2023 Ole Kliemann
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 'use strict'
 
 const { htmlToLines, linesToHtml } = require('./html_to_lines.js');

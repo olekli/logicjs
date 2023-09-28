@@ -1,3 +1,6 @@
+// Copyright 2023 Ole Kliemann
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 const express = require('express');
 const { app } = require('./app.js');
 const morgan = require('morgan');

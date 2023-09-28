@@ -1,3 +1,6 @@
+// Copyright 2023 Ole Kliemann
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 'use strict'
 
 const Arguments = require('./al_argument_definitions.json');

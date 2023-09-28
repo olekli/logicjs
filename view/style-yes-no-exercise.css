@@ -1,3 +1,6 @@
+/* Copyright 2023 Ole Kliemann */
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+
 main.yes-no-exercise {
   display: grid;
   grid-template-columns: 1fr;
@@ -46,14 +49,6 @@ div.question span {
   letter-spacing: 1px;
   white-space: normal;
 }
-/*div.question span {
-  display: flex;
-}*/
-/* @media screen and (max-width: 800px) {
-  div.question p {
-    font-size: 16px;
-  }
-} */
 form.answer {
   grid-area: answer;
   display: grid;

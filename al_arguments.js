@@ -1,3 +1,6 @@
+// Copyright 2023 Ole Kliemann
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 'use strict'
 
 const { assert, unmake_result, ok, make_ok, make_err, get_ok, make_result, map_result, match_result } = require('okljs');

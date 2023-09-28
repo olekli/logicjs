@@ -1,3 +1,6 @@
+// Copyright 2023 Ole Kliemann
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 'use strict'
 
 const { parseProof, ParserErrors } = require('./al_proof_parse.js');
