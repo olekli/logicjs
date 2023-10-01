@@ -16,6 +16,11 @@ describe('correct proofs are parsed correctly', () => {
       '|-',
       '|1 (p -> p) T',
       '|2 (q -> (p -> p)) VEQ(1)',
+    ]],
+    [[
+      '|-',
+      '|1 p -> p T',
+      '|2 q -> (p -> p) VEQ(1)',
     ]]
   ])('without premises', (proof) => {
     let result = parseProof(proof);
@@ -60,6 +65,12 @@ describe('correct proofs are parsed correctly', () => {
       '|-',
       '|2 (p -> p) T',
       '|3 (q -> (p -> p)) VEQ(2)',
+    ]],
+    [[
+      '|1 r V',
+      '|-',
+      '|2 p -> p T',
+      '|3 q -> (p -> p) VEQ(2)',
     ]]
   ])('with single premise', (proof) => {
     let result = parseProof(proof);
@@ -114,6 +125,14 @@ describe('correct proofs are parsed correctly', () => {
       '|-',
       '|4 (p -> p) T',
       '|5 (q -> (p -> p)) VEQ(3)',
+    ]],
+    [[
+      '|1 r V',
+      '|2 s V',
+      '|3 s -> r V',
+      '|-',
+      '|4 p -> p T',
+      '|5 q -> (p -> p) VEQ(3)',
     ]]
   ])('with multiple premises', (proof) => {
     let result = parseProof(proof);
@@ -188,6 +207,14 @@ describe('correct proofs are parsed correctly', () => {
       '|3 (q -> (p -> p)) VEQ(2)',
       '|4 (p -> (p -> p)) VEQ(2)',
       '|5 (p -> p) -A(1, 4, 3)'
+    ]],
+    [[
+      '|1 p | q V',
+      '|-',
+      '|2 p -> p T',
+      '|3 q -> (p -> p) VEQ(2)',
+      '|4 p -> (p -> p) VEQ(2)',
+      '|5 p -> p -A(1, 4, 3)'
     ]]
   ])('arguments with multiple premises', (proof) => {
     let result = parseProof(proof);
@@ -277,6 +304,28 @@ describe('correct proofs are parsed correctly', () => {
       '|||13 (t->s) +I(11-12)',
       '||14 (s -> (t -> s)) +I(9-13)',
       '|15 (r -> (s -> (t -> s))) +I(8-14)',
+    ]],
+    [[
+      '|1 p V',
+      '|2 q V',
+      '|-',
+      '|3  p & q +K(1,2)',
+      '|| 4 r A',
+      '||-',
+      '|| 5 q R(2)',
+      '|6 r->q +I(4-5)',
+      '|7 ( p & q ) +K(1,2)',
+      '|| 8 r A',
+      '||-',
+      '||| 9 s A',
+      '|||-',
+      '||| 10 p & q R(3)',
+      '|||| 11 t A',
+      '||||-',
+      '|||| 12 s R(9)',
+      '|||13 t->s +I(11-12)',
+      '||14 s -> (t -> s) +I(9-13)',
+      '|15 r -> (s -> (t -> s)) +I(8-14)',
     ]]
   ])('multiple subproofs', (proof) => {
     let result = parseProof(proof);
@@ -437,6 +486,11 @@ describe('incorrect proofs provide meaningful errors', () => {
       '|1 p V',
       '|2 q V',
       '|3 (p & q) +K(1,2)'
+    ]],
+    [[
+      '|1 p V',
+      '|2 q V',
+      '|3 p & q +K(1,2)'
     ]]
   ])('missing separator after premises', (proof) => {
     let result = parseProof(proof);
@@ -470,6 +524,15 @@ describe('incorrect proofs provide meaningful errors', () => {
       '|| 4 r A',
       '|| 5 (s -> r) VEQ(4)',
       '|6 (r -> (s -> r)) +I(3-5)'
+    ]],
+    [[
+      '|1 p V',
+      '|2 q V',
+      '|-',
+      '|3 p & q +K(1,2)',
+      '|| 4 r A',
+      '|| 5 s -> r VEQ(4)',
+      '|6 r -> (s -> r) +I(3-5)'
     ]]
   ])('missing separator after assumption', (proof) => {
     let result = parseProof(proof);

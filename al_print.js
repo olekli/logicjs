@@ -27,7 +27,11 @@ const sentenceToString_ = (s) =>
 
 const sentenceToString = (s) => {
 //  assert.type(s, 'Sentence');
-  return sentenceToString_(s);
+  let result = sentenceToString_(s);
+  if (result.startsWith('(') && result.endsWith(')')) {
+    result = result.slice(1, -1);
+  }
+  return result;
 }
 
 const interpretationToStrings = (i) => {
