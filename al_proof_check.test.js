@@ -7,6 +7,7 @@ const { ok, err, get_ok, get_err, useJestResultMatcher } = require('okljs');
 const { parse } = require('./al_parse.js');
 const { parseProof } = require('./al_proof_parse.js');
 const { checkProof, CheckerErrors } = require('./al_proof_check.js');
+const { reverseTranscribeOperators } = require('./transcribe.js');
 const util = require('util');
 
 useJestResultMatcher();
@@ -346,6 +347,30 @@ describe('incorrect proofs provide meaningful errors', () => {
       type: CheckerErrors.MissingExpectedConclusion,
       raw_line_number: undefined
     });
+  })
+
+});
+
+describe('extra cases', () => {
+
+  test('case 1', () => {
+    let proof =
+`|-
+|1 q → q T
+||2 ¬q A
+||-
+|||3 r ∧ q A
+|||-
+|||4 q -K(3)
+|||5 ¬q R(2)
+||6 ¬(r∧q) RAA(3-5)
+|7 ¬q → ¬(r∧q) +I(2-6)
+|8 q ∨ ¬(r∧q) +A(1,7)
+|9 p ∨ (q ∨ ¬(r∧q)) +A(8)`
+    let result =
+      checkProof(parseProof(proof.split('\n').map((s) => reverseTranscribeOperators(s))));
+    expect(result).toBeOk();
+    console.log(get_ok(result));
   })
 
 });
