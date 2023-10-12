@@ -70,12 +70,6 @@
       - (A -> B)
       - (B -> A)
     conclusion: (A <-> B)
-  - type: object
-    arity: 2
-    premises:
-      - (A -> B)
-      - (B -> A)
-    conclusion: (B <-> A)
 -Ä:
   - type: object
     arity: 1

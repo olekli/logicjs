@@ -289,9 +289,7 @@ describe('checkArgument', () => {
   describe('+Ä', () => {
     test.each([
       [ [ '(p -> q)', '(q -> p)' ], '(p <-> q)' ],
-      [ [ '(p -> q)', '(q -> p)' ], '(q <-> p)' ],
       [ [ '(p -> !q)', '(!q -> p)' ], '(p <-> !q)' ],
-      [ [ '(p -> !q)', '(!q -> p)' ], '(!q <-> p)' ],
     ])('correct usage is correct', (premises_, conclusion_) => {
       let premises = premises_.map((s) => parse(s));
       let conclusion = parse(conclusion_);
