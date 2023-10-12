@@ -476,9 +476,6 @@ describe('checkArgument', () => {
       [ [ '(p & q)' ], '(p & q)' ],
       [ [ '(p | q)' ], '(p | q)' ],
       [ [ '(p <-> q)' ], '(p <-> q)' ],
-      [ [ '(p & q)' ], '(q & p)' ],
-      [ [ '(p | q)' ], '(q | p)' ],
-      [ [ '(p <-> q)' ], '(q <-> p)' ],
     ])('correct usage is correct', (premises_, conclusion_) => {
       let premises = premises_.map((s) => parse(s));
       let conclusion = parse(conclusion_);
@@ -492,6 +489,9 @@ describe('checkArgument', () => {
       [ [ '(p -> q)' ], '(q -> p)' ],
       [ [ 'p' ], '!p' ],
       [ [ '!p' ], 'p' ],
+      [ [ '(p & q)' ], '(q & p)' ],
+      [ [ '(p | q)' ], '(q | p)' ],
+      [ [ '(p <-> q)' ], '(q <-> p)' ],
     ])('incorrect usage is incorrect', (premises_, conclusion_) => {
       let premises = premises_.map((s) => parse(s));
       let conclusion = parse(conclusion_);
