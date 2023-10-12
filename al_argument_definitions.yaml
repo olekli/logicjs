@@ -8,12 +8,6 @@
       - A
       - B
     conclusion: ( A & B )
-  - type: object
-    arity: 2
-    premises:
-      - A
-      - B
-    conclusion: ( B & A )
 -K:
   - type: object
     arity: 1

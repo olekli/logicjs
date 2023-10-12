@@ -20,7 +20,7 @@ describe('correct proofs are correct', () => {
       '|2 q V',
       '|-',
       '|3 (p & q) +K(1,2)',
-      '|4 (q & p) +K(1,2)',
+      '|4 (q & p) +K(2,1)',
       '||5 r A',
       '||-',
       '||6 (q & p) R(4)',
@@ -30,7 +30,7 @@ describe('correct proofs are correct', () => {
       '|2 q V',
       '|-',
       '|3 p & q +K(1,2)',
-      '|4 q & p +K(1,2)',
+      '|4 q & p +K(2,1)',
       '||5 r A',
       '||-',
       '||6 q & p R(4)',
@@ -114,14 +114,14 @@ describe('correct proofs are correct', () => {
       '|2 q V',
       '|-',
       '|3 (p & q) +K(1,2)',
-      '|4 (q & p) +K(1,2)',
+      '|4 (q & p) +K(2,1)',
     ]],
     [[
       '|1 p V',
       '|2 q V',
       '|-',
       '|3 p & q +K(1,2)',
-      '|4 q & p +K(1,2)',
+      '|4 q & p +K(2,1)',
     ]]
   ])('proof with allowed premises is correct', (proof) => {
     let result = checkProof(parseProof(proof), [ parse('p'), parse('q') ]);
@@ -134,7 +134,7 @@ describe('correct proofs are correct', () => {
       '|2 q V',
       '|-',
       '|3 (p & q) +K(1,2)',
-      '|4 (q & p) +K(1,2)',
+      '|4 (q & p) +K(2,1)',
     ]]
   ])('proof with expected conclusion is correct', (proof) => {
     let result = checkProof(parseProof(proof), [ parse('p'), parse('q') ], parse('(p&q)'));
@@ -234,7 +234,7 @@ describe('incorrect proofs provide meaningful errors', () => {
       '|2 q V',
       '|-',
       '|3 (p & q) +K(1,2)',
-      '|4 (q & p) +K(1,2)',
+      '|4 (q & p) +K(2,1)',
       '||5 r A',
       '||-',
       '||6 (q -> r) VEQ(4)',
@@ -338,7 +338,7 @@ describe('incorrect proofs provide meaningful errors', () => {
       '|1 p V',
       '|2 q V',
       '|-',
-      '|3 (q & p) +K(1,2)',
+      '|3 (q & p) +K(2,1)',
     ]]
   ])('proof with missing expected conclusion is incorrect', (proof) => {
     let result = checkProof(parseProof(proof), [ parse('p'), parse('q') ], parse('(p&q)'));
@@ -370,7 +370,6 @@ describe('extra cases', () => {
     let result =
       checkProof(parseProof(proof.split('\n').map((s) => reverseTranscribeOperators(s))));
     expect(result).toBeOk();
-    console.log(get_ok(result));
   })
 
 });
