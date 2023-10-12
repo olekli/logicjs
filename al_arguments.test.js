@@ -196,7 +196,7 @@ describe('checkArgument', () => {
   describe('+A', () => {
     test.each([
       [ [ '(p -> q)', '(!p -> r)' ], '(q | r)' ],
-      [ [ '(p -> q)', '(!p -> r)' ], '(r | q)' ],
+      [ [ '(!p -> r)', '(p -> q)' ], '(r | q)' ],
       [ [ 'p' ], '( p | q)' ],
       [ [ 'q' ], '( p | q)' ],
     ])('correct usage is correct', (premises_, conclusion_) => {
@@ -206,6 +206,7 @@ describe('checkArgument', () => {
     });
 
     test.each([
+      [ [ '(p -> q)', '(!p -> r)' ], '(r | q)' ],
       [ [ '(p -> q)', '(!p -> r)' ], '(!q | r)' ],
       [ [ '(p -> q)', '(!p -> r)' ], '(q | !r)' ],
       [ [ '(p -> q)', '(!p -> r)' ], '(!r | q)' ],

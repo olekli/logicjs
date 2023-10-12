@@ -29,9 +29,9 @@
   - type: object
     arity: 2
     premises:
-      - ( A -> B )
-      - ( !A -> C )
-    conclusion: (C | B)
+      - ( !A -> B )
+      - ( A -> C )
+    conclusion: (B | C)
   - type: object
     arity: 1
     premises:
