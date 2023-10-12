@@ -425,6 +425,7 @@ describe('checkArgument', () => {
       [ [ '!p' ], '(p -> p)' ],
       [ [ '!p' ], '(p -> !p)' ],
       [ [ '!!p' ], '(!p -> q)' ],
+      [ [ 'p' ], '(!p -> q)' ],
     ])('correct usage is correct', (premises_, conclusion_) => {
       let premises = premises_.map((s) => parse(s));
       let conclusion = parse(conclusion_);
@@ -434,7 +435,6 @@ describe('checkArgument', () => {
     test.each([
       [ [ 'p' ], '(p -> q)' ],
       [ [ '!p' ], '(q -> !p)' ],
-      [ [ 'p' ], '(!p -> q)' ],
       [ [ '!p' ], '(!p -> q)' ],
     ])('incorrect usage is incorrect', (premises_, conclusion_) => {
       let premises = premises_.map((s) => parse(s));
