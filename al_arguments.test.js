@@ -335,6 +335,7 @@ describe('checkArgument', () => {
     test.each([
       [ [ 'p', 'q', '!q' ], '!p' ],
       [ [ 'p', 'q', 'r', '!q' ], '!p' ],
+      [ [ '!p', 'q', 'r', '!q' ], 'p' ],
       [ [ '!p', 'q', 'r', '!q' ], '!!p' ],
       [ [ '!p', '!!q', 'r', '!q' ], '!!p' ],
     ])('correct usage is correct', (premises_, conclusion_) => {
@@ -348,7 +349,6 @@ describe('checkArgument', () => {
       [ [ 'p', 'q', '!q' ], 'q' ],
       [ [ 'p', 'q', '!q' ], '!q' ],
       [ [ 'p', 'q', 'r', '!q' ], 'r' ],
-      [ [ '!p', 'q', 'r', '!q' ], 'p' ],
       [ [ '!p', '!!q', 'r', '!q' ], '!p' ],
     ])('incorrect usage is incorrect', (premises_, conclusion_) => {
       let premises = premises_.map((s) => parse(s));

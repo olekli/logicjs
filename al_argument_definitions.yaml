@@ -88,6 +88,12 @@ RAA:
       - (A -> B)
       - (A -> !B)
     conclusion: '!A'
+  - type: meta
+    arity: 2
+    premises:
+      - (!A -> B)
+      - (!A -> !B)
+    conclusion: 'A'
 +DN:
   - type: object
     arity: 1
