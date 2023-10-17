@@ -38,7 +38,7 @@ describe('correct proofs are parsed correctly', () => {
             lhs: { letter: 'p' },
             rhs: { letter: 'p' }
           },
-          argument: { name: 'T', type: 'object', premises_lines: [] }
+          argument: { name: 'T', premises: [] }
         },
         {
           type: 'sentence',
@@ -54,7 +54,7 @@ describe('correct proofs are parsed correctly', () => {
               rhs: { letter: 'p' }
             }
           },
-          argument: { name: 'VEQ', type: 'object', premises_lines: [ 0 ] }
+          argument: { name: 'VEQ', premises: [ { type: 'object', line: 0 } ] }
         }
       ]
     );
@@ -84,7 +84,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 0,
           raw_line_number: 0,
           sentence: { letter: 'r' },
-          argument: { name: 'V', type: 'object', premises_lines: [] }
+          argument: { name: 'V', premises: [] }
         },
         {
           type: 'sentence',
@@ -96,7 +96,7 @@ describe('correct proofs are parsed correctly', () => {
             lhs: { letter: 'p' },
             rhs: { letter: 'p' }
           },
-          argument: { name: 'T', type: 'object', premises_lines: [] }
+          argument: { name: 'T', premises: [] }
         },
         {
           type: 'sentence',
@@ -112,7 +112,7 @@ describe('correct proofs are parsed correctly', () => {
               rhs: { letter: 'p' }
             }
           },
-          argument: { name: 'VEQ', type: 'object', premises_lines: [ 1 ] }
+          argument: { name: 'VEQ', premises: [ { type: 'object', line: 1 } ] }
         }
       ]
     );
@@ -146,7 +146,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 0,
           raw_line_number: 0,
           sentence: { letter: 'r' },
-          argument: { name: 'V', type: 'object', premises_lines: [] }
+          argument: { name: 'V', premises: [] }
         },
         {
           type: 'sentence',
@@ -154,7 +154,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 1,
           raw_line_number: 1,
           sentence: { letter: 's' },
-          argument: { name: 'V', type: 'object', premises_lines: [] }
+          argument: { name: 'V', premises: [] }
         },
         {
           type: 'sentence',
@@ -166,7 +166,7 @@ describe('correct proofs are parsed correctly', () => {
             lhs: { letter: 's' },
             rhs: { letter: 'r' }
           },
-          argument: { name: 'V', type: 'object', premises_lines: [] }
+          argument: { name: 'V', premises: [] }
         },
         {
           type: 'sentence',
@@ -178,7 +178,7 @@ describe('correct proofs are parsed correctly', () => {
             lhs: { letter: 'p' },
             rhs: { letter: 'p' }
           },
-          argument: { name: 'T', type: 'object', premises_lines: [] }
+          argument: { name: 'T', premises: [] }
         },
         {
           type: 'sentence',
@@ -194,7 +194,7 @@ describe('correct proofs are parsed correctly', () => {
               rhs: { letter: 'p' }
             }
           },
-          argument: { name: 'VEQ', type: 'object', premises_lines: [ 2 ] }
+          argument: { name: 'VEQ', premises: [ { type: 'object', line: 2 } ] }
         }
       ]
     );
@@ -228,7 +228,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 0,
           raw_line_number: 0,
           sentence: { operator: 'or', lhs: { letter: 'p' }, rhs: { letter: 'q' } },
-          argument: { name: 'V', type: 'object', premises_lines: [] }
+          argument: { name: 'V', premises: [] }
         },
         {
           type: 'sentence',
@@ -236,7 +236,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 1,
           raw_line_number: 2,
           sentence: { operator: 'follows', lhs: { letter: 'p' }, rhs: { letter: 'p' } },
-          argument: { name: 'T', type: 'object', premises_lines: [] }
+          argument: { name: 'T', premises: [] }
         },
         {
           type: 'sentence',
@@ -252,7 +252,7 @@ describe('correct proofs are parsed correctly', () => {
               rhs: { letter: 'p' }
             }
           },
-          argument: { name: 'VEQ', type: 'object', premises_lines: [ 1 ] }
+          argument: { name: 'VEQ', premises: [ { type: 'object', line: 1 } ] }
         },
         {
           type: 'sentence',
@@ -268,7 +268,7 @@ describe('correct proofs are parsed correctly', () => {
               rhs: { letter: 'p' }
             }
           },
-          argument: { name: 'VEQ', type: 'object', premises_lines: [ 1 ] }
+          argument: { name: 'VEQ', premises: [ { type: 'object', line: 1 } ] }
         },
         {
           type: 'sentence',
@@ -276,7 +276,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 4,
           raw_line_number: 5,
           sentence: { operator: 'follows', lhs: { letter: 'p' }, rhs: { letter: 'p' } },
-          argument: { name: '-A', type: 'object', premises_lines: [ 0, 3, 2 ] }
+          argument: { name: '-A', premises: [ { type: 'object', line: 0 }, { type: 'object', line: 3 }, { type: 'object', line: 2 } ] }
         }
       ]
     );
@@ -339,7 +339,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 0,
           raw_line_number: 0,
           sentence: { letter: 'p' },
-          argument: { name: 'V', type: 'object', premises_lines: [] }
+          argument: { name: 'V', premises: [] }
         },
         {
           type: 'sentence',
@@ -347,7 +347,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 1,
           raw_line_number: 1,
           sentence: { letter: 'q' },
-          argument: { name: 'V', type: 'object', premises_lines: [] }
+          argument: { name: 'V', premises: [] }
         },
         {
           type: 'sentence',
@@ -355,7 +355,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 2,
           raw_line_number: 3,
           sentence: { operator: 'and', lhs: { letter: 'p' }, rhs: { letter: 'q' } },
-          argument: { name: '+K', type: 'object', premises_lines: [ 0, 1 ] }
+          argument: { name: '+K', premises: [ { type: 'object', line: 0 }, { type: 'object', line: 1 } ] }
         },
         {
           type: 'sentence',
@@ -363,7 +363,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 3,
           raw_line_number: 4,
           sentence: { letter: 'r' },
-          argument: { name: 'A', type: 'object', premises_lines: [] }
+          argument: { name: 'A', premises: [] }
         },
         {
           type: 'sentence',
@@ -371,7 +371,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 4,
           raw_line_number: 6,
           sentence: { letter: 'q' },
-          argument: { name: 'R', type: 'object', premises_lines: [ 1 ] }
+          argument: { name: 'R', premises: [ { type: 'object', line: 1 } ] }
         },
         {
           type: 'sentence',
@@ -379,7 +379,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 5,
           raw_line_number: 7,
           sentence: { operator: 'follows', lhs: { letter: 'r' }, rhs: { letter: 'q' } },
-          argument: { name: '+I', type: 'meta', premises_lines: [ 3, 4 ] }
+          argument: { name: '+I', premises: [ { type: 'meta', start_line: 3, end_line: 4 } ] }
         },
         {
           type: 'sentence',
@@ -387,7 +387,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 6,
           raw_line_number: 8,
           sentence: { operator: 'and', lhs: { letter: 'p' }, rhs: { letter: 'q' } },
-          argument: { name: '+K', type: 'object', premises_lines: [ 0, 1 ] }
+          argument: { name: '+K', premises: [ { type: 'object', line: 0 }, { type: 'object', line: 1 } ] }
         },
         {
           type: 'sentence',
@@ -395,7 +395,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 7,
           raw_line_number: 9,
           sentence: { letter: 'r' },
-          argument: { name: 'A', type: 'object', premises_lines: [] }
+          argument: { name: 'A', premises: [] }
         },
         {
           type: 'sentence',
@@ -403,7 +403,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 8,
           raw_line_number: 11,
           sentence: { letter: 's' },
-          argument: { name: 'A', type: 'object', premises_lines: [] }
+          argument: { name: 'A', premises: [] }
         },
         {
           type: 'sentence',
@@ -411,7 +411,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 9,
           raw_line_number: 13,
           sentence: { operator: 'and', lhs: { letter: 'p' }, rhs: { letter: 'q' } },
-          argument: { name: 'R', type: 'object', premises_lines: [ 2 ] }
+          argument: { name: 'R', premises: [ { type: 'object', line: 2 } ] }
         },
         {
           type: 'sentence',
@@ -419,7 +419,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 10,
           raw_line_number: 14,
           sentence: { letter: 't' },
-          argument: { name: 'A', type: 'object', premises_lines: [] }
+          argument: { name: 'A', premises: [] }
         },
         {
           type: 'sentence',
@@ -427,7 +427,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 11,
           raw_line_number: 16,
           sentence: { letter: 's' },
-          argument: { name: 'R', type: 'object', premises_lines: [ 8 ] }
+          argument: { name: 'R', premises: [ { type: 'object', line: 8 } ] }
         },
         {
           type: 'sentence',
@@ -435,7 +435,7 @@ describe('correct proofs are parsed correctly', () => {
           line_number: 12,
           raw_line_number: 17,
           sentence: { operator: 'follows', lhs: { letter: 't' }, rhs: { letter: 's' } },
-          argument: { name: '+I', type: 'meta', premises_lines: [ 10, 11 ] }
+          argument: { name: '+I', premises: [ { type: 'meta', start_line: 10, end_line: 11 } ] }
         },
         {
           type: 'sentence',
@@ -451,7 +451,7 @@ describe('correct proofs are parsed correctly', () => {
               rhs: { letter: 's' }
             }
           },
-          argument: { name: '+I', type: 'meta', premises_lines: [ 8, 12 ] }
+          argument: { name: '+I', premises: [ { type: 'meta', start_line: 8, end_line: 12 } ] }
         },
         {
           type: 'sentence',
@@ -471,7 +471,7 @@ describe('correct proofs are parsed correctly', () => {
               }
             }
           },
-          argument: { name: '+I', type: 'meta', premises_lines: [ 7, 13 ] }
+          argument: { name: '+I', premises: [ { type: 'meta', start_line: 7, end_line: 13 } ] }
         }
       ]
     );

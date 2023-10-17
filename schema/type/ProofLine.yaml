@@ -19,21 +19,40 @@ oneOf:
         properties:
           name:
             type: string
-          type:
-            enum:
-              - object
-              - meta
-          premises_lines:
+          premises:
             type: array
             items:
-              type: integer
-              minimum: 0
+              oneOf:
+                - type: object
+                  properties:
+                    type:
+                      const: object
+                    line:
+                      type: integer
+                      minimum: 0
+                  required:
+                    - type
+                    - line
+                  additionalProperties: false
+                - type: object
+                  properties:
+                    type:
+                      const: meta
+                    start_line:
+                      type: integer
+                      minimum: 0
+                    end_line:
+                      type: integer
+                      minimum: 0
+                  required:
+                    - type
+                    - start_line
+                    - end_line
+                  additionalProperties: false
         required:
           - name
-          - type
-          - premises_lines
+          - premises
     required:
-      - type
       - depth
       - line_number
       - sentence

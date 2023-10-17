@@ -3,21 +3,27 @@
 
 type: object
 properties:
-  type:
-    enum:
-      - object
-      - meta
   arity:
     type: integer
     minimum: 0
   premises:
     type: array
     items:
-      $ref: Sentence
+      type: object
+      properties:
+        type:
+          enum:
+            - object
+            - meta
+        sentence:
+          $ref: Sentence
+      required:
+        - type
+        - sentence
+      additionalProperties: false
   conclusion:
     $ref: Sentence
 required:
-  - type
   - arity
   - premises
   - conclusion

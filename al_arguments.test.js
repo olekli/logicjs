@@ -4,7 +4,7 @@
 'use strict'
 
 const { ok, err, get_ok, get_err, useJestResultMatcher } = require('okljs');
-const { matchSentence, matchObjectArgument, matchMetaArgument, checkArgument } = require('./al_arguments.js');
+const { matchSentence, matchMetaArgument, checkArgument } = require('./al_arguments.js');
 const { parse } = require('./al_parse.js');
 
 useJestResultMatcher();
@@ -70,82 +70,6 @@ describe('matchSentence', () => {
   });
 });
 
-describe('matchObjectArgument', () => {
-  test.each([
-    [ ['A', 'B'], '(A & B)', [ 'p', 'q' ], '( p & q )' ],
-    [ ['A', 'B'], '(A & B)', [ 'p', 'p' ], '( p & p )' ],
-    [ ['(A->B)', '(!A->C)'], '(B | C)', [ '(p -> q)', '(!p -> (r & p))' ], '( q | (r&p))' ],
-    [ ['!!A'], 'A', [ '!!(p -> q)' ], '(p -> q)'],
-    [ ['A'], '!!A', [ '(p -> q)' ], '!!(p -> q)'],
-    [ ['(A->B)', '(A->!B)'], '!A', [ '((p -> r) -> (q -> p))', '((p -> r) -> !(q -> p))' ], '!(p->r)' ],
-    [ ['A', 'B'], '(A & B)', [ '(p -> r)', '!q' ], '(( p -> r) & !q)' ],
-    [ [], '(A -> A)', [], '(p -> p)' ],
-  ])('matching argument matches correctly', (premises_patterns_, conclusion_pattern_, premises_, conclusion_) => {
-    let premises_patterns = premises_patterns_.map((s) => parse(s));
-    let conclusion_pattern = parse(conclusion_pattern_);
-    let premises = premises_.map((s) => parse(s));
-    let conclusion = parse(conclusion_);
-
-    let result = matchObjectArgument(premises_patterns, conclusion_pattern, premises, conclusion);
-    expect(result).toBeOk();
-  });
-
-  test.each([
-    [ ['A', 'B'], '(A & B)', [ 'p', 'q' ], '( p & p )' ],
-    [ ['A', 'B'], '(A & B)', [ 'p', 'q' ], '( q & p )' ],
-    [ ['A', 'B'], '(A & B)', [ 'p', 'q' ], '( p | q )' ],
-    [ ['(A->B)', '(!A->C)'], '(B | C)', [ '(p -> q)', '(!q -> (r & p))' ], '( q | (r&p))' ],
-    [ ['A', 'B'], '(A & B)', [ 'p', '!q' ], '(p & q)' ],
-    [ ['A', 'B'], '(A & B)', [ 'p', 'q' ], '(p & !q)' ],
-    [ ['A', 'B'], '(A & B)', [ '(p -> r)', '!q' ], '(( p -> r) & q)' ]
-  ])('non-matching argument does not match', (premises_patterns_, conclusion_pattern_, premises_, conclusion_) => {
-    let premises_patterns = premises_patterns_.map((s) => parse(s));
-    let conclusion_pattern = parse(conclusion_pattern_);
-    let premises = premises_.map((s) => parse(s));
-    let conclusion = parse(conclusion_);
-
-    let result = matchObjectArgument(premises_patterns, conclusion_pattern, premises, conclusion);
-    expect(result).toBeErr();
-  });
-});
-
-describe('matchMetaArgument', () => {
-  test.each([
-    [ [ '(A -> B)' ], '(A -> B)', [ 'p', 'q' ], '(p -> q)' ],
-    [ [ '(A -> B)' ], '(A -> B)', [ 'p', 'r', 'q' ], '(p -> q)' ],
-    [ [ '(A -> B)' ], '(A -> B)', [ 'p', 'r', 'q' ], '(p -> r)' ],
-    [ [ '(A -> B)' ], '(A -> B)', [ 'p', '(p & q)', 'q' ], '(p -> q)' ],
-    [ [ '(A -> B)', '(A -> !B)' ], '!A', [ 'p', 'q', '!q' ], '!p' ],
-    [ [ '(A -> B)', '(A -> !B)' ], '!A', [ 'p', '!q', '(p & !q)', 'q' ], '!p' ],
-  ])('matching argument matches correctly', (inferences_, conclusion_pattern_, proof_, conclusion_) => {
-    let inferences = inferences_.map((s) => parse(s));
-    let conclusion_pattern = parse(conclusion_pattern_);
-    let proof = proof_.map((s) => parse(s));
-    let conclusion = parse(conclusion_);
-
-    let result = matchMetaArgument(inferences, conclusion_pattern, proof, conclusion);
-    expect(result).toBeOk();
-  });
-
-  test.each([
-    [ [ '(A -> B)' ], '(A -> B)', [ 'p', 'r' ], '(p -> q)' ],
-    [ [ '(A -> B)' ], '(A -> B)', [ 'p', '(p & q)', 'r' ], '(p -> q)' ],
-    [ [ '(A -> B)', '(A -> !B)' ], '!A', [ 'p', 'q', '!q' ], '!q' ],
-    [ [ '(A -> B)', '(A -> !B)' ], '!A', [ 'p', 'q', '!q' ], 'q' ],
-    [ [ '(A -> B)', '(A -> !B)' ], '!A', [ 'p', 'q', '!q' ], 'p' ],
-    [ [ '(A -> B)', '(A -> !B)' ], '!A', [ 'p', '(p & q)', '!q' ], '!p' ],
-    [ [ '(A -> B)', '(A -> !B)' ], '!A', [ 'p', '(p & !q)', 'q' ], '!p' ],
-  ])('non-matching argument does not match', (inferences_, conclusion_pattern_, proof_, conclusion_) => {
-    let inferences = inferences_.map((s) => parse(s));
-    let conclusion_pattern = parse(conclusion_pattern_);
-    let proof = proof_.map((s) => parse(s));
-    let conclusion = parse(conclusion_);
-
-    let result = matchMetaArgument(inferences, conclusion_pattern, proof, conclusion);
-    expect(result).toBeErr();
-  });
-});
-
 describe('checkArgument', () => {
   describe('+K', () => {
     test.each([
@@ -160,7 +84,7 @@ describe('checkArgument', () => {
     test.each([
       [ [ 'p', 'q' ], '(p | q)' ],
       [ [ '(p -> r)', '!q' ], '(( p -> r) & q)' ],
-      [ [ 'p' ], '(p & p)' ],
+      [ [ 'q' ], '(p & p)' ],
     ])('incorrect usage is incorrect', (premises_, conclusion_) => {
       let premises = premises_.map((s) => parse(s));
       let conclusion = parse(conclusion_);
@@ -248,7 +172,7 @@ describe('checkArgument', () => {
     ])('correct usage is correct', (premises_, conclusion_) => {
       let premises = premises_.map((s) => parse(s));
       let conclusion = parse(conclusion_);
-      expect(checkArgument('+I', premises, conclusion)).toBeOk();
+      expect(checkArgument('+I', [premises], conclusion)).toBeOk();
     });
 
     test.each([
@@ -260,7 +184,7 @@ describe('checkArgument', () => {
     ])('incorrect usage is incorrect', (premises_, conclusion_) => {
       let premises = premises_.map((s) => parse(s));
       let conclusion = parse(conclusion_);
-      expect(checkArgument('+I', premises, conclusion)).toBeErr();
+      expect(checkArgument('+I', [premises], conclusion)).toBeErr();
     });
   });
 
@@ -342,7 +266,19 @@ describe('checkArgument', () => {
     ])('correct usage is correct', (premises_, conclusion_) => {
       let premises = premises_.map((s) => parse(s));
       let conclusion = parse(conclusion_);
-      expect(checkArgument('RAA', premises, conclusion)).toBeOk();
+      expect(checkArgument('RAA', [premises, premises], conclusion)).toBeOk();
+    });
+
+    test.each([
+      [ [ 'p', 'q', '!q' ], '!p' ],
+      [ [ 'p', 'q', 'r', '!q' ], '!p' ],
+      [ [ '!p', 'q', 'r', '!q' ], 'p' ],
+      [ [ '!p', 'q', 'r', '!q' ], '!!p' ],
+      [ [ '!p', '!!q', 'r', '!q' ], '!!p' ],
+    ])('correct usage is correct, single premise', (premises_, conclusion_) => {
+      let premises = premises_.map((s) => parse(s));
+      let conclusion = parse(conclusion_);
+      expect(checkArgument('RAA', [premises], conclusion)).toBeOk();
     });
 
     test.each([
@@ -354,7 +290,7 @@ describe('checkArgument', () => {
     ])('incorrect usage is incorrect', (premises_, conclusion_) => {
       let premises = premises_.map((s) => parse(s));
       let conclusion = parse(conclusion_);
-      expect(checkArgument('RAA', premises, conclusion)).toBeErr();
+      expect(checkArgument('RAA', [premises, premises], conclusion)).toBeErr();
     });
   });
 

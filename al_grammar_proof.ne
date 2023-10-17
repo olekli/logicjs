@@ -9,15 +9,12 @@ sentence_line -> bars " ":* integer " ":+ S " ":+ argument {% ([depth, , line_nu
 
 bars -> "|":+ {% ([bars]) => (bars.length) %}
 
-argument -> tautology {% ([x]) => x %}
-  | object_argument {% ([x]) => x %}
-  | meta_argument {% ([x]) => x %}
+argument -> argument_name premises:? {% ([name, premises]) => ({ name: name, premises: premises != null ? premises : [] }) %}
 
-tautology -> argument_name {% ([argument_name]) => ({ name: argument_name, type: "object", premises_lines: [] }) %}
+premises -> "(" _ premise (_ "," _ premise):* _ ")" {% ([ , , x, xs]) => [x, ...(xs.map(i => i[3])) ] %}
 
-object_argument -> argument_name "(" _ integer (_ "," _ integer):* _ ")" {% (d) => ({ name: d[0], type: "object", premises_lines: [d[3] - 1, ...(d[4].map(i => (i[3] - 1)))] }) %}
-
-meta_argument -> argument_name "(" _ integer _ "-" _ integer _ ")" {% (d) => ({ name: d[0], type: "meta", premises_lines: [d[3] - 1, d[7] - 1] }) %}
+premise -> integer {% ([x]) => ({ type: 'object', line: x - 1 }) %}
+  | integer _ "-" _ integer {% ([x, , , , y]) => ({ type: 'meta', start_line: x - 1, end_line: y - 1 }) %}
 
 argument_name -> [A-ZÄ\+\-]:+ {% (d) => d[0].join('') %}
 

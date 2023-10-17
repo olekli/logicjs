@@ -34,13 +34,27 @@ const checkAccessibilityOfPremises = (parsed_lines) => {
   return match_result(parsed_lines,
     (parsed_lines) => {
       for (let this_line of parsed_lines) {
-        for (let premise_line of this_line.argument.premises_lines) {
-          if (premise_line >= this_line.line_number) {
-            return error(this_line, Errors.InaccessiblePremise);
+        let object_premises = [];
+        let meta_premises = [];
+        for (let premise of this_line.argument.premises) {
+          if (premise.type === 'object') {
+            if (premise.line >= this_line.line_number) {
+              return error(this_line, Errors.InaccessiblePremise);
+            }
+            object_premises.push(premise.line);
+          } else if (premise.type === 'meta') {
+            if ((premise.start_line >= this_line.line_number) ||
+                (premise.end_line >= this_line.line_number)
+              ) {
+                return error(this_line, Errors.InaccessiblePremise);
+              }
+            meta_premises.push({ a: premise.start_line, b: premise.end_line });
+          } else {
+            assert.fail();
           }
         }
-        if (this_line.argument.type === 'object') {
-          let premises_to_find = new Set(this_line.argument.premises_lines);
+        if (object_premises.length > 0) {
+          let premises_to_find = new Set(object_premises);
           let current_depth = this_line.depth;
           let i = this_line.line_number;
           while ((premises_to_find.size > 0) && (i > 0)) {
@@ -56,11 +70,12 @@ const checkAccessibilityOfPremises = (parsed_lines) => {
           if (premises_to_find.size != 0) {
             return error(this_line, Errors.InaccessiblePremise);
           }
-        } else if (this_line.argument.type === 'meta') {
+        }
+        for (let meta_premise of meta_premises) {
           let current_depth = this_line.depth;
           let i = this_line.line_number;
-          let a = this_line.argument.premises_lines[0];
-          let b = this_line.argument.premises_lines[1];
+          let a = meta_premise.a;
+          let b = meta_premise.b;
           while (i > b) {
             i--;
             let this_line = parsed_lines[i];
@@ -74,8 +89,6 @@ const checkAccessibilityOfPremises = (parsed_lines) => {
               return error(this_line, Errors.InaccessiblePremise);
             }
           }
-        } else {
-          assert.fail();
         }
       }
       return make_ok(parsed_lines);
@@ -108,34 +121,34 @@ const checkArguments = (parsed_lines) => {
       for (let this_line of parsed_lines) {
         let this_argument = this_line.argument;
         if (this_argument.name != 'V' && this_argument.name != 'A') {
-          let premises_lines = [];
-          if (this_argument.type === 'object') {
-            premises_lines =
-              this_argument.premises_lines.map((line_number) =>
-                parsed_lines[line_number].sentence
+          let premises = [];
+          for (let this_premise of this_argument.premises) {
+            if (this_premise.type === 'object') {
+              premises.push(parsed_lines[this_premise.line].sentence);
+            } else if (this_premise.type === 'meta') {
+              let a = this_premise.start_line;
+              let b = this_premise.end_line;
+              let lines_to_consider =
+                Array.from(
+                  {
+                    length: b - a + 1
+                  },
+                  (_, i) => a + i
+                ).filter((line_number) =>
+                  parsed_lines[line_number].depth === parsed_lines[a].depth
+                );
+              premises.push(
+                lines_to_consider.map((line_number) =>
+                  parsed_lines[line_number].sentence
+                )
               );
-          } else if (this_argument.type === 'meta') {
-            let a = this_argument.premises_lines[0];
-            let b = this_argument.premises_lines[1];
-            let lines_to_consider =
-              Array.from(
-                {
-                  length: b - a + 1
-                },
-                (_, i) => a + i
-              ).filter((line_number) =>
-                parsed_lines[line_number].depth === parsed_lines[a].depth
-              );
-            premises_lines =
-              lines_to_consider.map((line_number) =>
-                parsed_lines[line_number].sentence
-              );
-          } else {
-            assert.fail();
+            } else {
+              assert.fail();
+            }
           }
           let result = checkArgument(
             this_argument.name,
-            premises_lines,
+            premises,
             this_line.sentence
           );
           if (err(result)) {

@@ -2,135 +2,143 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 +K:
-  - type: object
-    arity: 2
+  - arity: 2
     premises:
-      - A
-      - B
+      - type: object
+        sentence: A
+      - type: object
+        sentence: B
     conclusion: ( A & B )
 -K:
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - ( A & B )
+      - type: object
+        sentence: ( A & B )
     conclusion: A
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - ( A & B )
+      - type: object
+        sentence: ( A & B )
     conclusion: B
 +A:
-  - type: object
-    arity: 2
+  - arity: 2
     premises:
-      - ( A -> B )
-      - ( !A -> C )
+      - type: object
+        sentence: ( A -> B )
+      - type: object
+        sentence: ( !A -> C )
     conclusion: (B | C)
-  - type: object
-    arity: 2
+  - arity: 2
     premises:
-      - ( !A -> B )
-      - ( A -> C )
+      - type: object
+        sentence: ( !A -> B )
+      - type: object
+        sentence: ( A -> C )
     conclusion: (B | C)
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - A
+      - type: object
+        sentence: A
     conclusion: (A | B)
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - A
+      - type: object
+        sentence: A
     conclusion: (B | A)
 -A:
-  - type: object
-    arity: 3
+  - arity: 3
     premises:
-      - (A | B)
-      - ( A -> C )
-      - ( B -> C )
+      - type: object
+        sentence: (A | B)
+      - type: object
+        sentence: ( A -> C )
+      - type: object
+        sentence: ( B -> C )
     conclusion: C
 +I:
-  - type: meta
-    arity: 1
+  - arity: 1
     premises:
-      - (A -> B)
+      - type: meta
+        sentence: (A -> B)
     conclusion: (A -> B)
 -I:
-  - type: object
-    arity: 2
+  - arity: 2
     premises:
-      - (A -> B)
-      - A
+      - type: object
+        sentence: (A -> B)
+      - type: object
+        sentence: A
     conclusion: B
 +Ä:
-  - type: object
-    arity: 2
+  - arity: 2
     premises:
-      - (A -> B)
-      - (B -> A)
+      - type: object
+        sentence: (A -> B)
+      - type: object
+        sentence: (B -> A)
     conclusion: (A <-> B)
 -Ä:
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - (A <-> B)
+      - type: object
+        sentence: (A <-> B)
     conclusion: (A -> B)
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - (A <-> B)
+      - type: object
+        sentence: (A <-> B)
     conclusion: (B -> A)
 RAA:
-  - type: meta
-    arity: 2
+  - arity: 2
     premises:
-      - (A -> B)
-      - (A -> !B)
+      - type: meta
+        sentence: (A -> B)
+      - type: meta
+        sentence: (A -> !B)
     conclusion: '!A'
-  - type: meta
-    arity: 2
+  - arity: 2
     premises:
-      - (!A -> B)
-      - (!A -> !B)
-    conclusion: 'A'
+      - type: meta
+        sentence: (!A -> B)
+      - type: meta
+        sentence: (!A -> !B)
+    conclusion: A
 +DN:
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - A
+      - type: object
+        sentence: A
     conclusion: '!!A'
 -DN:
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - '!!A'
+      - type: object
+        sentence: '!!A'
     conclusion: A
 T:
-  - type: object
-    arity: 0
+  - arity: 0
     premises: []
     conclusion: (A -> A)
 EFQ:
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - '!A'
+      - type: object
+        sentence: '!A'
     conclusion: (A -> B)
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - 'A'
+      - type: object
+        sentence: A
     conclusion: (!A -> B)
 VEQ:
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - A
+      - type: object
+        sentence: A
     conclusion: (B -> A)
 R:
-  - type: object
-    arity: 1
+  - arity: 1
     premises:
-      - A
+      - type: object
+        sentence: A
     conclusion: A

@@ -40,6 +40,9 @@ const parseLine = (string) => {
       } else {
         return make_err();
       }
+    },
+    (err) => {
+      return make_err(err);
     }
   );
 };
