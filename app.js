@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 const express = require('express');
-const OpenApiValidator = require('express-openapi-validator');
 const pug = require('pug');
 const path = require('path');
 const { ajv } = require('./validation.js');
