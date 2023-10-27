@@ -10,16 +10,18 @@ const { deployLti } = require('./lti.js');
 const { connectDatabase, closeDatabase } = require('./database.js');
 
 // Setup Express App
-const server = express();
-server.use(morgan('combined'));
-server.set('trust proxy', 1);
-server.set('view engine', 'pug')
+const root = express();
+root.use(morgan('combined'));
+root.set('trust proxy', 1);
+root.set('view engine', 'pug')
 
-const server_router = express.Router();
-server.use('/logicjs', server_router);
+const root_router = express.Router();
+root.use('/logicjs', root_router);
 
-server_router.use('/app', app);
-server_router.use('/static', express.static(path.join(__dirname, 'public')))
+root_router.use('/app', app);
+root_router.use('/static', express.static(path.join(__dirname, 'public')))
+
+let server = null;
 
 async function main() {
   console.log('Initialising database');
@@ -27,11 +29,22 @@ async function main() {
 
   if (config.is_production) {
     let lti = await deployLti();
-    server_router.use('/lti', lti.app);
+    root_router.use('/lti', lti.app);
   }
-  console.log('Starting server');
-  await server.listen(3000);
+  console.log('Starting root');
+  server = await root.listen(3000);
   console.log('HTTP server running on port 3000');
 }
 
+async function shutdown() {
+  console.log('Shutting down...');
+
+  await server.close();
+  await closeDatabase();
+  process.exit(0);
+}
+
 main();
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
