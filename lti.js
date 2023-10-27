@@ -6,13 +6,16 @@ const lti = require('ltijs').Provider;
 const { ltiAuth } = require('./auth.js');
 const path = require('path');
 const config = require('./config.js');
+const { initDatabase } = require('./database.js');
 
 const deployLti = async () => {
+  await initDatabase('lti');
+
   lti.setup(
     config.lti.ltikey,
     {
-      url: config.mongodb.url + config.lti.mongodb.db,
-      connection: { user: config.lti.mongodb.user, pass: config.lti.mongodb.user_pw }
+      url: config.mongodb.url + 'logicjs_lti',
+      connection: { user: 'logicjs_lti', pass: config.mongodb.passwords['lti'] }
     },
     {
       appRoute: '/app',

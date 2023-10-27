@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const path = require('path');
 const config = require('./config.js');
 const { deployLti } = require('./lti.js');
+const { connectDatabase, closeDatabase } = require('./database.js');
 
 // Setup Express App
 const server = express();
@@ -21,10 +22,14 @@ server_router.use('/app', app);
 server_router.use('/static', express.static(path.join(__dirname, 'public')))
 
 async function main() {
+  console.log('Initialising database');
+  await connectDatabase();
+
   if (config.is_production) {
     let lti = await deployLti();
     server_router.use('/lti', lti.app);
   }
+  console.log('Starting server');
   await server.listen(3000);
   console.log('HTTP server running on port 3000');
 }
