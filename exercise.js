@@ -14,6 +14,7 @@ class Exercise {
   };
 
   #id = null;
+  #sub_id = null;
   #question_factory = null;
   #n_params = {
     total_questions: 0,
@@ -30,14 +31,16 @@ class Exercise {
   #success = false;
   #t0 = 0;
 
-  constructor(id, options) {
+  constructor(id, sub_id, options) {
     this.#id = id;
+    this.#sub_id = sub_id;
     this.#question_factory = options.question_factory;
     this.#n_params = { ... options.n_params };
     this.#n_params.current_question = 0;
     this.#n_params.points_achieved = 0;
     this.#n_params.time_elapsed = 0;
     assert.isType(this.#id, 'string');
+    assert.isType(this.#sub_id, 'string');
     assert.hasPropertyType(this.#question_factory, 'makeQuestion', 'function');
     assert.hasPropertyType(this.#question_factory, 'checkAnswer', 'function');
     assert.ok(this.#n_params.total_questions >= 0);

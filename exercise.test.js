@@ -36,7 +36,7 @@ describe('Exercise', () => {
   });
 
   test('launch asks question', () => {
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     let result = exercise.launch();
     expect(ok(result)).toBe(true);
 
@@ -55,7 +55,7 @@ describe('Exercise', () => {
   });
 
   test('correct answer correctly answers question', () => {
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     let result = exercise.answer('correct');
@@ -78,7 +78,7 @@ describe('Exercise', () => {
   });
 
   test('wrong answer does not correctly answers question', () => {
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     let result = exercise.answer('foo');
@@ -101,7 +101,7 @@ describe('Exercise', () => {
   });
 
   test('asking after answer asks another question', () => {
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     let result = exercise.answer('correct');
@@ -125,7 +125,7 @@ describe('Exercise', () => {
   });
 
   test('correct answer correctly answers question after answering', () => {
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     let result = exercise.answer('correct');
@@ -154,7 +154,7 @@ describe('Exercise', () => {
   });
 
   test('wrong answer does not correctly answers question after answering', () => {
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     let result = exercise.answer('correct');
@@ -183,7 +183,7 @@ describe('Exercise', () => {
   });
 
   test('answering n questions shows result of last question', () => {
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     let result = exercise.answer('correct');
@@ -218,7 +218,7 @@ describe('Exercise', () => {
   });
 
   test('asking n+1 question finishes', () => {
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     let result = exercise.answer('correct');
@@ -246,7 +246,7 @@ describe('Exercise', () => {
   });
 
   test('answering enough questions correctly finishes with success', () => {
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     let result = exercise.answer('correct');
@@ -282,7 +282,7 @@ describe('Exercise', () => {
   });
 
   test('answering not enough questions correctly finishes with failure', () => {
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     let result = exercise.answer('foobar');
@@ -321,7 +321,7 @@ describe('Exercise', () => {
     const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
 
     n_params.time_limit = 1;
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     let result = exercise.answer('correct');
@@ -363,7 +363,7 @@ describe('Exercise', () => {
     const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
 
     n_params.time_limit = 0;
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     let result = exercise.answer('correct');
@@ -403,7 +403,7 @@ describe('Exercise', () => {
 
   test('no question limit runs forever', async () => {
     n_params.total_questions = 0;
-    let exercise = new Exercise('e1', { question_factory: question_factory, n_params: n_params });
+    let exercise = new Exercise('e1', '1', { question_factory: question_factory, n_params: n_params });
     exercise.launch();
 
     for (let i = 0; i < 100; i++) {

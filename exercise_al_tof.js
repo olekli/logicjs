@@ -84,6 +84,7 @@ const makeExercise = (level) => {
   let question_factory = new QuestionFactory(options.generator);
   let exercise = new Exercise(
     'al_tof',
+    level,
     {
       question_factory: question_factory,
       n_params: options.n_params
