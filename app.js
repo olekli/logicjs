@@ -10,7 +10,7 @@ const { retrieveAuth, fallbackAnonAuth, basicAuth } = require('./auth.js');
 const fs = require('fs');
 const { getSession } = require('./session.js');
 const { match_result } = require('okljs');
-const config = require('./config.js');
+const { config } = require('./config.js');
 const { initGenerators, Generators } = require('./al_generator_static.js');
 
 {

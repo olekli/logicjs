@@ -5,7 +5,7 @@ const express = require('express');
 const lti = require('ltijs').Provider;
 const { ltiAuth } = require('./auth.js');
 const path = require('path');
-const config = require('./config.js');
+const { config } = require('./config.js');
 const { initDatabase } = require('./database.js');
 
 const deployLti = async () => {

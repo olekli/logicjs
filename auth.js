@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const { make_result, match_result, get_ok, make_ok } = require('okljs');
 const { v4: uuidv4 } = require('uuid');
 const util = require('util');
-const config = require('./config.js');
+const { config } = require('./config.js');
 const path = require('path');
 
 const key_pair = generateKeyPairSync("rsa", { modulusLength: 4096 });

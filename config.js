@@ -5,14 +5,29 @@
 
 const fs = require('fs');
 const path = require('path');
+const { fileExists, ok } = require('okljs');
 const { execSync } = require('child_process');
 
-const config = JSON.parse(fs.readFileSync(path.join(__dirname, '.env.json')));
-if (config.lti.platform.privateKey != '') {
-  config.lti.platform.privateKey =
-    fs.readFileSync(path.join(__dirname, config.lti.platform.privateKey));
-}
-config.version = execSync('git describe --tags').toString().replace(/[\r\n]/g, '');
-config.is_production = (process.env.NODE_ENV === 'production');
+const Config = {};
 
-module.exports = config;
+const config_path = path.join(__dirname, '.env.json');
+
+const setConfig = (new_config) => {
+  for (let key in Config) {
+    delete Config[key];
+  }
+  Object.assign(Config, new_config);
+};
+
+if (ok(fileExists(config_path))) {
+  setConfig(JSON.parse(fs.readFileSync(config_path)));
+  if (Config.lti.platform.privateKey != '') {
+    Config.lti.platform.privateKey =
+      fs.readFileSync(path.join(__dirname, Config.lti.platform.privateKey));
+  }
+  Config.version = execSync('git describe --tags').toString().replace(/[\r\n]/g, '');
+  Config.is_production = (process.env.NODE_ENV === 'production');
+}
+
+module.exports.config = Config;
+module.exports.setConfig = setConfig;

@@ -4,7 +4,7 @@
 'use strict'
 
 const { MongoClient } = require('mongodb');
-const config = require('./config.js');
+const { config } = require('./config.js');
 
 let Client = null;
 let Database = null;

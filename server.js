@@ -5,7 +5,7 @@ const express = require('express');
 const { app } = require('./app.js');
 const morgan = require('morgan');
 const path = require('path');
-const config = require('./config.js');
+const { config } = require('./config.js');
 const { deployLti } = require('./lti.js');
 const { connectDatabase, closeDatabase } = require('./database.js');
 
