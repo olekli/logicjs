@@ -4,15 +4,21 @@
 'use strict'
 
 const mockUser = {
-  userSeen: jest.fn()
+  userSeen: jest.fn(),
+  getUser: jest.fn(),
+  Roles: {
+    user: 'user',
+    admin: 'admin'
+  }
 };
 jest.mock('./user.js', () => mockUser);
 
 beforeEach(() => {
   mockUser.userSeen.mockClear();
+  mockUser.getUser.mockClear();
 });
 
-const { retrieveAuth, fallbackAnonAuth, requireAuth } = require('./auth.js');
+const { retrieveAuth, fallbackAnonAuth, requireAuth, requireAdmin } = require('./auth.js');
 const { setConfig } = require('./config.js');
 const { make_ok, make_err } = require('okljs');
 
@@ -159,4 +165,49 @@ test('requireAuth fails when database fails', async () => {
     expect(next).toHaveBeenCalledTimes(1);
     expect(next).toHaveBeenCalledWith(error);
   }
+});
+
+test('requireAdmin fails when user not admin', async () => {
+  let id = 'user 1';
+  let req = { auth: id };
+  let res = new ResMock();
+  let next = jest.fn();
+  mockUser.getUser.mockResolvedValue(make_ok({ id: id, role: mockUser.Roles.user }));
+
+  await requireAdmin(req, res, next);
+  expect(mockUser.getUser).toHaveBeenCalledTimes(1);
+  expect(mockUser.getUser).toHaveBeenCalledWith(id);
+  expect(res.redirect).toHaveBeenCalledTimes(1);
+  expect(next).toHaveBeenCalledTimes(0);
+});
+
+test('requireAdmin succeeds when user is admin', async () => {
+  let id = 'user 1';
+  let req = { auth: id };
+  let res = new ResMock();
+  let next = jest.fn();
+  mockUser.getUser.mockResolvedValue(make_ok({ id: id, role: mockUser.Roles.admin }));
+
+  await requireAdmin(req, res, next);
+  expect(mockUser.getUser).toHaveBeenCalledTimes(1);
+  expect(mockUser.getUser).toHaveBeenCalledWith(id);
+  expect(res.redirect).toHaveBeenCalledTimes(0);
+  expect(next).toHaveBeenCalledTimes(1);
+  expect(next).toHaveBeenCalledWith();
+});
+
+test('requireAdmin fails with error when database fails', async () => {
+  let id = 'user 1';
+  let error = 'db failed';
+  let req = { auth: id };
+  let res = new ResMock();
+  let next = jest.fn();
+  mockUser.getUser.mockResolvedValue(make_err(error));
+
+  await requireAdmin(req, res, next);
+  expect(mockUser.getUser).toHaveBeenCalledTimes(1);
+  expect(mockUser.getUser).toHaveBeenCalledWith(id);
+  expect(res.redirect).toHaveBeenCalledTimes(0);
+  expect(next).toHaveBeenCalledTimes(1);
+  expect(next).toHaveBeenCalledWith(error);
 });

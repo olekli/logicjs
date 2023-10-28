@@ -6,7 +6,7 @@ const pug = require('pug');
 const path = require('path');
 const { ajv } = require('./validation.js');
 const cookieParser = require("cookie-parser");
-const { retrieveAuth, fallbackAnonAuth, basicAuth, requireAuth } = require('./auth.js');
+const { retrieveAuth, fallbackAnonAuth, basicAuth, requireAuth, requireAdmin } = require('./auth.js');
 const fs = require('fs');
 const { getSession } = require('./session.js');
 const { match_result } = require('okljs');
@@ -87,7 +87,14 @@ const validateBody = (location, method, body) => {
   }
 };
 
-const locations = [ '/home', '/al_tof', '/al_AmodelsB', '/al_proofs', '/al_proofs/instructions' ];
+const locations = [
+  '/home',
+  '/al_tof',
+  '/al_AmodelsB',
+  '/al_proofs',
+  '/al_proofs/instructions',
+  '/admin/analytics'
+];
 
 const app = express.Router();
 app.use(express.json());
@@ -98,6 +105,7 @@ app.use(retrieveAuth);
 app.use(fallbackAnonAuth);
 app.get('/side_entrance', basicAuth);
 app.use(requireAuth);
+app.use('/admin/*', requireAdmin);
 
 app.get('/', (req, res, next) => {
   res.redirect(path.join(req.baseUrl, 'home'));

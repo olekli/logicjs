@@ -10,7 +10,7 @@ const { v4: uuidv4 } = require('uuid');
 const util = require('util');
 const { config } = require('./config.js');
 const path = require('path');
-const { userSeen } = require('./user.js');
+const { userSeen, getUser, Roles } = require('./user.js');
 
 const key_pair = generateKeyPairSync("rsa", { modulusLength: 4096 });
 
@@ -139,9 +139,22 @@ const requireAuth = async (req, res, next) => {
   }
 };
 
+const requireAdmin = async (req, res, next) =>
+  match_result(await getUser(req.auth),
+    (user) => {
+      if (user.role === Roles.admin) {
+        next();
+      } else {
+        res.redirect(config.no_auth_redirect_url);
+      }
+    },
+    (err) => next(err)
+  );
+
 module.exports.makeId = makeId;
 module.exports.retrieveAuth = retrieveAuth;
 module.exports.fallbackAnonAuth = fallbackAnonAuth;
 module.exports.ltiAuth = ltiAuth;
 module.exports.basicAuth = basicAuth;
 module.exports.requireAuth = requireAuth;
+module.exports.requireAdmin = requireAdmin;
