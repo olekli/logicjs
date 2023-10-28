@@ -10,6 +10,7 @@ const { v4: uuidv4 } = require('uuid');
 const util = require('util');
 const { config } = require('./config.js');
 const path = require('path');
+const { userSeen } = require('./user.js');
 
 const key_pair = generateKeyPairSync("rsa", { modulusLength: 4096 });
 
@@ -127,7 +128,17 @@ const ltiAuth = (req, res, next) => {
   next();
 };
 
+const requireAuth = async (req, res, next) => {
+  if (!req.auth) {
+    res.redirect(config.no_auth_redirect_url);
+  } else {
+    await userSeen(req.auth);
+    next();
+  }
+};
+
 module.exports.retrieveAuth = retrieveAuth;
 module.exports.fallbackAnonAuth = fallbackAnonAuth;
 module.exports.ltiAuth = ltiAuth;
 module.exports.basicAuth = basicAuth;
+module.exports.requireAuth = requireAuth;

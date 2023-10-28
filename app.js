@@ -6,7 +6,7 @@ const pug = require('pug');
 const path = require('path');
 const { ajv } = require('./validation.js');
 const cookieParser = require("cookie-parser");
-const { retrieveAuth, fallbackAnonAuth, basicAuth } = require('./auth.js');
+const { retrieveAuth, fallbackAnonAuth, basicAuth, requireAuth } = require('./auth.js');
 const fs = require('fs');
 const { getSession } = require('./session.js');
 const { match_result } = require('okljs');
@@ -97,14 +97,7 @@ app.use(cookieParser());
 app.use(retrieveAuth);
 app.use(fallbackAnonAuth);
 app.get('/side_entrance', basicAuth);
-
-app.use((req, res, next) => {
-  if (!req.auth) {
-    res.redirect(config.no_auth_redirect_url);
-  } else {
-    next();
-  }
-});
+app.use(requireAuth);
 
 app.get('/', (req, res, next) => {
   res.redirect(path.join(req.baseUrl, 'home'));
