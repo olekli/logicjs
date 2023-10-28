@@ -143,10 +143,10 @@ app.use((req, res, next) => {
   }
 });
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   // Execute handler
   if (req.method === 'GET') {
-    match_result(req.handler(req.session),
+    match_result(await req.handler(req.session),
       (view) => {
         req.view = view;
         next();
@@ -154,7 +154,7 @@ app.use((req, res, next) => {
       (err) => { next(err); }
     );
   } else if (req.method === 'POST') {
-    match_result(req.handler(req.session, req.body),
+    match_result(await req.handler(req.session, req.body),
       (ok) => { next(); },
       (err) => { next(err); }
     );

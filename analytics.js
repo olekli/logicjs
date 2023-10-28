@@ -62,7 +62,9 @@ const getCounter = async (type, name) =>
 
 const createReport = async () => {
   let result = {};
-  result.num_users_seen = await getNumUsersSeen();
+  match_result(await getNumUsersSeen(),
+    (num_users) => result.num_users_seen = num_users
+  );
   let query = {};
   let projection = { _id: 0 };
   let cursor = getCollection('analytics').find(query, { projection });
