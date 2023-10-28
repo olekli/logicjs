@@ -3,7 +3,20 @@
 
 'use strict'
 
-const { retrieveAuth, fallbackAnonAuth } = require('./auth.js');
+const mockUser = {
+  userSeen: jest.fn()
+};
+jest.mock('./user.js', () => mockUser);
+
+beforeEach(() => {
+  mockUser.userSeen.mockClear();
+});
+
+const { retrieveAuth, fallbackAnonAuth, requireAuth } = require('./auth.js');
+const { setConfig } = require('./config.js');
+const { make_ok, make_err } = require('okljs');
+
+setConfig({ no_auth_redirect_url: 'redirect_url' });
 
 class ResMock {
   cookies = {};
@@ -11,6 +24,8 @@ class ResMock {
   cookie(name, content, options) {
     this.cookies[name] = content;
   }
+
+  redirect = jest.fn();
 };
 
 test('retrieveAuth contains NULL auth when no cookie present', async () => {
@@ -97,4 +112,51 @@ test('fallbackAnonAuth creates unique', async () => {
   }
 
   expect(auth_1).not.toEqual(auth_2);
+});
+
+test('requireAuth redirects on no auth', async () => {
+  {
+    let req = { auth: null };
+    let res = new ResMock();
+    let next = jest.fn();
+
+    await requireAuth(req, res, next);
+    expect(res.redirect).toHaveBeenCalledTimes(1);
+    expect(res.redirect).toHaveBeenCalledWith('redirect_url');
+  }
+});
+
+test('requireAuth sees user on auth', async () => {
+  {
+    let id = 'user 1';
+    let req = { auth: id };
+    let res = new ResMock();
+    let next = jest.fn();
+    mockUser.userSeen.mockResolvedValue(make_ok());
+
+    await requireAuth(req, res, next);
+    expect(res.redirect).toHaveBeenCalledTimes(0);
+    expect(mockUser.userSeen).toHaveBeenCalledTimes(1);
+    expect(mockUser.userSeen).toHaveBeenCalledWith(id);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledWith();
+  }
+});
+
+test('requireAuth fails when database fails', async () => {
+  {
+    let id = 'user 1';
+    let error = 'db failed';
+    let req = { auth: id };
+    let res = new ResMock();
+    let next = jest.fn();
+    mockUser.userSeen.mockResolvedValue(make_err(error));
+
+    await requireAuth(req, res, next);
+    expect(res.redirect).toHaveBeenCalledTimes(0);
+    expect(mockUser.userSeen).toHaveBeenCalledTimes(1);
+    expect(mockUser.userSeen).toHaveBeenCalledWith(id);
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledWith(error);
+  }
 });

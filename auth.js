@@ -132,8 +132,10 @@ const requireAuth = async (req, res, next) => {
   if (!req.auth) {
     res.redirect(config.no_auth_redirect_url);
   } else {
-    await userSeen(req.auth);
-    next();
+    match_result(await userSeen(req.auth),
+      (ok) => next(),
+      (err) => next(err),
+    );
   }
 };
 
