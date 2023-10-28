@@ -139,6 +139,7 @@ const requireAuth = async (req, res, next) => {
   }
 };
 
+module.exports.makeId = makeId;
 module.exports.retrieveAuth = retrieveAuth;
 module.exports.fallbackAnonAuth = fallbackAnonAuth;
 module.exports.ltiAuth = ltiAuth;
