@@ -6,6 +6,7 @@
 const { assert, make_ok, make_err, match_result } = require('okljs');
 const StateMachine = require('javascript-state-machine');
 const path = require('path');
+const { incCounter } = require('./analytics.js');
 
 class Exercise {
   static Errors = {
@@ -65,6 +66,10 @@ class Exercise {
       this.#nextQuestion();
       this.#t0 = Date.now();
       this.#state_machine.launch();
+      incCounter(
+        'exercises_started',
+        `${this.#id}.${this.#sub_id}`
+      );
       return make_ok();
     } else {
       return make_err(Exercise.Errors.InvalidTransition);
@@ -80,6 +85,10 @@ class Exercise {
            || (this.#n_params.time_limit == 0)
          );
     this.#state_machine.finish();
+    incCounter(
+      'exercises_completed',
+      `${this.#id}.${this.#sub_id}.${this.#success ? 'success' : 'failure'}`
+    );
     return make_ok();
   }
 

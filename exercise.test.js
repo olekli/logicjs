@@ -3,6 +3,15 @@
 
 'use strict'
 
+const mockAnalytics= {
+  incCounter: jest.fn()
+};
+jest.mock('./analytics.js', () => mockAnalytics);
+
+beforeEach(() => {
+  mockAnalytics.incCounter.mockClear();
+});
+
 const { Exercise, ignoreInvalidTransition } = require('./exercise.js');
 const { make_ok, make_err, get_ok, get_err, ok, err, useJestResultMatcher } = require('okljs');
 
